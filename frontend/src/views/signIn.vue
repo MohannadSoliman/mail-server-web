@@ -1,11 +1,13 @@
 <template>
   <div id="sign-in">
-    <div id="sign-in-form">
-      <div id="form">
+    <div id="sign-in-form-container">
+      <div id="sign-in-form">
         <h1 id="login-label">Sign in</h1>
         <input placeholder="Email" type="text">
+        <div class="alert" id="signIn-email-alert">alert</div>
         <input placeholder="Password" type="password">
-        <div id="nav">
+        <div class="alert" id="signIn-password-alert">alert</div>
+        <div class="nav">
           <div id="create-account" @click="goToSignUp()">Create account</div>
           <div id="sign-in-btn">sign in</div>
         </div>
@@ -30,7 +32,6 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 #sign-in{
   width: 100%;
@@ -39,13 +40,13 @@ export default {
   justify-content: center;
   align-items: center;
 }
-#sign-in-form{
+#sign-in-form-container{
   width: 25rem;
-  height: 30rem;
+  height: 25rem;
   border: 2px solid rgb(224, 224, 224);
   border-radius: 0.3rem;
 }
-#form{
+#sign-in-form{
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -64,15 +65,25 @@ input{
   border: none;
   width: 80%;
   height: 2rem;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
+  margin-top: 2rem;
   border-bottom: 2px solid rgb(224, 224, 224);
+  font-size: 15px;
+}
+.input-alert{
+  box-sizing: border-box;
+  border: none;
+  width: 80%;
+  height: 2rem;
+  margin-top: 2rem;
+  border-bottom: 2px solid #eb4034;
   font-size: 15px;
 }
 input:focus{
   outline-style: none;
   border-bottom: 2px solid rgb(52, 116, 224);
 }
+
+
 #sign-in-btn{
   width: 4.5rem;
   height: 2.2rem;
@@ -101,7 +112,16 @@ input:focus{
   margin-left: 0.5rem;
 }
 
-#nav{
+.alert{
+  width: 80%;
+  font-size: 12px;
+  text-align: left;
+  margin-top: 3px;
+  padding-left: 5px;
+  color: #eb4034;
+}
+
+.nav{
   margin-top: 2rem;
   width: 80%;
   display: flex;
