@@ -1,5 +1,5 @@
 <template>
-  <div id="sign-in">
+  <div id="sign-in" class="sign-in-page">
     <div id="sign-in-form-container">
       <div id="sign-in-form">
         <h1 id="login-label">Sign in</h1>
@@ -13,6 +13,7 @@
         </div>
       </div>   
     </div>
+    <div class="testing"  @click="testing()">go to home (Testing purposes)</div>
   </div> 
 </template>
 
@@ -27,6 +28,9 @@ export default {
   methods:{
     goToSignUp(){
       this.$router.push('/signUp');
+    },
+    testing(){
+      this.$router.push("/home");
     }
   }
 }
@@ -37,6 +41,7 @@ export default {
   width: 100%;
   height: 90vh;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
@@ -128,5 +133,10 @@ input:focus{
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
+}
+
+.testing{
+  cursor: pointer;
+  user-select: none;
 }
 </style>
