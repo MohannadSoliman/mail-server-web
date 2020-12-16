@@ -4,6 +4,7 @@
     <div id="main">
       <headerBar/>
       <controlBar/>
+      <compose/>
     </div>
   </div>
 </template>
@@ -12,12 +13,14 @@
 import sideMenu from '../components/sideNav.vue';
 import headerBar from '../components/header.vue';
 import controlBar from '../components/controlBar.vue';
+import compose from '../components/compose.vue';
 export default {
   name: 'home',
   components: {
     sideMenu,
     headerBar,
     controlBar,
+    compose,
   }
 }
 </script>

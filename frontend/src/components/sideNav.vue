@@ -39,7 +39,8 @@
 		</div>
 		<div class="menu-btn" id="compose-btn"
 				@mouseover="composeBtnMouseOver()"
-				@mouseleave="composeBtnMouseLeave()">
+				@mouseleave="composeBtnMouseLeave()"
+				@click="composeBtnOnClick()">
 			<img src="../assets/sideMenu/compose-gray.png" class="icon-img-active" id="compose-img-nonActive" width="20px">
 			<img src="../assets/sideMenu/compose.png" class="icon-img-nonActive" id="compose-img-active" width="20px">
 			<div class="hidden-label" id="compose-label">Compose</div>
@@ -171,6 +172,14 @@ export default {
 			document.getElementById("compose-img-nonActive").className = "icon-img-active";
 			document.getElementById("compose-img-active").className = "icon-img-nonActive";
 		},
+		composeBtnOnClick(){
+			const composeContainer = document.getElementById("compose-container");
+      const composePage = document.getElementById("compose-page");
+      composeContainer.className = "compose-container-normal";
+      composePage.className = "compose-page-normal";
+			composeContainer.style.visibility = "visible";
+			composeContainer.style.display = "flex";
+		},
 	},
 	mounted(){
 		for(let folder of this.mainFolders){
@@ -187,7 +196,7 @@ export default {
 
 <style scoped>
 .sideMenu{
-	height: 100%; /* 100% Full-height */
+  height: 100%; /* 100% Full-height */
   width: 4rem; /* 0 width - change this with JavaScript */
   position: fixed; /* Stay in place */
   z-index: 1; /*Stay on top*/
