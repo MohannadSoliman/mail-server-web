@@ -37,6 +37,7 @@ export default {
   font-size: x-large;
   font-weight: bold;
   height: 2rem;
+  width: 5rem;
   text-align: center;
   vertical-align: center;
   line-height: 2rem;
