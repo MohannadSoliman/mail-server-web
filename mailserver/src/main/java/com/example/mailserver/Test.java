@@ -23,8 +23,14 @@ public class Test {
 
         String jsonStr = jsonConverter.emailToJsonString(email);
         System.out.println(jsonStr);
+        
         try{
-            
+            FileWriter writer = new FileWriter("mailserver\\src\\main\\java\\com\\example\\mailserver\\test.txt");
+            writer.write(jsonStr);
+            writer.close();
+            System.out.println("Done!");
+        }catch(IOException e){
+            e.printStackTrace();
         }
         
     }
