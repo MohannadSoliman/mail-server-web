@@ -18,12 +18,13 @@ public class JsonConverter {
         ObjectMapper mapper = new ObjectMapper();
         // REMEMBER THIS PART.. VERY IMPORTANT SO THAT BEFORE YOU READ FROM JSON
         // MAKE SURE TO ADD THE BRACKET AT THE BOTTOM
-        String jsonStr = "{\n";
+        String jsonStr = "";
         try {
             jsonStr += mapper.writerWithDefaultPrettyPrinter().writeValueAsString(email);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
+        jsonStr += ",\n";
         return jsonStr;
     }
 }

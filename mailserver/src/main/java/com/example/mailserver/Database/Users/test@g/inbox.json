@@ -1,0 +1,22 @@
+{
+  "emails":[
+    {
+      "sender" : "sender@g",
+      "receivers" : [ "rec1@g", "rec2@g" ],
+      "title" : "titletest",
+      "body" : "bodytest",
+      "id" : "6dd4aa49-18d5-4cee-9161-ad177bef16d7",
+      "time" : "2020-12-16T23:20:36.234243200",
+      "attachments" : [ "attach1" ]
+    },
+    {
+      "sender" : "sender@g",
+      "receivers" : [ "rec1@g", "rec2@g" ],
+      "title" : "titletest",
+      "body" : "bodytest",
+      "id" : "6dd4aa49-18d5-4cee-9161-ad177bef16d7",
+      "time" : "2020-12-16T23:20:36.234243200",
+      "attachments" : [ "attach1" ]
+    }
+  ]
+}
