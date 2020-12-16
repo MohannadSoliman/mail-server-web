@@ -12,11 +12,11 @@ import org.apache.tomcat.util.http.fileupload.FileUtils;
 public class User {
 
 
-    public void createNewUser(String ID) {
+    public void createNewUser(String email_address) {
         
         try {
 
-            Path path = Paths.get("mailserver/src/main/java/com/example/mailserver/Database/Folders/"+ID);
+            Path path = Paths.get("mailserver/src/main/java/com/example/mailserver/Database/Users/"+email_address);
         
             Files.createDirectories(path);
         
@@ -26,28 +26,28 @@ public class User {
         
           }
         
-          File inbox = new File("mailserver/src/main/java/com/example/mailserver/Database/Folders/"+ID+"/inbox.json");
+          File inbox = new File("mailserver/src/main/java/com/example/mailserver/Database/Users/"+email_address+"/inbox.json");
           try {
             inbox.createNewFile();
           } catch (IOException e) {
             e.printStackTrace();
           }
 
-          File sent = new File("mailserver/src/main/java/com/example/mailserver/Database/Folders/"+ID+"/sent.json");
+          File sent = new File("mailserver/src/main/java/com/example/mailserver/Database/Users/"+email_address+"/sent.json");
           try {
             sent.createNewFile();
           } catch (IOException e) {
             e.printStackTrace();
           }
 
-          File draft = new File("mailserver/src/main/java/com/example/mailserver/Database/Folders/"+ID+"/draft.json");
+          File draft = new File("mailserver/src/main/java/com/example/mailserver/Database/Users/"+email_address+"/draft.json");
           try {
             draft.createNewFile();
           } catch (IOException e) {
             e.printStackTrace();
           }
 
-          File trash = new File("mailserver/src/main/java/com/example/mailserver/Database/Folders/"+ID+"/trash.json");
+          File trash = new File("mailserver/src/main/java/com/example/mailserver/Database/Users/"+email_address+"/trash.json");
           try {
             trash.createNewFile();
           } catch (IOException e) {
@@ -57,19 +57,19 @@ public class User {
 
     }
 
-    public void deleteUser(String ID){
+    public void deleteUser(String email_address){
 
       try {
-        FileUtils.deleteDirectory(new File("mailserver/src/main/java/com/example/mailserver/Database/Folders/" + ID));
+        FileUtils.deleteDirectory(new File("mailserver/src/main/java/com/example/mailserver/Database/Users/" + email_address));
       } catch (IOException e) {
         e.printStackTrace();
       }
 
     }
 
-    public void addCustomFile(String ID , String fileName) {
+    public void addCustomFile(String email_address , String fileName) {
 
-      File file = new File("mailserver/src/main/java/com/example/mailserver/Database/Folders/"+ID+"/"+fileName+".json");
+      File file = new File("mailserver/src/main/java/com/example/mailserver/Database/Users/"+email_address+"/"+fileName+".json");
       try {
         file.createNewFile();
       } catch (IOException e) {
@@ -79,9 +79,9 @@ public class User {
 
     }
 
-    public void deleteFile(String ID , String fileName) {
+    public void deleteFile(String email_address , String fileName) {
 
-      File file = new File("mailserver/src/main/java/com/example/mailserver/Database/Folders/"+ID+"/"+fileName+".json");
+      File file = new File("mailserver/src/main/java/com/example/mailserver/Database/Users/"+email_address+"/"+fileName+".json");
       file.delete();
 
     }
