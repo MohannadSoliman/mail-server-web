@@ -8,13 +8,13 @@ import java.time.LocalDateTime;
 
 
 public class Email{
-    private String sender = new String();
-    private Queue<String> receivers = new LinkedList<String>();
-    private String title = new String();
-    private String body = new String();
-    private String id = new String();
-    private String time = new String();
-    private Queue<String> attachments = new LinkedList<String>();
+    private String sender;
+    private Queue<String> receivers;
+    private String title;
+    private String body;
+    private String id;
+    private String time;
+    private Queue<String> attachments;
 
     public Email(String id, String sender, Queue<String> receivers, String title, String body, String time, Queue<String> attachments){
         this.id = id;

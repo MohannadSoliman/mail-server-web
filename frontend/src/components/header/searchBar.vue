@@ -1,6 +1,6 @@
 <template>
   <div id="search-bar">
-    <input type="text"  placeholder="Search Emails" id="search-input">
+    <input type="text"  placeholder="   Search Emails" id="search-input">
     <div id="search-btn"><img src="../../assets/header/search-gray.png" width="20px"></div>
   </div>
 </template>
