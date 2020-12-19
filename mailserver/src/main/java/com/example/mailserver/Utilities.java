@@ -22,7 +22,7 @@ public class Utilities {
         return returnValue;
     }
     public void saveFile(MultipartFile  file) throws Exception{
-        String folder = "mailserver\\src\\main\\java\\com\\example\\mailserver\\Database\\Users";
+        String folder = "mailserver/src/main/java/com/example/mailserver/Database/Users";
         byte[] bytes = file.getBytes();
         Path path = Paths.get(folder, file.getOriginalFilename());
         Files.write(path, bytes);
