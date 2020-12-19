@@ -23,17 +23,17 @@ public class jsonTest {
         String email2JsonStr = jsonConverter.emailToJsonString(email2);
 
         //not that i added [ here and at the end too
-        String jsonArray = "[\n" + email1JsonStr +",\n"+ email2JsonStr + "\n]";
+        String jsonArray = "[\n" + email1JsonStr + email2JsonStr.substring(0, email2JsonStr.length()-2) + "\n]";
         System.out.println(jsonArray);
 
         Gson gson = new Gson();
 
-        Email[] emails = gson.fromJson(jsonArray, Email[].class);
+        //Email[] emails = gson.fromJson(jsonArray, Email[].class);
 
-        for(Email email : emails) {
-            System.out.println(email.getId());
-            System.out.println(email.getReceivers());
-            System.out.println("\n");
-        }
+        // for(Email email : emails) {
+        //     System.out.println(email.getId());
+        //     System.out.println(email.getReceivers());
+        //     System.out.println("\n");
+        // }
     }
 }
