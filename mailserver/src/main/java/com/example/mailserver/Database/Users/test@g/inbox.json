@@ -1,5 +1,5 @@
-{
-  "emails":[
+
+  [
     {
       "sender" : "sender@g",
       "receivers" : [ "rec1@g", "rec2@g" ],
@@ -19,4 +19,5 @@
       "attachments" : [ "attach1" ]
     }
   ]
-}
+
+  
