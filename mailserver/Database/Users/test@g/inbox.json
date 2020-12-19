@@ -1,22 +1,21 @@
+[
+{
+  "sender" : "sender@g",
+  "receivers" : [ "rec1@g", "rec2@g" ],
+  "title" : "titletestDRAFT",
+  "body" : "bodytestD1",
+  "id" : "68443444-a81b-45fc-a7ae-356e28b926ee",
+  "time" : "2020-12-19T22:41:32.469346800",
+  "attachments" : [ "attach1" ]
+},
+{
+  "sender" : "sender@g",
+  "receivers" : [ "rec1@g", "rec2@g" ],
+  "title" : "titletestDRAFT2",
+  "body" : "bodytestD2",
+  "id" : "60bc752b-5c7b-4cfb-8efc-5052944bbdb2",
+  "time" : "2020-12-19T22:41:32.469346800",
+  "attachments" : [ "attach1" ]
+}
 
-  [
-    {
-      "sender" : "sender@g",
-      "receivers" : [ "rec1@g", "rec2@g" ],
-      "title" : "titletest",
-      "body" : "bodytest",
-      "id" : "6dd4aa49-18d5-4cee-9161-ad177bef16d7",
-      "time" : "2020-12-16T23:20:36.234243200",
-      "attachments" : [ "attach1" ]
-    },
-    {
-      "sender" : "sender@g",
-      "receivers" : [ "rec1@g", "rec2@g" ],
-      "title" : "titletest",
-      "body" : "bodytest",
-      "id" : "6dd4aa49-18d5-4cee-9161-ad177bef16d7",
-      "time" : "2020-12-16T23:20:36.234243200",
-      "attachments" : [ "attach1" ]
-    }
-  ]
-
+]

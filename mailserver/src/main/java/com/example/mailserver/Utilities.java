@@ -1,8 +1,12 @@
 package com.example.mailserver;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Scanner;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,5 +30,29 @@ public class Utilities {
         byte[] bytes = file.getBytes();
         Path path = Paths.get(folder, file.getOriginalFilename());
         Files.write(path, bytes);
+    }
+
+    public String readFile(String path){
+        String emailsInJson = "";
+        try{
+            File myObj = new File(path);
+            Scanner reader = new Scanner(myObj);
+            while(reader.hasNextLine()) emailsInJson += reader.nextLine();
+            reader.close();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return emailsInJson;
+    }
+    public void writeFile(String path, Email emails[]){
+        JsonConverter jsonConverter = JsonConverter.getInstance();
+        String emailsString = jsonConverter.ArrayOfEmailsToJson(emails);
+        try{
+            FileWriter writer = new FileWriter(path);
+            writer.write(emailsString);
+            writer.close();
+        }catch(IOException e){
+            e.printStackTrace();
+        }
     }
 }
