@@ -12,6 +12,7 @@ import java.io.IOException;  // Import the IOException class to handle errors
 
 
 public class Test {
+    public int num = 5;
     public static void main(String[]args){
         // Queue<String> receivers = new LinkedList<String>();
         // Queue<String> attachments = new LinkedList<String>();
@@ -48,6 +49,14 @@ public class Test {
         //     System.out.println(email.getReceivers());
         //     System.out.println("\n");
         // }
+        Test test = new Test();
         
+        System.out.println(test.hello());
+        System.out.println(test.hello());
+        
+    }
+    public Integer hello(){
+
+        return this.num++;
     }
 }
