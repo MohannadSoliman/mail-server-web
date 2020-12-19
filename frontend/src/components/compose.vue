@@ -278,7 +278,7 @@ export default {
     storeFileChoosed(id, file){
       const formData = new FormData();
       formData.append("file", file);
-      axios.post('http://localhost:8085/uploadFile', formData)
+      axios.post('http://localhost:8080/uploadFile', formData)
       .then( response => console.log(response))
       .catch( error => console.log(error));
     }
