@@ -60,8 +60,6 @@ export default {
 
 input[type=checkbox] + label {
   display: block;
-  /* margin: 0.2em; */
-  /* padding: 0.2em; */
 	user-select: none;
 }
 

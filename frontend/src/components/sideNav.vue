@@ -31,10 +31,16 @@
 				<div class="hidden-label" id="trash-label">Trash</div>
 			</div>
 			<div id="side-menu-seperator" class="side-menu-seperator-closed"></div>
-			<div class="menu-btn" id="folders-btn" @click="menuBtnClickEvent(buttons.folders)">
+			<div class="menu-btn" id="folders-btn" @click="folderBtnClickEvent()">
 				<img src="../assets/sideMenu/folders-gray.png" class="icon-img-active" id="folders-img-nonActive" width="20px">
 				<img src="../assets/sideMenu/folders.png" class="icon-img-nonActive" id="folders-img-active" width="20px">
 				<div class="hidden-label" id="folders-label">Folders</div>
+			</div>
+			<div id="folders-area" class="folders-area-hidden">
+				<div id="add-folder-btn" class="in-folders-area">
+					<img src="../assets/sideMenu/compose-gray.png" width="15px">
+					<div id="add-folder-label" >add folder</div>
+				</div>
 			</div>
 		</div>
 		<div class="menu-btn" id="compose-btn"
@@ -85,6 +91,8 @@ export default {
 					id: 5,
 					name: 'Folders',
 					active: false,
+					hiddenFolders: true,
+					subFolders: [],
 				},
 			}
 		}
@@ -138,6 +146,8 @@ export default {
 			composeBtn.className = "menu-btn";
 			composeBtn.style.marginLeft = '0.75rem';
 			document.getElementById("compose-label").className = "hidden-label";
+			document.getElementById("folders-area").className = "folders-area-hidden";
+			this.buttons.folders.hiddenFolders = true;
 		},
 		//buttons actions
 		enableButton(btn){
@@ -149,6 +159,7 @@ export default {
 				if(folderBtn.id === btn.id) continue;
 				this.disableButton(folderBtn);
 			}
+			if(btn.id !== 5) document.getElementById("folders-area").className = "folders-area-hidden";
 			if(!this.closedMenu) btn.button.className = 'menu-btn-expanded-focus'
 		},
 		disableButton(btn){
@@ -163,6 +174,23 @@ export default {
 			this.enableButton(btn);
 			document.getElementById("current-folder-name").innerHTML = btn.name;
 		},
+		//folders button
+		folderBtnClickEvent(){
+			const folderBtn = this.buttons.folders;
+
+			this.enableButton(folderBtn);
+			this.openMenu();
+			this.closedMenu = false;
+
+			const foldersArea = document.getElementById("folders-area");
+			if(folderBtn.hiddenFolders){
+				foldersArea.className = "folders-area-visible";
+			}
+			else{
+				foldersArea.className = "folders-area-hidden";
+			}
+			folderBtn.hiddenFolders = !folderBtn.hiddenFolders;
+		},
 		//compose
 		composeBtnMouseOver(){
 			document.getElementById("compose-img-nonActive").className = "icon-img-nonActive";
@@ -174,9 +202,9 @@ export default {
 		},
 		composeBtnOnClick(){
 			const composeContainer = document.getElementById("compose-container");
-      const composePage = document.getElementById("compose-page");
-      composeContainer.className = "compose-container-normal";
-      composePage.className = "compose-page-normal";
+			const composePage = document.getElementById("compose-page");
+			composeContainer.className = "compose-container-normal";
+			composePage.className = "compose-page-normal";
 			composeContainer.style.visibility = "visible";
 			composeContainer.style.display = "flex";
 		},
@@ -327,6 +355,39 @@ export default {
 	background-color: rgb(170, 201, 253);
 	color: #3474E0;
 	font-weight: bold;
+}
+
+#folders-area{
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-content: center;
+	width: 100%;
+}
+.folders-area-hidden{
+	visibility: hidden;
+	display: none;
+	transition: 0.1s ease;
+}
+.folder-area-visible{
+	visibility: visible;
+	display: flex;
+	transition: 0.1s ease;
+}
+.in-folders-area{
+	user-select: none;
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	height: 2rem;
+	width: 100%;
+	padding-left: 3rem;
+}
+.in-folder-area:hover{
+	background-color: rgb(224, 224, 224);
+}
+#add-folder-label{
+	margin-left: 0.5rem;
 }
 /* #767676 */
 /* #3474E0 */

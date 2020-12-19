@@ -29,10 +29,7 @@
         </div>
         <textarea id="text-body"></textarea>
       </div>
-<!-- <form method = "post" enctype="multipart/form-data" action="http://localhost:8085/uploadFile">
-<input type="file" name="file">
-<input type="submit" value="/upload"/>
-</form> -->
+
       <div id="attachments-area"></div>
 
       <div id="email-control">
@@ -48,20 +45,19 @@
 </template>
 
 <script>
-import axios from 'axios';
+// import axios from 'axios';
 export default {
   name: 'compose',
   data(){
     return{
       expanded: false,
       minimized: false,
-      recieversCardIdCount: 0,
       attachmentCardIdCount: 0,
       emailData: {
         recievers: new Map(),
         subject: "",
         body: "",
-        attachments: new FormData(),
+        attachments: new Map(),
       },
       composedEmailData: {
         recieversCards: new Map(),
@@ -131,6 +127,7 @@ export default {
       const recieverEmailInput = document.getElementById("to-input");
       const recieverEmail = recieverEmailInput.value;
       if(this.validEmailInput(recieverEmail)) {
+        if(this.emailData.recievers.has(recieverEmail)) return;
         const newRecieverEmailCard = this.appendReciver(recieverEmail);
         const mapKey = newRecieverEmailCard.id;
         this.composedEmailData.recieversCards.set(mapKey, newRecieverEmailCard);
@@ -144,12 +141,14 @@ export default {
       //creating the email card
       const recieverEmailCard = document.createElement("div");
       recieverEmailCard.innerHTML = recieverEmail;
-      recieverEmailCard.id = `reciver-card-${this.recieversCardIdCount++}`;
+      // recieverEmailCard.id = `reciver-card-${this.recieversCardIdCount++}`;
+      recieverEmailCard.id = `${recieverEmail}`;
       //style
       recieverEmailCard.style.border = "1px solid rgb(224,224,224)";
       recieverEmailCard.style.borderRadius = "1rem";
       recieverEmailCard.style.padding = "0rem 0.5rem";
       recieverEmailCard.style.marginLeft = "0.5rem";
+      recieverEmailCard.style.marginBottom = "0.5rem";
       recieverEmailCard.style.height = "1rem";
       recieverEmailCard.style.textAlign = "center";
       recieverEmailCard.style.verticalAlign = "center";
@@ -276,11 +275,11 @@ export default {
       return attachmentCard;   
     },
     storeFileChoosed(id, file){
-      const formData = new FormData();
-      formData.append("file", file);
-      axios.post('http://localhost:8080/uploadFile', formData)
-      .then( response => console.log(response))
-      .catch( error => console.log(error));
+      const fileUplaodData = new FormData();
+      fileUplaodData.append("file", file);
+      this.emailData.attachments.set(id, fileUplaodData);
+      // axios.post('http://localhost:8080/uploadFile', fileUplaodData)
+      // .catch( error => console.log(error));
     }
   },
   mounted(){
@@ -423,6 +422,7 @@ export default {
 }
 #to-section{
   flex-wrap: wrap;
+  overflow-y: auto;
 }
 
 .compose-input{
@@ -433,6 +433,10 @@ export default {
   width: 40%;
   margin-left: 0.5rem;
 }
+
+#to-section .compose-input{
+  margin-bottom: 0.5rem;
+}
 #to-section > input[type=text]:focus,
 #subject-section > input[type=text]:focus{
   outline-style: none;
@@ -441,7 +445,6 @@ export default {
 .label{
   float: left;
   height: 2rem;
-  /* width: 10%; */
   vertical-align: center;
   line-height: 2rem;
   text-align: left;
