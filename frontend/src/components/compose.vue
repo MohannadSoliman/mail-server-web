@@ -29,7 +29,10 @@
         </div>
         <textarea id="text-body"></textarea>
       </div>
-
+<!-- <form method = "post" enctype="multipart/form-data" action="http://localhost:8085/uploadFile">
+<input type="file" name="file">
+<input type="submit" value="/upload"/>
+</form> -->
       <div id="attachments-area"></div>
 
       <div id="email-control">
@@ -45,6 +48,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
   name: 'compose',
   data(){
@@ -272,8 +276,12 @@ export default {
       return attachmentCard;   
     },
     storeFileChoosed(id, file){
-      this.emailData.attachments.append(id, file);
-    },
+      const formData = new FormData();
+      formData.append("file", file);
+      axios.post('http://localhost:8085/uploadFile', formData)
+      .then( response => console.log(response))
+      .catch( error => console.log(error));
+    }
   },
   mounted(){
     const recieverEmailInput = document.getElementById("to-input"); 
