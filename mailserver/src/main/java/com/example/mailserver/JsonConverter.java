@@ -25,7 +25,7 @@ public class JsonConverter {
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-        jsonStr += ",\n";
+        jsonStr += "\n";
         return jsonStr;
     }
 

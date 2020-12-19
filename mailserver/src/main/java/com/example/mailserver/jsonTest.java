@@ -11,22 +11,25 @@ public class jsonTest {
         Queue<String> receivers = new LinkedList<String>();
         Queue<String> attachments = new LinkedList<String>();
         JsonConverter jsonConverter = JsonConverter.getInstance();
+        Utilities util = new Utilities();
 
         receivers.add("rec1@g");
         receivers.add("rec2@g");
         attachments.add("attach1");
         // public Email(String id, String sender, Queue<String> receivers, String title, String body, String time, Queue<String> attachments)
-        Email email1 = new Email(null, "sender@g", receivers, "titletest", "bodytest", null, attachments);
-        Email email2 = new Email(null, "sender@g", receivers, "titletest", "bodytest", null, attachments);
+        Email email1 = new Email(null, "sender@g", receivers, "titletestDRAFT", "bodytestD1", null, attachments);
+        Email email2 = new Email(null, "sender@g", receivers, "titletestDRAFT2", "bodytestD2", null, attachments);
+        Email[] emails = {email1, email2};
+        util.writeFile("mailserver/Database/Users/test@g/draft.json", emails);
 
-        String email1JsonStr = jsonConverter.emailToJsonString(email1);
-        String email2JsonStr = jsonConverter.emailToJsonString(email2);
+        // String email1JsonStr = jsonConverter.emailToJsonString(email1);
+        // String email2JsonStr = jsonConverter.emailToJsonString(email2);
 
         //not that i added [ here and at the end too
-        String jsonArray = "[\n" + email1JsonStr + email2JsonStr.substring(0, email2JsonStr.length()-2) + "\n]";
-        System.out.println(jsonArray);
+        // String jsonArray = "[\n" + email1JsonStr + email2JsonStr.substring(0, email2JsonStr.length()-2) + "\n]";
+        // System.out.println(jsonArray);
 
-        Gson gson = new Gson();
+        // Gson gson = new Gson();
 
         //Email[] emails = gson.fromJson(jsonArray, Email[].class);
 
