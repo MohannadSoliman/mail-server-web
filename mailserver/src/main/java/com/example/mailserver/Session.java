@@ -23,6 +23,9 @@ public class Session {
         this.presentUsers.remove(number);
     }
     public HashMap<Integer, User> getPresentUsers(){
-        return presentUsers;
+        return this.presentUsers;
+    }
+    public User getUser(Integer number){
+        return this.presentUsers.get(number);
     }
 }

@@ -12,7 +12,6 @@ import java.io.IOException;  // Import the IOException class to handle errors
 
 
 public class Test {
-    public int num = 5;
     public static void main(String[]args){
         // Queue<String> receivers = new LinkedList<String>();
         // Queue<String> attachments = new LinkedList<String>();
@@ -37,26 +36,20 @@ public class Test {
         // }catch(IOException e){
         //     e.printStackTrace();
         // }
-        // String emailsJson = "";
-        // Utilities util = new Utilities();
-        // emailsJson = util.readFile("mailserver/src/main/java/com/example/mailserver/Database/Users/test@g/inbox.json");
-        // System.out.println(emailsJson);
-        // Gson gson = new Gson();
-        // Email[] emails = gson.fromJson(emailsJson, Email[].class);
+        String emailsJson = "";
+        Utilities util = new Utilities();
+        emailsJson = util.readFile("mailserver/Database/Users/test@g/inbox.json");
+        System.out.println(emailsJson);
+        Gson gson = new Gson();
+        Email[] emails = gson.fromJson(emailsJson, Email[].class);
 
         // for(Email email : emails) {
         //     System.out.println(email.getId());
         //     System.out.println(email.getReceivers());
         //     System.out.println("\n");
         // }
-        Test test = new Test();
+        //Queue<String> hello = {"hi", "bye"};
         
-        System.out.println(test.hello());
-        System.out.println(test.hello());
         
-    }
-    public Integer hello(){
-
-        return this.num++;
     }
 }

@@ -31,7 +31,7 @@ public class jsonTest {
 
         // Gson gson = new Gson();
 
-        //Email[] emails = gson.fromJson(jsonArray, Email[].class);
+        // Email[] emails = gson.fromJson(jsonArray, Email[].class);
 
         // for(Email email : emails) {
         //     System.out.println(email.getId());
