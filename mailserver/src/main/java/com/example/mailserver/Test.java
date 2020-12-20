@@ -36,18 +36,20 @@ public class Test {
         // }catch(IOException e){
         //     e.printStackTrace();
         // }
-        // String emailsJson = "";
-        // Utilities util = new Utilities();
-        // emailsJson = util.readFile("mailserver/src/main/java/com/example/mailserver/Database/Users/test@g/inbox.json");
-        // System.out.println(emailsJson);
-        // Gson gson = new Gson();
-        // Email[] emails = gson.fromJson(emailsJson, Email[].class);
+        String emailsJson = "";
+        Utilities util = new Utilities();
+        emailsJson = util.readFile("mailserver/Database/Users/test@g/inbox.json");
+        System.out.println(emailsJson);
+        Gson gson = new Gson();
+        Email[] emails = gson.fromJson(emailsJson, Email[].class);
 
         // for(Email email : emails) {
         //     System.out.println(email.getId());
         //     System.out.println(email.getReceivers());
         //     System.out.println("\n");
         // }
+        //Queue<String> hello = {"hi", "bye"};
+        
         
     }
 }

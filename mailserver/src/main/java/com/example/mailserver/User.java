@@ -54,7 +54,6 @@ public class User {
             
             e.printStackTrace();
           }
-
     }
 
     public void deleteUser(String email_address){
