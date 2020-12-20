@@ -1,7 +1,7 @@
 [
 {
   "sender" : "test@g",
-  "receivers" : [ "testREC@g" ],
+  "receivers" : [ ],
   "title" : "titletest",
   "body" : "bodytest",
   "id" : "48635ba8-9cec-4b2a-bc12-4d51cbc854c4",
@@ -11,7 +11,7 @@
 ,
 {
   "sender" : "test@g",
-  "receivers" : [ "testREC@g" ],
+  "receivers" : [ ],
   "title" : "titletest",
   "body" : "bodytest",
   "id" : "4dcc72ea-9dd7-4a38-abf1-e289fcf7788b",

@@ -17,8 +17,7 @@ public class JsonConverter {
 
     public String emailToJsonString(Email email){
         ObjectMapper mapper = new ObjectMapper();
-        // REMEMBER THIS PART.. VERY IMPORTANT SO THAT BEFORE YOU READ FROM JSON
-        // MAKE SURE TO ADD THE BRACKET AT THE BOTTOM
+
         String jsonStr = "";
         try {
             jsonStr += mapper.writerWithDefaultPrettyPrinter().writeValueAsString(email);
@@ -40,8 +39,13 @@ public class JsonConverter {
         return jsonStr;
     }
 
-    public Email[] JsonToEmail(String jsonStrArray){
+    public Email[] JsonToEmailArray(String jsonStrArray){
         Gson gson = new Gson();
         return gson.fromJson(jsonStrArray, Email[].class);
+    }
+
+    public Email JsonToEmail(String jsonStrArray){
+        Gson gson = new Gson();
+        return gson.fromJson(jsonStrArray, Email.class);
     }
 }

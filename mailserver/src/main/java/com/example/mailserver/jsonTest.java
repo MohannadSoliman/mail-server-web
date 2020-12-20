@@ -20,7 +20,7 @@ public class jsonTest {
         Email email1 = new Email(null, "sender@g", receivers, "titletestDRAFT", "bodytestD1", null, attachments);
         Email email2 = new Email(null, "sender@g", receivers, "titletestDRAFT2", "bodytestD2", null, attachments);
         Email[] emails = {email1, email2};
-        util.writeFile("mailserver/Database/Users/test@g/draft.json", emails);
+        //util.writeFile("mailserver/Database/Users/test@g/draft.json", emails);
 
         // String email1JsonStr = jsonConverter.emailToJsonString(email1);
         // String email2JsonStr = jsonConverter.emailToJsonString(email2);
