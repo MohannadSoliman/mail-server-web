@@ -1,10 +1,23 @@
 <template>
-  <div :id="`${emailInfo.id}`" :class="['email-card', `${emailInfo.priority}`]">
+  <div  :id="`${emailInfo.id}`" 
+        :class="['email-card', `${emailInfo.priority}`]" 
+        @mouseover="showQuickMenu()" @mouseleave="hideQuickMenu()">
 		<div :id="`select-email-${emailInfo.id}`" class="unChecked" @click="toggleCheckBox()"></div>
     <div id="sender-recivers" class="content">{{inbox ? email.receivers: email.sender}}</div>
     <div id="subject" class="content">{{email.subject}}</div>
     <div id="priority" class="content">{{email.priority}}</div>
     <div id="date" class="content">{{email.date}}</div>
+    <div id="attachemtns">
+      <img src="../../assets/compose/attach.png" width="20px" :class="showHideAttachemntIndicator()">
+    </div>
+    <div :class="['quick-menu', activeQuickMenu ? 'visible': 'hidden', chechBoxChecked ? 'mouse-on': 'mouse-leave']">
+      <div class="menu-btn">
+        <img src="../../assets/general/moveFolder.png" width="18px">
+      </div>
+      <div class="menu-btn">
+        <img src="../../assets/sideMenu/trash-gray.png" width="18px">
+      </div>
+    </div>
   </div>
   
 </template>
@@ -19,14 +32,15 @@ export default {
   data(){
     return{
       email: {
-        id: "",
-        sender: "",
+        id: String,
+        sender: String,
         receivers: "",
-        subject: "",
-        priority: "",
-        date: "",
+        subject: String,
+        priority: String,
+        date: String,
+        attachments: Array,
       },
-      
+      activeQuickMenu: false,
       chechBoxChecked: false,
     }
   },
@@ -43,7 +57,18 @@ export default {
         emailCard.style.backgroundColor = "rgb(224,224,224)"
       }
       this.chechBoxChecked = !this.chechBoxChecked;
-    }
+    },
+    showHideAttachemntIndicator(){
+      if(this.email.attachments.length > 0) return "visible";
+      return "hidden";
+    },
+    showQuickMenu(){
+      this.activeQuickMenu = true;
+    },
+    hideQuickMenu(){
+      this.activeQuickMenu = false;
+    },
+    iamhere(){console.log("i am alive")}
   },
   mounted(){
     this.email.id = this.emailInfo.id;
@@ -52,6 +77,7 @@ export default {
     this.email.subject = this.emailInfo.subject;
     this.email.priority = this.emailInfo.priority;
     this.email.date = this.emailInfo.date;
+    this.email.attachments = this.emailInfo.attachments;
   },
 }
 </script>
@@ -94,15 +120,16 @@ export default {
   vertical-align: middle;
   line-height: 2rem;
   font-size: 15px;
-  font-weight: bold;
   grid-row: 1 / 2;
 }
 
 #sender-recivers{
   overflow-x: auto;
+  font-weight: bold;
   grid-column: 2 / 3;
 }
 #subject{
+  font-weight: bold;
   grid-column: 3 / 4;
 }
 #priority{
@@ -122,8 +149,6 @@ export default {
   visibility: visible;
   display: block;
 }
-
-
 
 .checked{
   grid-column: 1/2;
@@ -145,4 +170,43 @@ export default {
   transition: 0.2s ease;
 }
 
+.quick-menu{
+  position: absolute;
+  height: 2.5rem;
+  width: 5rem;
+  right: 0rem;
+  padding-right: 1.5rem;
+  grid-column: 5 / 7;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 2;
+}
+.mouse-on{
+  background-color: rgb(224, 224, 224);
+}
+.mouse-leave{
+  background-color: white;
+}
+.menu-btn{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 2rem;
+  width: 2rem;
+  border-radius: 50%;
+}
+.menu-btn:hover{
+  background-color: rgb(224, 224, 224, 0.6);
+}
+
+.visible{
+  visibility: visible;
+  display: flex;
+}
+.hidden{
+  visibility: hidden;
+  display: flex;
+}
 </style>

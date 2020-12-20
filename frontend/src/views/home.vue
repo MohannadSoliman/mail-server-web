@@ -4,6 +4,12 @@
     <div id="main">
       <headerBar/>
       <controlBar/>
+      <div id="title-bar">
+        <div id="sender-reciever-title">From</div>
+        <div id="subject-title">Subject</div>
+        <div id="priority-title">Priority</div>
+        <div id="data-title">Date</div>
+      </div>
       <div id="emails-viewer" ref="emailsContainer"></div>
       <compose/>
     </div>
@@ -30,7 +36,8 @@ export default {
           receivers: "mido113@hotmail.com thelol@lol.com",
           subject: "email vieweing test1",
           priority: "urgent",
-          date: "13 Dec 2020"
+          date: "13 Dec 2020",
+          attachments: [],
         },
         {
           id: "1235",
@@ -38,7 +45,8 @@ export default {
           receivers: "mido113@hotmail.com thelol@lol.com",
           subject: "email vieweing test2",
           priority: "high",
-          date: "13 Dec 2020"
+          date: "13 Dec 2020",
+          attachments: ["hello"],
         },
       ]
     }
@@ -56,7 +64,7 @@ export default {
         const newEmailCard = new EmailCard({
           propsData: { inbox: true, emailInfo: email}
         })
-        newEmailCard.$mount() 
+        newEmailCard.$mount();
         this.$refs.emailsContainer.appendChild(newEmailCard.$el);
       }
     }
@@ -84,5 +92,32 @@ html,body{
 #emails-viewer{
   background-color: white;
   width: 100%;
+}
+
+#title-bar{
+  height: 1.5rem;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 5% 20% 35% 15% 20% 5%;
+  grid-template-rows: 1.5rem;
+  justify-items: center;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+  border-bottom: 1px solid rgb(224, 224, 224);
+  background-color: white;
+  font-size: 13px;
+}
+#sender-reciever-title{
+  grid-column: 2 / 3;
+}
+#subject-title{
+  grid-column: 3 / 4;
+}
+#priority-title{
+  grid-column: 4 / 5;
+}
+#date-title{
+  grid-column: 5 / 6;
 }
 </style>
