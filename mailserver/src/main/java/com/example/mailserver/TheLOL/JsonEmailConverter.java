@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 
 import java.util.HashMap;
-
+//change
 public class JsonEmailConverter {
     private static JsonEmailConverter instance;
 

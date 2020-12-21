@@ -6,7 +6,7 @@ import com.example.mailserver.TheLOL.operationsHandlers.FilesHandler;
 import com.example.mailserver.TheLOL.operationsHandlers.FolderHandler;
 
 import java.io.IOException;
-
+//change
 public class User {
     private FoldersMap foldersMap;
     private FilesHandler filesHandler;

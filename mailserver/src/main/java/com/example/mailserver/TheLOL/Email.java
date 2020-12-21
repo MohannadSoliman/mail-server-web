@@ -5,7 +5,7 @@ import java.util.UUID;
 
 import java.time.LocalDateTime;
 
-
+//change
 public class Email{
     private String sender;
     private Queue<String> receivers;

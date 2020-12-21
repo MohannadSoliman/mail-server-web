@@ -10,7 +10,7 @@ import javax.imageio.IIOException;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
-
+//change
 public class FolderHandler {
     private FilesHandler fileHandler;
     private FoldersMap foldersMap;

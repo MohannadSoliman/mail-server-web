@@ -5,7 +5,7 @@ import com.example.mailserver.TheLOL.JsonEmailConverter;
 import com.example.mailserver.TheLOL.operationsHandlers.FilesHandler;
 
 import java.util.HashMap;
-
+//change
 public class Folder {
     private String id;
     private boolean isImmutable;

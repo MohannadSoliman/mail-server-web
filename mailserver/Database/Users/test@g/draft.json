@@ -10,16 +10,6 @@
 }
 ,
 {
-  "sender" : "test@g",
-  "receivers" : [ "testREC@g" ],
-  "title" : "titleLOL",
-  "body" : "bodyLOL",
-  "id" : "2dd9d200-08bc-49f6-a75a-98e1bc573459",
-  "time" : "2020-12-21T20:12:32.189201",
-  "attachments" : [ ]
-}
-,
-{
   "sender" : "sender@g",
   "receivers" : [ "rec1@g", "rec2@g" ],
   "title" : "titletestDRAFT",

@@ -1,7 +1,5 @@
 package com.example.mailserver.TheLOL.Folders;
-
-import com.example.mailserver.TheLOL.Folders.Folder;
-
+//change
 public class TrashFolder extends Folder {
 
     public TrashFolder(String fileName, boolean isImmutable, String userEmail) {

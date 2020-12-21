@@ -6,7 +6,7 @@ import com.example.mailserver.TheLOL.JsonEmailConverter;
 
 import java.util.HashMap;
 import java.util.Queue;
-
+//change
 public class EmailHandler {
     private FoldersMap foldersMap;
     private FilesHandler filesHandler;
