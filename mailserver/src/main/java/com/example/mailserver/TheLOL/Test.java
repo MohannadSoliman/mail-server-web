@@ -6,12 +6,12 @@ import java.util.Queue;
 
 public class Test {
     public static void main(String args[]) {
-        Queue<String> receivers = new LinkedList<String>();
-        Queue<String> attachments = new LinkedList<String>();
-        receivers.add("testREC@g");
+        // Queue<String> receivers = new LinkedList<String>();
+        // Queue<String> attachments = new LinkedList<String>();
+        // receivers.add("testREC@g");
 
-        Email email = new Email(null, "test@g", receivers, "titleLOLtimeTest", "bodyLOL", null, attachments);
-        User user = new User("test@g");
+        // Email email = new Email(null, "test@g", receivers, "titleLOLtimeTest", "bodyLOL", null, attachments, "Urgent");
+        // User user = new User("test@g");
 
         // user.moveEmail("713efe52-3540-434d-9d4c-57020591c53a", "sent", "testFolder");
         // user.sendEmail(email);
@@ -28,5 +28,7 @@ public class Test {
         //     e.printStackTrace();
         // }
         // user.deleteCustomFolder("testFolder2NEW");
+        String help = "[]";
+        System.out.println(help.substring(1, help.length()-1));
     }
 }

@@ -4,6 +4,8 @@ import com.example.mailserver.TheLOL.Folders.FoldersMap;
 import com.example.mailserver.TheLOL.operationsHandlers.EmailHandler;
 import com.example.mailserver.TheLOL.operationsHandlers.FilesHandler;
 import com.example.mailserver.TheLOL.operationsHandlers.FolderHandler;
+import com.example.mailserver.TheLOL.Filter.Filter;
+import com.example.mailserver.TheLOL.Filter.Search;
 
 import java.io.IOException;
 //change
@@ -12,13 +14,17 @@ public class User {
     private FilesHandler filesHandler;
     private FolderHandler folderHandler;
     private EmailHandler emailHandler;
+    private Search search;
+    private Filter filter;
 
     public User(String emailAddress){
         this.foldersMap = new FoldersMap();
         this.filesHandler = new FilesHandler();
         this.folderHandler = new FolderHandler(foldersMap, emailAddress, filesHandler);
         this.emailHandler = new EmailHandler(foldersMap, filesHandler);
-
+        this.search = new Search(foldersMap, folderHandler);
+        this.filter = new Filter(foldersMap);
+        
         folderHandler.createExistingFolders();
     }
 

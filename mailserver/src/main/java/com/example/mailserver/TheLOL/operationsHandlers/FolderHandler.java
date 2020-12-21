@@ -110,7 +110,7 @@ public class FolderHandler {
         return "mailserver/Database/Users/" + userEmail + "/" + folderName + ".json";
     }
 
-    private String[] getExistingCustomFolderNames(){
+    public String[] getExistingCustomFolderNames(){
         String existingCustomFoldersPath = "mailserver/Database/Users/" + userEmail + "/folders.json";
         String existingCustomFoldersNamesStr = fileHandler.readFile(existingCustomFoldersPath);
         return JsonEmailConverter.getInstance().jsonArrayToStringArray(existingCustomFoldersNamesStr);
