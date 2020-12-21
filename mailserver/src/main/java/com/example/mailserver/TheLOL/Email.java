@@ -1,4 +1,4 @@
-package com.example.mailserver;
+package com.example.mailserver.TheLOL;
 
 import java.util.Queue;
 import java.util.UUID;
@@ -31,7 +31,7 @@ public class Email{
     public String getSender() {
         return sender;
     }
-    
+
     public Queue<String> getReceivers() {
         return receivers;
     }
@@ -47,7 +47,7 @@ public class Email{
     public String getId() {
         return id;
     }
-    
+
     public String getTime() {
         return time;
     }
