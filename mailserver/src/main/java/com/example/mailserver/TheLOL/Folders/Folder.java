@@ -49,12 +49,12 @@ public class Folder {
     }
 
     public void appendEmail(Email email){
-        allEmails.put(email.getId(), email);
+        getAllEmailsMap().put(email.getId(), email);
         refreshFolder();
     }
 
     public Email deleteEmail(String id){
-        Email deletedEmail = allEmails.remove(id);
+        Email deletedEmail = getAllEmailsMap().remove(id);
         refreshFolder();
         return deletedEmail;
     }

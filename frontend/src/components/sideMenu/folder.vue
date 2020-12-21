@@ -1,40 +1,62 @@
 <template>
-  <div class="custom-folder">
-    <div class="actions-btn">
-      <img src="../../assets/sideMenu/actions.png" width="20px">
+  <div :id="folderId" class="custom-folder" @mouseover="mouseOn = true" @mouseleave="mouseOn = false">
+    <div :class="['actions-btn', enabledActionsMenu ? 'enabled' : 'disabled']">
+      <img src="../../assets/sideMenu/actions.png" width="16px">
     </div>
-    <input type="text" class="folder-name"  @keyup.enter="setFileName()">
+    <input type="text" :id="`folder-name-${folderId}`" class="folder-name"  @keyup.enter="setFileName()" 
+          :value="folderName" :disabled="!isBeingEdited">
   </div>
 </template>
 
 <script>
 export default {
   name: "customFolder",
+  props: {
+    existingFolderName: String,
+  },
   data(){
     return{
+      folderId: "new-custom-folder",
       folderName: "",
-      fileNameInput: null,
-      ForbiddenFileNames: ["sent", "inbox", "draft", "trash", "contacts"],
+      folderNameInput: null,
+      ForbiddenFolderNames: ["sent", "inbox", "draft", "trash", "contacts"],
+      mouseOn: false,
+      enabledActionsMenu: false,
+      isBeingEdited: false,
     }
   },
   methods:{
-    setFileName(e){
-      this.fileNameInput = e.target;
-      this.fileName = this.fileNameInput.value;
-      if(this.ForbiddenFileNames.includes(this.fileName.toLowerCase())){
-        this.fileName = "";
+    setFolderName(){
+      this.folderName = this.folderNameInput.value;
+      if(this.ForbiddenFolderNames.includes(this.fileName.toLowerCase())){
+        this.folderName = "";
         //show error msg
       }
-      fileNameInput.disabled = true;
+      this.folderId = this.folderName;
+      this.folderNameInput.disabled = true;
     },
-    changeFileName(){
-      this.fileNameInput.disabled = false;
-      this.fileNameInput.focus();
+    changeFolderName(){
+      this.enabledActionsMenu = false;
+      this.folderNameInput.disabled = false;
+      this.folderNameInput.focus();
     },
-
+    removeFolder(){
+      document.getElementById(this.folderId).remove();
+    },
+    showEl(){
+      console.log(document.getElementById(`folder-name-${this.folderId}`))
+    }
   },
   mounted(){
-    
+    if(this.existingFolderName !== null){
+      this.folderId = this.existingFolderName;
+      this.folderName = this.existingFolderName;
+    }
+    else this.folderNameInput = document.getElementById(`folder-name-${this.folderId}`);
+    document.body.onclick = () => {
+      if(this.mouseOn || !this.isBeingEdited) return;
+      this.removeFolder();
+    }
   }
 }
 </script>
@@ -57,10 +79,20 @@ export default {
   width: 1.5rem;
   height: 1.5rem;
   border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .actions-btn:hover{
-  background-color: rgb(224, 224, 224, 0.6);
+  background-color: rgb(224, 224, 224);
 }
+.disabled{
+  pointer-events: none;
+}
+.enabled{
+  pointer-events: all;
+}
+
 
 .folder-name{
   box-sizing: border-box;
@@ -69,7 +101,7 @@ export default {
   margin-left: 0.5rem;
 }
 
-.customfolder > input[type=text]:focus{
+input[type=text]:focus{
   outline-style: none;
   border: none;
 }
