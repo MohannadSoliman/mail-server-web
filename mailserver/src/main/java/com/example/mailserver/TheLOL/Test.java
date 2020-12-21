@@ -9,10 +9,10 @@ public class Test {
         Queue<String> attachments = new LinkedList<String>();
         receivers.add("testREC@g");
 
-//        Email email = new Email(null, "test@g", receivers, "titleLOL", "bodyLOL", null, attachments);
+       Email email = new Email(null, "test@g", receivers, "titleLOLtimeTest", "bodyLOL", null, attachments);
         User user = new User("test@g");
 
-//        user.sendEmail(email);
-        user.moveEmail("2dd9d200-08bc-49f6-a75a-98e1bc573459", "draft", "trash");
+        user.sendEmail(email);
+        // user.deleteEmail("7bc7bb58-99bb-4db2-b464-80be7a52afe1", "sent");
     }
 }

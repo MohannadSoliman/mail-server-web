@@ -4,9 +4,12 @@ import java.util.Queue;
 import java.util.UUID;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 //change
 public class Email{
+    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+    LocalDateTime now = LocalDateTime.now();
     private String sender;
     private Queue<String> receivers;
     private String title;
@@ -25,7 +28,7 @@ public class Email{
         this.attachments = attachments;
 
         if(id == null) this.id = UUID.randomUUID().toString();
-        if(time == null) this.time = String.valueOf(LocalDateTime.now());
+        if(time == null) this.time = String.valueOf(dtf.format(now));
     }
 
     public String getSender() {

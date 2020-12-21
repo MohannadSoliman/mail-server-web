@@ -12,10 +12,10 @@
 {
   "sender" : "test@g",
   "receivers" : [ "testREC@g" ],
-  "title" : "titleLOL",
+  "title" : "titleLOLpath",
   "body" : "bodyLOL",
-  "id" : "2dd9d200-08bc-49f6-a75a-98e1bc573459",
-  "time" : "2020-12-21T20:12:32.189201",
+  "id" : "7bc7bb58-99bb-4db2-b464-80be7a52afe1",
+  "time" : "2020-12-21T21:24:57.079663900",
   "attachments" : [ ]
 }
 ,
