@@ -13,6 +13,6 @@ public class Test {
         User user = new User("test@g");
 
 //        user.sendEmail(email);
-        user.deleteEmail("2dd9d200-08bc-49f6-a75a-98e1bc573459", "sent");
+        user.moveEmail("2dd9d200-08bc-49f6-a75a-98e1bc573459", "trash", "draft");
     }
 }
