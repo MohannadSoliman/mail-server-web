@@ -41,8 +41,11 @@ public class FolderHandler {
             createSystemFolder(folderName);
         }
         //creating existing custom folders
-        for(String folderName: getExistingCustomFolderNames()){
-            createExistingCustomFolder(folderName);
+        String[] existingFolderNames = getExistingCustomFolderNames();
+        if(existingFolderNames != null){
+            for(String folderName: existingFolderNames){
+                createExistingCustomFolder(folderName);
+            }
         }
     }
 

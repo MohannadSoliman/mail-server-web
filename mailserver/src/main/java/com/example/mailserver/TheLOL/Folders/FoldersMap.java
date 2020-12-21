@@ -5,6 +5,7 @@ import com.example.mailserver.TheLOL.Folders.Folder;
 import java.util.HashMap;
 
 public class FoldersMap {
+
     private HashMap<String, Folder> folderMap;
 
     public FoldersMap(){

@@ -66,8 +66,10 @@ public class JsonEmailConverter {
     public HashMap<String, Email> jsonToEmailMap(String jsonStrArray){
         HashMap<String, Email> emailsMap = new HashMap<>();
         Email[] allEmails = jsonToEmailArray(jsonStrArray);
-        for(Email email: allEmails){
-            emailsMap.put(email.getId(), email);
+        if(allEmails != null){
+            for(Email email: allEmails){
+                emailsMap.put(email.getId(), email);
+            }
         }
         return emailsMap;
     }
