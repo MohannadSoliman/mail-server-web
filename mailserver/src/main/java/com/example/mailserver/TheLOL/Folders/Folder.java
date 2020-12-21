@@ -12,7 +12,7 @@ public class Folder {
     private String folderPath = "Database/Users/";
     private FilesHandler filesHandler;
     private String userEmail;
-    private HashMap<String, Email> allEmails = new HashMap<String, Email>();
+    private HashMap<String, Email> allEmails = null;
 
     public Folder(String folderName, boolean isImmutable, String userEmail){
         this.id = folderName;
