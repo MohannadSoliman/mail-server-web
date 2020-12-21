@@ -46,6 +46,10 @@ public class EmailHandler {
 
     public void deleteEmail(String emailId, String folderName){
         Email deletedEmail = foldersMap.getFolder(folderName).deleteEmail(emailId);
+        //
+        System.out.println("handler:");
+        System.out.println(deletedEmail);
+        //
         foldersMap.getFolder("trash").appendEmail(deletedEmail);
     }
 }

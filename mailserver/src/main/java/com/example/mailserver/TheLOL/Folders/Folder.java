@@ -13,7 +13,7 @@ public class Folder {
     private String folderPath = "mailserver/Database/Users/";
     private FilesHandler filesHandler;
     private String userEmail;
-    private HashMap<String, Email> allEmails = null;
+    private HashMap<String, Email> allEmails = new HashMap<String, Email>();
 
     public Folder(String folderName, boolean isImmutable, String userEmail){
         this.id = folderName;
@@ -49,7 +49,11 @@ public class Folder {
     }
 
     public void appendEmail(Email email){
-        getAllEmailsMap().put(email.getId(), email);
+               //
+               System.out.println("append");
+               System.out.println(email);
+               //
+        allEmails.put(email.getId(), email);
         refreshFolder();
     }
 

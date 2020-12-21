@@ -2,21 +2,11 @@
 {
   "sender" : "test@g",
   "receivers" : [ ],
-  "title" : "titletest",
-  "body" : "bodytest",
-  "id" : "48635ba8-9cec-4b2a-bc12-4d51cbc854c4",
-  "time" : "2020-12-20T18:23:42.099069400",
-  "attachments" : [ "attach1" ]
-}
-,
-{
-  "sender" : "test@g",
-  "receivers" : [ ],
-  "title" : "titletest",
-  "body" : "bodytest",
-  "id" : "4dcc72ea-9dd7-4a38-abf1-e289fcf7788b",
-  "time" : "2020-12-20T18:24:07.440823400",
-  "attachments" : [ "attach1" ]
+  "title" : "titleLOL",
+  "body" : "bodyLOL",
+  "id" : "6d8b2dbf-4f3b-4df0-827b-52de70d72c4c",
+  "time" : "2020-12-21T18:57:29.929454100",
+  "attachments" : [ ]
 }
 
 ]
