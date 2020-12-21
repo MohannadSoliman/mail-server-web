@@ -1,0 +1,12 @@
+[
+{
+  "sender" : "test@g",
+  "receivers" : [ "testREC@g" ],
+  "title" : "titleLOLtimeTest",
+  "body" : "bodyLOL",
+  "id" : "713efe52-3540-434d-9d4c-57020591c53a",
+  "time" : "2020/12/21 21:33:00",
+  "attachments" : [ ]
+}
+
+]
