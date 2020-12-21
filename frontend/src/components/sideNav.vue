@@ -124,7 +124,9 @@ export default {
 			const composeBtn = document.getElementById("compose-btn");
 			composeBtn.className = "menu-btn-expanded";
 			composeBtn.style.marginLeft = '0rem ';
-			document.getElementById("compose-label").className = "active-label";
+      document.getElementById("compose-label").className = "active-label";
+      
+      this.showFoldersArea();
 		},
 		closeMenu() {
 			document.getElementById("menu").style.width = "4rem";
@@ -177,20 +179,28 @@ export default {
 		//folders button
 		folderBtnClickEvent(){
 			const folderBtn = this.buttons.folders;
-
 			this.enableButton(folderBtn);
-			this.openMenu();
-			this.closedMenu = false;
-
-			const foldersArea = document.getElementById("folders-area");
-			if(folderBtn.hiddenFolders){
-				foldersArea.className = "folders-area-visible";
-			}
-			else{
-				foldersArea.className = "folders-area-hidden";
-			}
-			folderBtn.hiddenFolders = !folderBtn.hiddenFolders;
-		},
+			if(this.closedMenu) {
+        this.openMenu();
+        this.closedMenu = false;
+      }
+      else{
+        if(folderBtn.hiddenFolders) this.showFoldersArea();
+        else this.hideFoldersArea();
+      }
+    },
+    showFoldersArea(){
+      const folderBtn = this.buttons.folders;
+      const foldersArea = document.getElementById("folders-area");
+      foldersArea.className = "folders-area-visible";
+      folderBtn.hiddenFolders = false;
+    },
+    hideFoldersArea(){
+      const folderBtn = this.buttons.folders;
+      const foldersArea = document.getElementById("folders-area");
+      foldersArea.className = "folders-area-hidden";
+      folderBtn.hiddenFolders = true;
+    },
 		//compose
 		composeBtnMouseOver(){
 			document.getElementById("compose-img-nonActive").className = "icon-img-nonActive";

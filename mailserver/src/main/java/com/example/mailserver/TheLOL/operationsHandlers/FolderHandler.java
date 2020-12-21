@@ -16,8 +16,8 @@ public class FolderHandler {
     private FoldersMap foldersMap;
     private String userEmail;
 
-    public FolderHandler(FoldersMap foldersMap, String userEmail){
-        fileHandler = new FilesHandler();
+    public FolderHandler(FoldersMap foldersMap, String userEmail, FilesHandler filesHandler){
+        this.fileHandler = filesHandler;
         this.foldersMap = foldersMap;
         this.userEmail = userEmail;
     }

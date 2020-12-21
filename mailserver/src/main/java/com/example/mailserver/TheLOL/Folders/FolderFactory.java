@@ -11,8 +11,8 @@ public class FolderFactory {
     }
 
     public Folder createFolder(String type, String fileName, String userEmail){
-        if(type.equals("trash")) return new Folder(fileName, true, userEmail);
+        if(type.equals("trash")) return new TrashFolder(fileName, true, userEmail);
         else if(type.equals("custom")) return new Folder(fileName, false, userEmail);
-        else return new TrashFolder(fileName, true, userEmail);
+        else return new Folder(fileName, true, userEmail);
     }
 }

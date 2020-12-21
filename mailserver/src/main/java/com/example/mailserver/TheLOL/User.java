@@ -16,7 +16,7 @@ public class User {
     public User(String emailAddress){
         this.foldersMap = new FoldersMap();
         this.filesHandler = new FilesHandler();
-        this.folderHandler = new FolderHandler(foldersMap, emailAddress);
+        this.folderHandler = new FolderHandler(foldersMap, emailAddress, filesHandler);
         this.emailHandler = new EmailHandler(foldersMap, filesHandler);
 
         folderHandler.createExistingFolders();
