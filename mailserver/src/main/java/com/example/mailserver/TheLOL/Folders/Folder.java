@@ -4,13 +4,12 @@ import com.example.mailserver.TheLOL.Email;
 import com.example.mailserver.TheLOL.JsonEmailConverter;
 import com.example.mailserver.TheLOL.operationsHandlers.FilesHandler;
 
-import java.util.Arrays;
 import java.util.HashMap;
 
 public class Folder {
     private String id;
     private boolean isImmutable;
-    private String folderPath = "mailserver/Database/Users/";
+    private String folderPath = "Database/Users/";
     private FilesHandler filesHandler;
     private String userEmail;
     private HashMap<String, Email> allEmails = new HashMap<String, Email>();
@@ -53,7 +52,7 @@ public class Folder {
                System.out.println("append");
                System.out.println(email);
                //
-        allEmails.put(email.getId(), email);
+        getAllEmailsMap().put(email.getId(), email);
         refreshFolder();
     }
 

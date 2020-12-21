@@ -12,7 +12,7 @@ public class Test {
         Email email = new Email(null, "test@g", receivers, "titleLOL", "bodyLOL", null, attachments);
         User user = new User("test@g");
 
-        //user.sendEmail(email);
-        user.deleteEmail("6d8b2dbf-4f3b-4df0-827b-52de70d72c4c", "sent");
+        user.sendEmail(email);
+        user.deleteEmail(email.getId(), "sent");
     }
 }
