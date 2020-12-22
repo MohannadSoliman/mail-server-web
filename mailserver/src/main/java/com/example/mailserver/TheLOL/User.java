@@ -60,4 +60,14 @@ public class User {
         Email[] allEmailsArray = getAllEmailsAsArrayFrom(folderName);
         return JsonEmailConverter.getInstance().arrayOfEmailsToJson(allEmailsArray);
     }
+    //search and filter
+    public String searchFile(String required, String fileName, String criteria){
+        return search.searchFile(required, fileName, criteria);
+    }
+    public String searchAllFiles(String required, String criteria){
+        return search.searchAllFiles(required, criteria);
+    }
+    public String filterFile(String priority, String fileName, String criteria){
+        return filter.filterFile(priority, fileName, criteria);
+    }
 }

@@ -13,15 +13,16 @@ public class Filter implements Criteria {
         this.foldersMap = foldersMap;
     }
 
-    public String filterFile(String priority, String fileName){
+    public String filterFile(String priority, String fileName, String criteria){
         Email[] allEmails =  foldersMap.getFolder(fileName).getAllEmailsArray();
         if(allEmails.length == 0) return "[]";
-        String requiredEmails = meetCriteria(priority, allEmails);
+        String requiredEmails = meetCriteria(priority, allEmails, criteria);
+        if(requiredEmails.equals("]")) return "[]";
         return requiredEmails;
     }
 
     @Override
-    public String meetCriteria(String required, Email[] emails) {
+    public String meetCriteria(String required, Email[] emails, String criteria) {
         String requiredEmails = "[";
         for(Email email : emails){
             if(required.equalsIgnoreCase(email.getPriority())){

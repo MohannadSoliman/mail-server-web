@@ -37,7 +37,7 @@ public class Folder {
 
     public Email[] getAllEmailsArray(){
         HashMap<String, Email> tempEmailsMap = getAllEmailsMap();
-        return (Email[]) tempEmailsMap.values().toArray();
+        return tempEmailsMap.values().toArray(new Email[tempEmailsMap.size()]);
     }
 
     private HashMap<String, Email> getAllEmailsMap(){
