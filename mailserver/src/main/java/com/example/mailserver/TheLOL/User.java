@@ -4,6 +4,8 @@ import com.example.mailserver.TheLOL.Folders.FoldersMap;
 import com.example.mailserver.TheLOL.operationsHandlers.EmailHandler;
 import com.example.mailserver.TheLOL.operationsHandlers.FilesHandler;
 import com.example.mailserver.TheLOL.operationsHandlers.FolderHandler;
+import com.example.mailserver.TheLOL.Filter.Filter;
+import com.example.mailserver.TheLOL.Filter.Search;
 
 import java.io.IOException;
 //change
@@ -12,13 +14,17 @@ public class User {
     private FilesHandler filesHandler;
     private FolderHandler folderHandler;
     private EmailHandler emailHandler;
+    private Search search;
+    private Filter filter;
 
     public User(String emailAddress){
         this.foldersMap = new FoldersMap();
         this.filesHandler = new FilesHandler();
         this.folderHandler = new FolderHandler(foldersMap, emailAddress, filesHandler);
         this.emailHandler = new EmailHandler(foldersMap, filesHandler);
-
+        this.search = new Search(foldersMap, folderHandler);
+        this.filter = new Filter(foldersMap);
+        
         folderHandler.createExistingFolders();
     }
 
@@ -53,5 +59,15 @@ public class User {
     public String getAllEmailsAsJsonFrom(String folderName){
         Email[] allEmailsArray = getAllEmailsAsArrayFrom(folderName);
         return JsonEmailConverter.getInstance().arrayOfEmailsToJson(allEmailsArray);
+    }
+    //search and filter
+    public String searchFile(String required, String fileName, String criteria){
+        return search.searchFile(required, fileName, criteria);
+    }
+    public String searchAllFiles(String required, String criteria){
+        return search.searchAllFiles(required, criteria);
+    }
+    public String filterFile(String priority, String fileName, String criteria){
+        return filter.filterFile(priority, fileName, criteria);
     }
 }

@@ -1,18 +1,37 @@
 package com.example.mailserver.TheLOL;
 
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Queue;
 
 public class Test {
-    public static void main(String args[]){
+    public static void main(String args[]) {
         Queue<String> receivers = new LinkedList<String>();
         Queue<String> attachments = new LinkedList<String>();
         receivers.add("testREC@g");
 
-//        Email email = new Email(null, "test@g", receivers, "titleLOL", "bodyLOL", null, attachments);
+         Email email = new Email(null, "test@g", receivers, "titleLOLtimeTest", "bodyLOL", null, attachments, "Urgent");
         User user = new User("test@g");
 
-//        user.sendEmail(email);
-        user.moveEmail("2dd9d200-08bc-49f6-a75a-98e1bc573459", "draft", "trash");
+        // user.moveEmail("713efe52-3540-434d-9d4c-57020591c53a", "sent", "testFolder");
+        // user.sendEmail(email);
+        // user.deleteEmail("7bc7bb58-99bb-4db2-b464-80be7a52afe1", "sent");
+        // try {
+        //     user.createNewCustomFolder("testFolder2");
+        // } catch (IOException e) {
+        //     e.printStackTrace();
+        // }
+        // try {
+        //     user.renameCustomFolder("testFolder2", "testFolder2NEW");
+        // } catch (IOException e) {
+        //     // TODO Auto-generated catch block
+        //     e.printStackTrace();
+        // }
+        // user.deleteCustomFolder("testFolder2NEW");
+        // String help = "[]";
+        // System.out.println(help.substring(1, help.length()-1));
+        //System.out.println(user.searchFile("sender", "draft", "subject"));
+        //user.sendEmail(email);
+        System.out.println(user.searchAllFiles("test", "sender"));
     }
 }

@@ -23,7 +23,7 @@ public class EmailHandler {
         int size = receivers.size();
         for(int i=0; i < size; i++){
             String receiver = receivers.poll();
-            String receiverInboxPath = "Database/Users/"+receiver+"/inbox.json";
+            String receiverInboxPath = "mailserver/Database/Users/"+receiver+"/inbox.json";
             this.sendToReceivers(receiverInboxPath, email);
         }
     }

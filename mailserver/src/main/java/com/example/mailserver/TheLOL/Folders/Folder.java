@@ -9,7 +9,7 @@ import java.util.HashMap;
 public class Folder {
     private String id;
     private boolean isImmutable;
-    private String folderPath = "Database/Users/";
+    private String folderPath = "mailserver/Database/Users/";
     private FilesHandler filesHandler;
     private String userEmail;
     private HashMap<String, Email> allEmails = null;
@@ -37,7 +37,7 @@ public class Folder {
 
     public Email[] getAllEmailsArray(){
         HashMap<String, Email> tempEmailsMap = getAllEmailsMap();
-        return (Email[]) tempEmailsMap.values().toArray();
+        return tempEmailsMap.values().toArray(new Email[tempEmailsMap.size()]);
     }
 
     private HashMap<String, Email> getAllEmailsMap(){

@@ -82,9 +82,9 @@ public class JsonEmailConverter {
     public String stringArrayToJson(String[] strArray){
         String jsonStr = "[";
         for(int i = 0; i < strArray.length -1; i++){
-            jsonStr += strArray[i] + ",";
+            jsonStr += "\""+ strArray[i] + "\",";
         }
-        jsonStr += strArray[strArray.length -1] + "]";
+        jsonStr += "\""+ strArray[strArray.length -1] + "\"]";
         return jsonStr;
     }
 }
