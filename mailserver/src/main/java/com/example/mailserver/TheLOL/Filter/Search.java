@@ -4,6 +4,7 @@ import com.example.mailserver.TheLOL.Folders.*;
 import com.example.mailserver.TheLOL.operationsHandlers.FolderHandler;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import com.example.mailserver.TheLOL.Email;
 import com.example.mailserver.TheLOL.JsonEmailConverter;
@@ -23,9 +24,9 @@ public class Search implements Criteria{
     public String searchFile(String sentence, String fileName, String criteria){
         String[] searchArray = sentence.split(" ");
         Email[] allEmails = foldersMap.getFolder(fileName).getAllEmailsArray();
-        //
-        System.out.println(allEmails.length);
-        //
+        // //
+        // System.out.println(allEmails.length);
+        // //
         if(allEmails.length == 0) return "[]";
         
         String requiredEmails = "[";
@@ -52,11 +53,13 @@ public class Search implements Criteria{
 
 
         for(String file : files){
-            resultingEmails = searchFile(sentence, file, criteria).substring(1, resultingEmails.length()-1);
-            //
-            System.out.println("resulting email: " + resultingEmails);
-            //
-            if(resultingEmails.equals("")) continue;
+            resultingEmails = searchFile(sentence, file, criteria);
+            if(resultingEmails.equals("[]") || resultingEmails.equals("")) continue;
+            resultingEmails = resultingEmails.substring(1, resultingEmails.length()-1);
+            // //
+            // System.out.println("resulting email: " + resultingEmails);
+            // //
+            // if(resultingEmails.equals("")) continue;
             requiredEmails += resultingEmails + ",";
         }
         requiredEmails = requiredEmails.substring(0, requiredEmails.length()-1) + "]";
@@ -78,30 +81,30 @@ public class Search implements Criteria{
             if(criteria.equalsIgnoreCase("all") || criteria.equalsIgnoreCase("sender")) emailSender = email.getSender();
             if(criteria.equalsIgnoreCase("all") || criteria.equalsIgnoreCase("receiver")) emailReceivers = email.getReceivers().toArray(new String[email.getReceivers().size()]);
             
-            //
-            System.out.println("meetCriteria");
-            System.out.println(emailTitle + ", " + emailBody);
-            //
+            // //
+            // System.out.println("meetCriteria");
+            // System.out.println(emailTitle + ", " + emailBody);
+            // //
             
             if((criteria.equalsIgnoreCase("subject") || criteria.equalsIgnoreCase("all")) && emailTitle.contains(required)){
                 requiredEmails += jsonEmailConverter.emailToJsonString(email) + ",";
-                //
-                System.out.println("sub");
-                //
+                // //
+                // System.out.println("sub");
+                // //
                 continue;
             }
             if((criteria.equalsIgnoreCase("body") || criteria.equalsIgnoreCase("all")) && emailBody.contains(required)){
                 requiredEmails += jsonEmailConverter.emailToJsonString(email) + ",";
-                //
-                System.out.println("bod");
-                //
+                // //
+                // System.out.println("bod");
+                // //
                 continue;
             }
             if((criteria.equalsIgnoreCase("sender") || criteria.equalsIgnoreCase("all")) && emailSender.contains(required)){
                 requiredEmails += jsonEmailConverter.emailToJsonString(email) + ",";
-                //
-                System.out.println("sen");
-                //
+                // //
+                // System.out.println("sen");
+                // //
                 continue;
             }
             if(criteria.equalsIgnoreCase("receiver") || criteria.equalsIgnoreCase("all")){

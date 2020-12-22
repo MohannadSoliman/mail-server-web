@@ -14,99 +14,12 @@
   "sender" : "test@g",
   "receivers" : [ ],
   "priority" : null,
-  "title" : "titleLOL",
-  "body" : "bodyLOL",
-  "id" : "111dcea0-4f3b-4198-8a92-2ab9ff616ea5",
-  "time" : "2020-12-21T20:09:22.573450",
-  "attachments" : [ ]
-}
-,
-{
-  "sender" : "test@g",
-  "receivers" : [ ],
-  "priority" : null,
-  "title" : "titleLOL",
-  "body" : "bodyLOL",
-  "id" : "7a9bed93-591b-40b9-87a6-2821c896e7f8",
-  "time" : "2020-12-21T20:05:54.526719",
-  "attachments" : [ ]
-}
-,
-{
-  "sender" : "test@g",
-  "receivers" : [ ],
-  "priority" : null,
-  "title" : "titleLOLpath",
-  "body" : "bodyLOL",
-  "id" : "7bc7bb58-99bb-4db2-b464-80be7a52afe1",
-  "time" : "2020-12-21T21:24:57.079663900",
-  "attachments" : [ ]
-}
-,
-{
-  "sender" : "test@g",
-  "receivers" : [ ],
-  "priority" : null,
   "title" : "titleLOLtimeTest",
   "body" : "bodyLOL",
   "id" : "713efe52-3540-434d-9d4c-57020591c53a",
   "time" : "2020/12/21 21:33:00",
   "attachments" : [ ]
 }
-,
-{
-  "sender" : "test@g",
-  "receivers" : [ ],
-  "priority" : null,
-  "title" : "titleLOL",
-  "body" : "bodyLOL",
-  "id" : "2dd9d200-08bc-49f6-a75a-98e1bc573459",
-  "time" : "2020-12-21T20:12:32.189201",
-  "attachments" : [ ]
-}
-,
-{
-  "sender" : "test@g",
-  "receivers" : [ ],
-  "priority" : null,
-  "title" : "titleLOL",
-  "body" : "bodyLOL",
-  "id" : "6d8b2dbf-4f3b-4df0-827b-52de70d72c4c",
-  "time" : "2020-12-21T18:57:29.929454100",
-  "attachments" : [ ]
-}
-,
-{
-  "sender" : "test@g",
-  "receivers" : [ ],
-  "priority" : null,
-  "title" : "titleLOL",
-  "body" : "bodyLOL",
-  "id" : "505f9bb6-19ff-44c2-8c3c-1d87cf1a34a2",
-  "time" : "2020-12-21T20:21:12.122938",
-  "attachments" : [ ]
-}
-,
-{
-  "sender" : "test@g",
-  "receivers" : [ ],
-  "priority" : null,
-  "title" : "titleLOL",
-  "body" : "bodyLOL",
-  "id" : "c37a6d08-962b-4859-ac86-00afb0aaa38c",
-  "time" : "2020-12-21T20:04:15.152761",
-  "attachments" : [ ]
-}
-,
-{
-  "sender" : "test@g",
-  "receivers" : [ ],
-  "priority" : null,
-  "title" : "titleLOL",
-  "body" : "bodyLOL",
-  "id" : "2ca80a2b-605f-4951-bb77-bc1df3e4a3fb",
-  "time" : "2020-12-21T20:02:10.348230",
-  "attachments" : [ ]
-}
+
 
 ]
