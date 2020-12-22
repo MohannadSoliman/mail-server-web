@@ -9,7 +9,7 @@ import java.util.HashMap;
 public class Folder {
     private String id;
     private boolean isImmutable;
-    private String folderPath = System.getProperty("user.dir") + "/Database/Users/";
+    private String folderPath = System.getProperty("user.dir") + "/mailserver/Database/Users/";
     private FilesHandler filesHandler;
     private String userEmail;
     private HashMap<String, Email> allEmails = null;
@@ -29,7 +29,7 @@ public class Folder {
 
     public void setFileName(String folderName){
         this.id = folderName;
-        this.folderPath = System.getProperty("user.dir") + "/Database/Users/";
+        this.folderPath = System.getProperty("user.dir") + "/mailserver/Database/Users/";
         this.folderPath += (userEmail + "/" + folderName +".json");
     }
 

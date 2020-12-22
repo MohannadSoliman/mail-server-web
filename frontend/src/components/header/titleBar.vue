@@ -18,16 +18,15 @@ export default {
   name: 'titleBar',
   data(){
     return{
-      priotitySortingCond: 1,
-      priotitySorting:{
-        1: "high to low",
-        2: "low to high",
-      },
-      dateSortingCond: 1,
-      dateSorting:{
-        1: "newest to oldest",
-        2: "oldest to newest",
-      }
+      priorityHighToLow: true,
+    }
+  },
+  methods:{
+    sottByPriority(){
+      
+    },
+    sortByDate(){
+
     }
   }
 }
