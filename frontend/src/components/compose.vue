@@ -34,6 +34,24 @@
 
       <div id="email-control">
         <div id="move-to-draft">Move to Draft</div>
+        <div id="priority-select" :class="`${(emailData.priority).toLowerCase()}`" @click="toggleMenu()">
+          <label for="priority-select" class="menu-label">{{emailData.priority}}</label> &#9679;
+        </div>
+        <div  id="prioirity-menu" 
+              :class="priorityMenuVisisble ? 'visible-menu': 'hidden-menu'">
+          <div class="menu-item urgent" id="urgent" @click=" setPriority('Urgent')">
+            <label for="urgent" class="menu-label">Urgent</label> &#9679;
+          </div>
+          <div class="menu-item high" id="high" @click="setPriority('High')">
+            <label for="high" class="menu-label">High</label> &#9679;
+          </div>
+          <div class="menu-item normal" id="normal" @click="setPriority('Normal')">
+            <label for="normal" class="menu-label">Normal</label> &#9679;
+          </div>
+          <div class="menu-item low" id="low" @click="setPriority('Low')">
+            <label for="low" class="menu-label">Low</label> &#9679;
+          </div>
+        </div>
         <input type="file" id="attachment-file" @change="attachFile()">
         <div id="attach-btn" @click="chooseAttachment()">
           <img src="../assets/compose/attach.png" width="23px">
@@ -52,11 +70,13 @@ export default {
     return{
       expanded: false,
       minimized: false,
+      priorityMenuVisisble: false,
       attachmentCardIdCount: 0,
       emailData: {
         recievers: new Map(),
         subject: "",
         body: "",
+        priority: "Normal",
         attachments: new Map(),
       },
       composedEmailData: {
@@ -280,6 +300,13 @@ export default {
       this.emailData.attachments.set(id, fileUplaodData);
       // axios.post('http://localhost:8080/uploadFile', fileUplaodData)
       // .catch( error => console.log(error));
+    },
+    toggleMenu(){
+      this.priorityMenuVisisble = !this.priorityMenuVisisble;
+    },
+    setPriority(priority){
+      this.emailData.priority = priority;
+      this.priorityMenuVisisble = false;
     }
   },
   mounted(){
@@ -470,17 +497,21 @@ export default {
   width: 90%;
   height: 2.5rem;
   margin-left: 5%;
-  display: flex;
-  justify-content: flex-start;
+  display: grid;
+  grid-template-rows: 2.5rem;
+  grid-template-columns: 30% 20% 20% 10% 20%;
+  justify-items: center;
   align-items: center;
+  justify-content: center;
+  align-content: center;
 }
 
 #send-btn{
   width: 5rem;
   height: 2rem;
+  grid-column: 5 / 6;
   color: white;
   background-color: #3474E0;
-  margin-left: auto;
   font-weight: bold;
   text-align: center;
   vertical-align: center;
@@ -505,6 +536,7 @@ export default {
 #move-to-draft{
   width: 7rem;
   height: 1.5rem;
+  grid-column: 1 / 2;
   color: #767676;
   text-align: center;
   vertical-align: center;
@@ -512,7 +544,6 @@ export default {
   cursor: pointer;
   border-radius: 0.3rem;
   user-select: none;
-  left: 5%;
 }
 
 #move-to-draft:hover{
@@ -523,12 +554,12 @@ export default {
 #attach-btn{
   width: 2.5rem;
   height: 2.5rem;
+  grid-column: 4 / 5;
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 50%;
   user-select: none;
-  margin-left: 55%;
 }
 #attach-btn:hover{
   background-color: rgba(224, 224, 224);
@@ -548,5 +579,66 @@ export default {
   margin-left: 2.5%;
   border-bottom: 1px solid rgb(224, 224, 224);
   overflow-x: auto;
+}
+
+#priority-select{
+  width: 100%;
+  height: 2rem;
+  grid-column: 2 / 3;
+  background-color: rgb(224, 224, 224);
+  font-weight: bold;
+  text-align: center;
+  vertical-align: center;
+  line-height: 2rem;
+  border-radius: 0.3rem;
+  user-select: none;
+  z-index: 2;
+}
+
+#prioirity-menu{
+  position: absolute;
+  width: 18%;
+  color: #767676;
+  background-color: rgb(224, 224, 224, 0.6);
+  left: 32%;
+  bottom: 2.5rem;
+  border-top-left-radius: 0.3rem;
+  border-top-right-radius: 0.3rem;
+  padding-bottom: 0.4rem;
+}
+.menu-item{
+  height: 2rem;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 2rem;
+}
+.menu-item:hover{
+  background-color: rgb(224, 224, 224, 0.8);
+}
+
+.urgent{
+  color:#fc033d;
+}
+.high{
+  color:#fc6703;
+}
+.normal{
+  color:#ffd900;
+}
+.low{
+  color:#1da355;
+}
+.menu-label{
+  color: #767676;
+  font-weight: bold;
+}
+
+.hidden-menu{
+  visibility: hidden;
+  display: none;
+}
+.visible-menu{
+  visibility: visible;
+  display: block;
 }
 </style>

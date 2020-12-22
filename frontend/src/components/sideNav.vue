@@ -37,7 +37,7 @@
 				<div class="hidden-label" id="folders-label">Folders</div>
 			</div>
 			<div id="folders-area" class="folders-area-hidden" ref="customFoldersContainer">
-				<div id="add-folder-btn" class="in-folders-area">
+				<div id="add-folder-btn" class="in-folders-area" @click="addNewCustomFolder()">
 					<img src="../assets/sideMenu/compose-gray.png" width="15px">
 					<div id="add-folder-label" >add folder</div>
 				</div>
@@ -65,7 +65,6 @@ export default {
 			closedMenu: true,
       mainFolders: ['inbox', 'sent', 'draft', 'contacts', 'trash', 'folders'],
       customFolders: ['work', 'family'],
-      folderIdCount: 5,
 			buttons: {
 				inbox: {
 					id: 0,
@@ -223,14 +222,17 @@ export default {
 			composeContainer.style.visibility = "visible";
 			composeContainer.style.display = "flex";
     },
-    addExistingCustomFolder(folderName){
+    addCustomFolder(folderName){
       let CustomFolder = Vue.extend(customFolder);
       const newCustomFolder = new CustomFolder({
-        propsData: { existingFolderName: folderName }
+        propsData: { existingFolderName: folderName, customFolderNumber: 1 }
       })
       newCustomFolder.$mount();
       const addFolderBtn = document.getElementById("add-folder-btn");
       this.$refs.customFoldersContainer.insertBefore(newCustomFolder.$el, addFolderBtn);
+    },
+    addNewCustomFolder(){
+      this.addCustomFolder(null)
     }
 	},
 	mounted(){
@@ -243,7 +245,7 @@ export default {
 			folderBtn.label = document.getElementById(`${folder}-label`);
     }
     for(let folder of this.customFolders){
-      this.addExistingCustomFolder(folder);
+      this.addCustomFolder(folder);
     }
 	}
 }
@@ -407,10 +409,9 @@ export default {
 	justify-content: flex-start;
 	align-items: center;
 	height: 2rem;
-	width: 100%;
 	padding-left: 3rem;
 }
-.in-folder-area:hover{
+#add-folder-btn:hover{
 	background-color: rgb(224, 224, 224);
 }
 #add-folder-label{

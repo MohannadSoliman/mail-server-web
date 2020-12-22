@@ -1,11 +1,12 @@
 <template>
-  <div  :id="`${emailInfo.id}`" 
-        :class="['email-card', `${emailInfo.priority}`]" 
+  <div  :id="`${emailInfo.id}`" class="email-card" 
         @mouseover="showQuickMenu()" @mouseleave="hideQuickMenu()">
 		<div :id="`select-email-${emailInfo.id}`" class="unChecked" @click="toggleCheckBox()"></div>
     <div id="sender-recivers" class="content">{{inbox ? email.receivers: email.sender}}</div>
     <div id="subject" class="content">{{email.subject}}</div>
-    <div id="priority" class="content">{{email.priority}}</div>
+    <div id="priority" :class="['content', `${email.priority}`]">
+      <label for="priority-select" class="priority-label">{{email.priority}}</label> &#9679;
+    </div>
     <div id="date" class="content">{{email.date}}</div>
     <div id="attachemtns">
       <img src="../../assets/compose/attach.png" width="20px" :class="showHideAttachemntIndicator()">
@@ -75,7 +76,7 @@ export default {
     if(this.inbox) this.email.receivers = this.emailInfo.receivers;
     else this.email.sender = this.emailInfo.sender;
     this.email.subject = this.emailInfo.subject;
-    this.email.priority = this.emailInfo.priority;
+    this.email.priority = this.emailInfo.priority.toLowerCase();
     this.email.date = this.emailInfo.date;
     this.email.attachments = this.emailInfo.attachments;
   },
@@ -102,16 +103,16 @@ export default {
   transition: tranafrom 0.2s ease, box-shadow 0.2s ease;
 }
 .urgent{
-  border-left: 4px solid #fc033d;
+  color: #fc033d;
 }
 .high{
-  border-left: 4px solid #fca103;
+  color: #fc6703;
 }
 .normal{
-  border-left: 4px solid #f7ef4a;
+  color: #ffd900;
 }
 .low{
-  border-left: 4px solid #1da355;
+  color: #1da355;
 }
 .content{
   height: 2rem;
@@ -208,5 +209,9 @@ export default {
 .hidden{
   visibility: hidden;
   display: flex;
+}
+
+.priority-label{
+  font-weight: bold;
 }
 </style>
