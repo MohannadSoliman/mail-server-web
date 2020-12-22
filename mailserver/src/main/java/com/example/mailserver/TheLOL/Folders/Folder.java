@@ -4,9 +4,8 @@ import com.example.mailserver.TheLOL.Email;
 import com.example.mailserver.TheLOL.JsonEmailConverter;
 import com.example.mailserver.TheLOL.operationsHandlers.FilesHandler;
 
-import java.util.Arrays;
 import java.util.HashMap;
-
+//change
 public class Folder {
     private String id;
     private boolean isImmutable;
@@ -38,7 +37,7 @@ public class Folder {
 
     public Email[] getAllEmailsArray(){
         HashMap<String, Email> tempEmailsMap = getAllEmailsMap();
-        return (Email[]) tempEmailsMap.values().toArray();
+        return tempEmailsMap.values().toArray(new Email[tempEmailsMap.size()]);
     }
 
     private HashMap<String, Email> getAllEmailsMap(){
@@ -49,12 +48,16 @@ public class Folder {
     }
 
     public void appendEmail(Email email){
-        allEmails.put(email.getId(), email);
+               //
+               System.out.println("append");
+               System.out.println(email);
+               //
+        getAllEmailsMap().put(email.getId(), email);
         refreshFolder();
     }
 
     public Email deleteEmail(String id){
-        Email deletedEmail = allEmails.remove(id);
+        Email deletedEmail = getAllEmailsMap().remove(id);
         refreshFolder();
         return deletedEmail;
     }

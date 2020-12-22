@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 
 import java.util.HashMap;
-
+//change
 public class JsonEmailConverter {
     private static JsonEmailConverter instance;
 
@@ -66,8 +66,10 @@ public class JsonEmailConverter {
     public HashMap<String, Email> jsonToEmailMap(String jsonStrArray){
         HashMap<String, Email> emailsMap = new HashMap<>();
         Email[] allEmails = jsonToEmailArray(jsonStrArray);
-        for(Email email: allEmails){
-            emailsMap.put(email.getId(), email);
+        if(allEmails != null){
+            for(Email email: allEmails){
+                emailsMap.put(email.getId(), email);
+            }
         }
         return emailsMap;
     }
@@ -80,9 +82,9 @@ public class JsonEmailConverter {
     public String stringArrayToJson(String[] strArray){
         String jsonStr = "[";
         for(int i = 0; i < strArray.length -1; i++){
-            jsonStr += strArray[i] + ",";
+            jsonStr += "\""+ strArray[i] + "\",";
         }
-        jsonStr += strArray[strArray.length -1] + "]";
+        jsonStr += "\""+ strArray[strArray.length -1] + "\"]";
         return jsonStr;
     }
 }

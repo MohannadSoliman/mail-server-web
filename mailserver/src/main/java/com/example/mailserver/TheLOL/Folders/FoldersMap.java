@@ -1,10 +1,9 @@
 package com.example.mailserver.TheLOL.Folders;
 
-import com.example.mailserver.TheLOL.Folders.Folder;
-
 import java.util.HashMap;
-
+//change
 public class FoldersMap {
+
     private HashMap<String, Folder> folderMap;
 
     public FoldersMap(){

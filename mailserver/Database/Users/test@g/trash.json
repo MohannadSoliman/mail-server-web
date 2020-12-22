@@ -1,0 +1,32 @@
+[
+{
+  "sender" : "test@g",
+  "receivers" : [ ],
+  "title" : "titleLOL",
+  "body" : "bodyLOL",
+  "id" : "7a9bed93-591b-40b9-87a6-2821c896e7f8",
+  "time" : "2020-12-21T20:05:54.526719",
+  "attachments" : [ ]
+}
+,
+{
+  "sender" : "test@g",
+  "receivers" : [ "testREC@g" ],
+  "title" : "titleLOLpath",
+  "body" : "bodyLOL",
+  "id" : "7bc7bb58-99bb-4db2-b464-80be7a52afe1",
+  "time" : "2020-12-21T21:24:57.079663900",
+  "attachments" : [ ]
+}
+,
+{
+  "sender" : "test@g",
+  "receivers" : [ "testREC@g" ],
+  "title" : "titleLOL",
+  "body" : "bodyLOL",
+  "id" : "505f9bb6-19ff-44c2-8c3c-1d87cf1a34a2",
+  "time" : "2020-12-21T20:21:12.122938",
+  "attachments" : [ ]
+}
+
+]

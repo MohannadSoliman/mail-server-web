@@ -10,14 +10,14 @@ import javax.imageio.IIOException;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
-
+//change
 public class FolderHandler {
     private FilesHandler fileHandler;
     private FoldersMap foldersMap;
     private String userEmail;
 
-    public FolderHandler(FoldersMap foldersMap, String userEmail){
-        fileHandler = new FilesHandler();
+    public FolderHandler(FoldersMap foldersMap, String userEmail, FilesHandler filesHandler){
+        this.fileHandler = filesHandler;
         this.foldersMap = foldersMap;
         this.userEmail = userEmail;
     }
@@ -41,8 +41,11 @@ public class FolderHandler {
             createSystemFolder(folderName);
         }
         //creating existing custom folders
-        for(String folderName: getExistingCustomFolderNames()){
-            createExistingCustomFolder(folderName);
+        String[] existingFolderNames = getExistingCustomFolderNames();
+        if(existingFolderNames != null){
+            for(String folderName: existingFolderNames){
+                createExistingCustomFolder(folderName);
+            }
         }
     }
 
@@ -107,7 +110,7 @@ public class FolderHandler {
         return "mailserver/Database/Users/" + userEmail + "/" + folderName + ".json";
     }
 
-    private String[] getExistingCustomFolderNames(){
+    public String[] getExistingCustomFolderNames(){
         String existingCustomFoldersPath = "mailserver/Database/Users/" + userEmail + "/folders.json";
         String existingCustomFoldersNamesStr = fileHandler.readFile(existingCustomFoldersPath);
         return JsonEmailConverter.getInstance().jsonArrayToStringArray(existingCustomFoldersNamesStr);

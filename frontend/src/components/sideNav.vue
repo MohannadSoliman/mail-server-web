@@ -36,7 +36,7 @@
 				<img src="../assets/sideMenu/folders.png" class="icon-img-nonActive" id="folders-img-active" width="20px">
 				<div class="hidden-label" id="folders-label">Folders</div>
 			</div>
-			<div id="folders-area" class="folders-area-hidden">
+			<div id="folders-area" class="folders-area-hidden" ref="customFoldersContainer">
 				<div id="add-folder-btn" class="in-folders-area">
 					<img src="../assets/sideMenu/compose-gray.png" width="15px">
 					<div id="add-folder-label" >add folder</div>
@@ -55,12 +55,17 @@
 </template>
 
 <script>
+import customFolder from '../components/sideMenu/folder.vue';
+import Vue from 'vue';
+
 export default {
 	name: 'sideMenu',
 	data(){
 		return{
 			closedMenu: true,
-			mainFolders: ['inbox', 'sent', 'draft', 'contacts', 'trash', 'folders'],
+      mainFolders: ['inbox', 'sent', 'draft', 'contacts', 'trash', 'folders'],
+      customFolders: ['work', 'family'],
+      folderIdCount: 5,
 			buttons: {
 				inbox: {
 					id: 0,
@@ -124,7 +129,9 @@ export default {
 			const composeBtn = document.getElementById("compose-btn");
 			composeBtn.className = "menu-btn-expanded";
 			composeBtn.style.marginLeft = '0rem ';
-			document.getElementById("compose-label").className = "active-label";
+      document.getElementById("compose-label").className = "active-label";
+      
+      this.showFoldersArea();
 		},
 		closeMenu() {
 			document.getElementById("menu").style.width = "4rem";
@@ -159,7 +166,7 @@ export default {
 				if(folderBtn.id === btn.id) continue;
 				this.disableButton(folderBtn);
 			}
-			if(btn.id !== 5) document.getElementById("folders-area").className = "folders-area-hidden";
+			if(btn.id !== 5) this.hideFoldersArea();
 			if(!this.closedMenu) btn.button.className = 'menu-btn-expanded-focus'
 		},
 		disableButton(btn){
@@ -177,20 +184,28 @@ export default {
 		//folders button
 		folderBtnClickEvent(){
 			const folderBtn = this.buttons.folders;
-
 			this.enableButton(folderBtn);
-			this.openMenu();
-			this.closedMenu = false;
-
-			const foldersArea = document.getElementById("folders-area");
-			if(folderBtn.hiddenFolders){
-				foldersArea.className = "folders-area-visible";
-			}
-			else{
-				foldersArea.className = "folders-area-hidden";
-			}
-			folderBtn.hiddenFolders = !folderBtn.hiddenFolders;
-		},
+			if(this.closedMenu) {
+        this.openMenu();
+        this.closedMenu = false;
+      }
+      else{
+        if(folderBtn.hiddenFolders) this.showFoldersArea();
+        else this.hideFoldersArea();
+      }
+    },
+    showFoldersArea(){
+      const folderBtn = this.buttons.folders;
+      const foldersArea = document.getElementById("folders-area");
+      foldersArea.className = "folders-area-visible";
+      folderBtn.hiddenFolders = false;
+    },
+    hideFoldersArea(){
+      const folderBtn = this.buttons.folders;
+      const foldersArea = document.getElementById("folders-area");
+      foldersArea.className = "folders-area-hidden";
+      folderBtn.hiddenFolders = true;
+    },
 		//compose
 		composeBtnMouseOver(){
 			document.getElementById("compose-img-nonActive").className = "icon-img-nonActive";
@@ -207,7 +222,16 @@ export default {
 			composePage.className = "compose-page-normal";
 			composeContainer.style.visibility = "visible";
 			composeContainer.style.display = "flex";
-		},
+    },
+    addExistingCustomFolder(folderName){
+      let CustomFolder = Vue.extend(customFolder);
+      const newCustomFolder = new CustomFolder({
+        propsData: { existingFolderName: folderName }
+      })
+      newCustomFolder.$mount();
+      const addFolderBtn = document.getElementById("add-folder-btn");
+      this.$refs.customFoldersContainer.insertBefore(newCustomFolder.$el, addFolderBtn);
+    }
 	},
 	mounted(){
 		for(let folder of this.mainFolders){
@@ -217,7 +241,10 @@ export default {
 			folderBtn.image.active = document.getElementById(`${folder}-img-active`);
 			folderBtn.image.nonActive = document.getElementById(`${folder}-img-nonActive`);
 			folderBtn.label = document.getElementById(`${folder}-label`);
-		}
+    }
+    for(let folder of this.customFolders){
+      this.addExistingCustomFolder(folder);
+    }
 	}
 }
 </script>
