@@ -24,6 +24,7 @@ public class Test {
         // try {
         //     user.renameCustomFolder("testFolder2", "testFolder2NEW");
         // } catch (IOException e) {
+        //     // TODO Auto-generated catch block
         //     e.printStackTrace();
         // }
         // user.deleteCustomFolder("testFolder2NEW");
