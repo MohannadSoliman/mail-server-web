@@ -61,7 +61,7 @@ public class FolderHandler {
 
         String[] existingCustomFolderNames = getExistingCustomFolderNames();
         String[] newCustomFoldersNames;
-        String foldersFilePath = "mailserver/Database/Users/" + userEmail + "/folders.json";;
+        String foldersFilePath = System.getProperty("user.dir") + "/Database/Users/" + userEmail + "/folders.json";;
         if(existingCustomFolderNames == null){
             newCustomFoldersNames = new String[1];
         }else{
@@ -101,17 +101,17 @@ public class FolderHandler {
                 break;
             }
         }
-        String foldersFilePath = "mailserver/Database/Users/" + userEmail + "/folders.json";;
+        String foldersFilePath = System.getProperty("user.dir") + "/Database/Users/" + userEmail + "/folders.json";;
         fileHandler.writeFileFromArray(foldersFilePath, existingCustomFolderNames);
         return true;
     }
 
     private String getFolderPath(String folderName){
-        return "mailserver/Database/Users/" + userEmail + "/" + folderName + ".json";
+        return System.getProperty("user.dir") + "/Database/Users/" + userEmail + "/" + folderName + ".json";
     }
 
     public String[] getExistingCustomFolderNames(){
-        String existingCustomFoldersPath = "mailserver/Database/Users/" + userEmail + "/folders.json";
+        String existingCustomFoldersPath = System.getProperty("user.dir") + "/Database/Users/" + userEmail + "/folders.json";
         String existingCustomFoldersNamesStr = fileHandler.readFile(existingCustomFoldersPath);
         return JsonEmailConverter.getInstance().jsonArrayToStringArray(existingCustomFoldersNamesStr);
     }
