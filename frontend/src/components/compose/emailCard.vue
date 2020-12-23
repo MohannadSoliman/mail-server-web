@@ -8,7 +8,7 @@
       <label for="priority-select" class="priority-label">{{email.priority}}</label> &#9679;
     </div>
     <div id="date" class="content">{{email.date}}</div>
-    <div id="attachemtns">
+    <div id="attachments" class="content">
       <img src="../../assets/compose/attach.png" width="20px" :class="showHideAttachemntIndicator()">
     </div>
     <div :class="['quick-menu', activeQuickMenu ? 'visible': 'hidden', chechBoxChecked ? 'mouse-on': 'mouse-leave']">
@@ -60,8 +60,8 @@ export default {
       this.chechBoxChecked = !this.chechBoxChecked;
     },
     showHideAttachemntIndicator(){
-      if(this.email.attachments.length > 0) return "visible";
-      return "hidden";
+      if(this.email.attachments.length > 0) return "has-attachments";
+      return "no-attachments";
     },
     showQuickMenu(){
       this.activeQuickMenu = true;
@@ -88,7 +88,7 @@ export default {
   width: 100%;
   height: 2.5rem;
   display: grid;
-  grid-template-columns: 5% 20% 35% 15% 20% 5%;
+  grid-template-columns: 5% 20% 35% 15% 15% 10%;
   grid-template-rows: 2rem;
   justify-items: start;
   align-items: center;
@@ -141,12 +141,15 @@ export default {
 }
 #attachments{
   grid-column: 6 / 7;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-.has-attachments{
+.no-attachments{
   visibility: hidden;
   display: none;
 }
-.no-attachments{
+.has-attachments{
   visibility: visible;
   display: block;
 }

@@ -2,16 +2,20 @@
   <div id="header">
     <div id="current-folder-name">Inbox</div>
     <searchBar/>
+    <sort/>
     <div id="sign-up-btn" @click="goToSignUp()">Log out</div>
   </div>
 </template>
 
 <script>
 import searchBar from './header/searchBar.vue';
+import sort from './header/sort.vue';
+
 export default {
   name: 'headerBar',
   components:{
     searchBar,
+    sort,
   },
   methods:{
     goToSignUp(){
