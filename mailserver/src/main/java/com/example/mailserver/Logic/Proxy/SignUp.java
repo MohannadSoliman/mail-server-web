@@ -1,14 +1,20 @@
 package com.example.mailserver.Logic.Proxy;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Scanner;
 
+import com.example.mailserver.Logic.JsonEmailConverter;
 import com.example.mailserver.Logic.User;
 
 public class SignUp {
+
+    JsonEmailConverter jsonEmailConverter = JsonEmailConverter.getInstance();
+
     public Integer Signup(String emailAddress){
         if(exists(emailAddress)) return null;
         createUser(emailAddress);
@@ -20,7 +26,22 @@ public class SignUp {
     }
 
     private boolean exists(String emailAddress){
+        String jsonStr = "";
+        try {
+            File myObj = new File("mailserver/Database/users.json");
+            Scanner myReader = new Scanner(myObj);
+            while (myReader.hasNextLine()) {
+              jsonStr += myReader.nextLine();
+            }
+            myReader.close();
+          } catch (FileNotFoundException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+          }
 
+        UserInfo[] usersInfo = jsonEmailConverter.jsonToUserInfo(jsonStr);
+        
+        
         return false;
     }
     //creation
@@ -63,6 +84,13 @@ public class SignUp {
             trash.createNewFile();
             } catch (IOException e) {
             
+            e.printStackTrace();
+            }
+
+            File folders = new File("mailserver/Database/Users/"+emailAddress+"/folders.json");
+            try {
+            folders.createNewFile();
+            } catch (IOException e) {
             e.printStackTrace();
             }
     }

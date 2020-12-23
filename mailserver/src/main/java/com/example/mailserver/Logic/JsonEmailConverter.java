@@ -1,5 +1,6 @@
 package com.example.mailserver.Logic;
 
+import com.example.mailserver.Logic.Proxy.UserInfo;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
@@ -14,6 +15,23 @@ public class JsonEmailConverter {
     public static JsonEmailConverter getInstance(){
         if(instance == null) instance = new JsonEmailConverter();
         return instance;
+    }
+
+    public String userInfoToJson(UserInfo userInfo){
+        ObjectMapper mapper = new ObjectMapper();
+
+        String jsonStr = "";
+        try {
+            jsonStr += mapper.writerWithDefaultPrettyPrinter().writeValueAsString(userInfo);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        jsonStr += "\n";
+        return jsonStr;
+    }
+    public UserInfo[] jsonToUserInfo(String jsonStr){
+        Gson gson = new Gson();
+        return gson.fromJson(jsonStr, UserInfo[].class);
     }
 
     public String emailToJsonString(Email email){
