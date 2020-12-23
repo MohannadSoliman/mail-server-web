@@ -1,13 +1,12 @@
-package com.example.mailserver.TheLOL.Filter;
-
-import com.example.mailserver.TheLOL.Folders.*;
-import com.example.mailserver.TheLOL.operationsHandlers.FolderHandler;
+package com.example.mailserver.Logic.Filter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import com.example.mailserver.TheLOL.Email;
-import com.example.mailserver.TheLOL.JsonEmailConverter;
+import com.example.mailserver.Logic.Email;
+import com.example.mailserver.Logic.JsonEmailConverter;
+import com.example.mailserver.Logic.Folders.*;
+import com.example.mailserver.Logic.operationsHandlers.FolderHandler;
 
 
 public class Search implements Criteria{

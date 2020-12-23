@@ -1,4 +1,4 @@
-package com.example.mailserver.TheLOL;
+package com.example.mailserver.Logic;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

@@ -1,4 +1,4 @@
-package com.example.mailserver.TheLOL.Folders;
+package com.example.mailserver.Logic.Folders;
 //change
 public class FolderFactory {
     private static FolderFactory instance;

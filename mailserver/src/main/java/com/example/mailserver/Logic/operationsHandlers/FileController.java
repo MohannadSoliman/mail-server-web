@@ -1,4 +1,4 @@
-package com.example.mailserver.TheLOL.operationsHandlers;
+package com.example.mailserver.Logic.operationsHandlers;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

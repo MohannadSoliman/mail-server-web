@@ -1,4 +1,4 @@
-package com.example.mailserver.TheLOL.operationsHandlers;
+package com.example.mailserver.Logic.operationsHandlers;
 
 public class FileStorageException extends RuntimeException {
     public FileStorageException(String message) {

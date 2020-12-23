@@ -1,8 +1,8 @@
-package com.example.mailserver.TheLOL.Filter;
+package com.example.mailserver.Logic.Filter;
 
-import com.example.mailserver.TheLOL.Email;
-import com.example.mailserver.TheLOL.JsonEmailConverter;
-import com.example.mailserver.TheLOL.Folders.*;
+import com.example.mailserver.Logic.Email;
+import com.example.mailserver.Logic.JsonEmailConverter;
+import com.example.mailserver.Logic.Folders.*;
 
 public class Filter implements Criteria {
 

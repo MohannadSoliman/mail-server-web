@@ -1,13 +1,14 @@
-package com.example.mailserver.TheLOL;
+package com.example.mailserver.Logic;
 
-import com.example.mailserver.TheLOL.Folders.FoldersMap;
-import com.example.mailserver.TheLOL.operationsHandlers.EmailHandler;
-import com.example.mailserver.TheLOL.operationsHandlers.FilesHandler;
-import com.example.mailserver.TheLOL.operationsHandlers.FolderHandler;
-import com.example.mailserver.TheLOL.Filter.Filter;
-import com.example.mailserver.TheLOL.Filter.Search;
 
 import java.io.IOException;
+
+import com.example.mailserver.Logic.Filter.Filter;
+import com.example.mailserver.Logic.Filter.Search;
+import com.example.mailserver.Logic.Folders.FoldersMap;
+import com.example.mailserver.Logic.operationsHandlers.EmailHandler;
+import com.example.mailserver.Logic.operationsHandlers.FilesHandler;
+import com.example.mailserver.Logic.operationsHandlers.FolderHandler;
 //change
 public class User {
     private FoldersMap foldersMap;
@@ -27,7 +28,6 @@ public class User {
         
         folderHandler.createExistingFolders();
     }
-
     //email
     public void sendEmail(Email email){
         emailHandler.sendEmail(email);

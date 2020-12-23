@@ -1,4 +1,4 @@
-package com.example.mailserver.TheLOL.operationsHandlers;
+package com.example.mailserver.Logic.operationsHandlers;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

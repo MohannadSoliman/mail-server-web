@@ -1,10 +1,10 @@
-package com.example.mailserver.TheLOL.operationsHandlers;
+package com.example.mailserver.Logic.operationsHandlers;
 
-import com.example.mailserver.Email;
-import com.example.mailserver.TheLOL.Folders.Folder;
-import com.example.mailserver.TheLOL.Folders.FolderFactory;
-import com.example.mailserver.TheLOL.Folders.FoldersMap;
-import com.example.mailserver.TheLOL.JsonEmailConverter;
+// import com.example.mailserver.Email;
+import com.example.mailserver.Logic.JsonEmailConverter;
+import com.example.mailserver.Logic.Folders.Folder;
+import com.example.mailserver.Logic.Folders.FolderFactory;
+import com.example.mailserver.Logic.Folders.FoldersMap;
 
 import javax.imageio.IIOException;
 import java.io.File;
