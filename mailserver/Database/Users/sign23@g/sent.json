@@ -1,0 +1,24 @@
+[
+{
+  "sender" : "test@g",
+  "receivers" : [ "testREC@g" ],
+  "priority" : "Urgent",
+  "title" : "titleLOLtimeTest",
+  "body" : "bodyLOL",
+  "id" : "6bb08177-0e78-4d21-ac77-ea4fe350a73a",
+  "time" : "2020-12-24 00:05:08",
+  "attachments" : [ ]
+}
+,
+{
+  "sender" : "test@g",
+  "receivers" : [ "testREC@g" ],
+  "priority" : "Urgent",
+  "title" : "titleLOLtimeTest",
+  "body" : "bodyLOL",
+  "id" : "2cac324e-d914-497f-bd21-1b49e56e04be",
+  "time" : "2020-12-24 00:02:18",
+  "attachments" : [ ]
+}
+
+]

@@ -2,50 +2,63 @@ package com.example.mailserver.Logic.Proxy;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.Scanner;
 
 import com.example.mailserver.Logic.JsonEmailConverter;
+import com.example.mailserver.Logic.Session;
 import com.example.mailserver.Logic.User;
 
 public class SignUp {
+  private static SignUp instance;
+
+  private SignUp(){}
+
+  public static SignUp getInstance(){
+      if(instance == null) instance = new SignUp();
+      return instance;
+  }
 
     JsonEmailConverter jsonEmailConverter = JsonEmailConverter.getInstance();
 
-    public Integer Signup(String emailAddress){
-        if(exists(emailAddress)) return null;
-        createUser(emailAddress);
-        User user = new User(emailAddress);
-        // Session.getInstance().addUser(emailAddress);
-        // return Session.getInstance().getId();
-
-        return null;
+    public Integer signUpUser(String emailAddress, String password){
+      emailAddress = emailAddress.toLowerCase();
+      UserInfo[] usersInfo = readUsersFile();
+      if(exists(emailAddress, usersInfo)) return null;
+      createUser(emailAddress, password, usersInfo);
+      return Session.getInstance().addUserSession(new User(emailAddress));
     }
 
-    private boolean exists(String emailAddress){
-        String jsonStr = "";
-        try {
-            File myObj = new File("mailserver/Database/users.json");
-            Scanner myReader = new Scanner(myObj);
-            while (myReader.hasNextLine()) {
-              jsonStr += myReader.nextLine();
-            }
-            myReader.close();
-          } catch (FileNotFoundException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
+    //get all users in database
+    public UserInfo[] readUsersFile(){
+      String jsonStr = "";
+      try {
+          File myObj = new File("mailserver/Database/users.json");
+          Scanner myReader = new Scanner(myObj);
+          while (myReader.hasNextLine()) {
+            jsonStr += myReader.nextLine();
           }
+          myReader.close();
+        } catch (FileNotFoundException e) {
+          System.out.println("An error occurred.");
+          e.printStackTrace();
+        }
+        return jsonEmailConverter.jsonToUserInfo(jsonStr);
+    }
 
-        UserInfo[] usersInfo = jsonEmailConverter.jsonToUserInfo(jsonStr);
-        
-        
+    //check if already exists
+    private boolean exists(String emailAddress, UserInfo[] usersInfo){
+        for(UserInfo userInfo : usersInfo) if(userInfo.getEmailAddress().equalsIgnoreCase(emailAddress)) return true;
         return false;
     }
+
     //creation
-    private void createUser(String emailAddress){
+    private void createUser(String emailAddress, String password,UserInfo[] usersInfo){
         try {
 
             Path path = Paths.get("mailserver/Database/Users/"+emailAddress);
@@ -78,6 +91,13 @@ public class SignUp {
             } catch (IOException e) {
             e.printStackTrace();
             }
+
+            File contacts = new File("mailserver/Database/Users/"+emailAddress+"/contacts.json");
+            try {
+            contacts.createNewFile();
+            } catch (IOException e) {
+            e.printStackTrace();
+            }
     
             File trash = new File("mailserver/Database/Users/"+emailAddress+"/trash.json");
             try {
@@ -93,5 +113,20 @@ public class SignUp {
             } catch (IOException e) {
             e.printStackTrace();
             }
+            UserInfo userInfo = new UserInfo(emailAddress, password);
+            usersInfo = Arrays.copyOf(usersInfo, usersInfo.length + 1);
+            usersInfo[usersInfo.length-1] = userInfo;
+            String jsonStr = jsonEmailConverter.arrayOfUserInfoToJson(usersInfo);
+            writeUsersFile(jsonStr);
+    }
+    private void writeUsersFile(String jsonStr){
+      try {
+        FileWriter myWriter = new FileWriter("mailserver/Database/users.json");
+        myWriter.write(jsonStr);
+        myWriter.close();
+      } catch (IOException e) {
+        System.out.println("An error occurred.");
+        e.printStackTrace();
+      }
     }
 }

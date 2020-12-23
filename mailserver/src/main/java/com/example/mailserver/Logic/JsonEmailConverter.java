@@ -29,6 +29,16 @@ public class JsonEmailConverter {
         jsonStr += "\n";
         return jsonStr;
     }
+    public String arrayOfUserInfoToJson(UserInfo[] usersInfo){
+        String jsonStr = "[\n";
+        int len = usersInfo.length;
+        for(int i = 0; i < len - 1; i++){
+            jsonStr += userInfoToJson(usersInfo[i]) + ",\n";
+        }
+        jsonStr += userInfoToJson(usersInfo[len -1]);
+        jsonStr += "\n]";
+        return jsonStr;
+    }
     public UserInfo[] jsonToUserInfo(String jsonStr){
         Gson gson = new Gson();
         return gson.fromJson(jsonStr, UserInfo[].class);
