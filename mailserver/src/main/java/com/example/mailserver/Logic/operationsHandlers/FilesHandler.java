@@ -1,13 +1,13 @@
-package com.example.mailserver.TheLOL.operationsHandlers;
-
-import com.example.mailserver.TheLOL.Email;
-import com.example.mailserver.TheLOL.JsonEmailConverter;
+package com.example.mailserver.Logic.operationsHandlers;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Scanner;
+
+import com.example.mailserver.Logic.Email;
+import com.example.mailserver.Logic.JsonEmailConverter;
 //change
 public class FilesHandler {
 

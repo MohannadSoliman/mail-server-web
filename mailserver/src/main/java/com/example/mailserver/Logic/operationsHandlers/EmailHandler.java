@@ -1,11 +1,11 @@
-package com.example.mailserver.TheLOL.operationsHandlers;
-
-import com.example.mailserver.TheLOL.Email;
-import com.example.mailserver.TheLOL.Folders.FoldersMap;
-import com.example.mailserver.TheLOL.JsonEmailConverter;
+package com.example.mailserver.Logic.operationsHandlers;
 
 import java.util.HashMap;
 import java.util.Queue;
+
+import com.example.mailserver.Logic.Email;
+import com.example.mailserver.Logic.JsonEmailConverter;
+import com.example.mailserver.Logic.Folders.FoldersMap;
 //change
 public class EmailHandler {
     private FoldersMap foldersMap;

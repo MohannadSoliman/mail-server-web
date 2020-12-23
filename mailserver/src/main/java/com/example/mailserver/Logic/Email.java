@@ -1,4 +1,4 @@
-package com.example.mailserver.TheLOL;
+package com.example.mailserver.Logic;
 
 import java.util.Queue;
 import java.util.UUID;

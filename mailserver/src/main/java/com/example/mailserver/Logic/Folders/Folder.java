@@ -1,10 +1,10 @@
-package com.example.mailserver.TheLOL.Folders;
-
-import com.example.mailserver.TheLOL.Email;
-import com.example.mailserver.TheLOL.JsonEmailConverter;
-import com.example.mailserver.TheLOL.operationsHandlers.FilesHandler;
+package com.example.mailserver.Logic.Folders;
 
 import java.util.HashMap;
+
+import com.example.mailserver.Logic.Email;
+import com.example.mailserver.Logic.JsonEmailConverter;
+import com.example.mailserver.Logic.operationsHandlers.FilesHandler;
 //change
 public class Folder {
     private String id;

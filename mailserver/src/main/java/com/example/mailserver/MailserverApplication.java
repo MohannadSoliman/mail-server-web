@@ -1,6 +1,6 @@
 package com.example.mailserver;
 
-import com.example.mailserver.TheLOL.operationsHandlers.FileStorageProperties;
+import com.example.mailserver.Logic.operationsHandlers.FileStorageProperties;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
