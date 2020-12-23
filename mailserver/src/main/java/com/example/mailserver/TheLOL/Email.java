@@ -8,7 +8,7 @@ import java.time.format.DateTimeFormatter;
 
 //change
 public class Email{
-    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     LocalDateTime now = LocalDateTime.now();
     private String sender;
     private Queue<String> receivers;
