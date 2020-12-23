@@ -337,6 +337,7 @@ export default {
   align-items: center;
   visibility: hidden;
   display: none;
+  z-index: 2;
 }
 .compose-container-normal{
   position: fixed;

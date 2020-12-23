@@ -111,6 +111,7 @@ export default {
 		openMenu() {
 			document.getElementById("menu").style.width = "11rem";
 			document.getElementById("main").style.marginLeft = "11rem";
+			document.getElementById("current-email-view").style.marginLeft = "11rem";
 			const closedImage = document.getElementById("menu-open-img-closed");
 			closedImage.className = "icon-img-nonActive";
 			const openedImage = document.getElementById("menu-open-img-opened");
@@ -135,6 +136,7 @@ export default {
 		closeMenu() {
 			document.getElementById("menu").style.width = "4rem";
 			document.getElementById("main").style.marginLeft = "4rem";
+			document.getElementById("current-email-view").style.marginLeft = "4rem";
 			const closedImage = document.getElementById("menu-open-img-closed");
 			closedImage.className = "icon-img-active";
 			const openedImage = document.getElementById("menu-open-img-opened");

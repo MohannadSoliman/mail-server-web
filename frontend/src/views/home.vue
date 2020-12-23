@@ -8,6 +8,7 @@
       <div id="emails-viewer" ref="emailsContainer"></div>
       <compose/>
     </div>
+    <currentEmail/>
   </div>
 </template>
 
@@ -17,6 +18,7 @@ import headerBar from '../components/header.vue';
 import controlBar from '../components/controlBar.vue';
 import compose from '../components/compose.vue';
 import titleBar from '../components/header/titleBar.vue';
+import currentEmail from '../components/currentEmail.vue';
 
 import emailCard from '../components/compose/emailCard.vue';
 import Vue from 'vue';
@@ -29,6 +31,7 @@ export default {
     controlBar,
     compose,
     titleBar,
+    currentEmail,
   },
   data(){
     return{
