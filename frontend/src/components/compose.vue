@@ -56,14 +56,14 @@
         <div id="attach-btn" @click="chooseAttachment()">
           <img src="../assets/compose/attach.png" width="23px">
         </div>
-        <div id="send-btn">Send</div>
+        <div id="send-btn" @click="send()">Send</div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-// import axios from 'axios';
+import axios from 'axios';
 export default {
   name: 'compose',
   data(){
@@ -295,11 +295,9 @@ export default {
       return attachmentCard;   
     },
     storeFileChoosed(id, file){
-      const fileUplaodData = new FormData();
-      fileUplaodData.append("file", file);
-      this.emailData.attachments.set(id, fileUplaodData);
-      // axios.post('http://localhost:8080/uploadFile', fileUplaodData)
-      // .catch( error => console.log(error));
+      // const fileUplaodData = new FormData();
+      // fileUplaodData.append("file", file);
+      this.emailData.attachments.set(id, file);
     },
     toggleMenu(){
       this.priorityMenuVisisble = !this.priorityMenuVisisble;
@@ -307,6 +305,14 @@ export default {
     setPriority(priority){
       this.emailData.priority = priority;
       this.priorityMenuVisisble = false;
+    },
+    send(){
+      const formData = new FormData();
+      for (let file of this.emailData.attachments.values()){
+        formData.append("files", file);
+      }
+      axios.post('http://localhost:8080/uploadMultipleFiles', formData)
+      .catch( error => console.log(error));   
     }
   },
   mounted(){

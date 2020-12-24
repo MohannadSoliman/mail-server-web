@@ -1,4 +1,4 @@
-package com.example.mailserver;
+package com.example.mailserver.Logic;
 
 import com.example.mailserver.Logic.operationsHandlers.FileStorageProperties;
 

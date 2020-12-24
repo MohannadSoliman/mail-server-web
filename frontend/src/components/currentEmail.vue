@@ -23,6 +23,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
   name: 'currentEmail',
   data(){
@@ -36,13 +37,15 @@ export default {
         title: "",
         body: "",
         date: "12 Dec 2021",
-        attachments: ["naive.png", "assignment2.png", "report.pdf"],
+        attachments: ["naive1.png", "assignment2.png", "report.pdf"],
       },
     }
   },
   methods:{
     downloadAttachment(attachmentName){
-      console.log(attachmentName)
+      console.log(attachmentName);
+       axios.get(`http://localhost:8080//downloadFile/${attachmentName}`, { params: { fileName: attachmentName }})
+      .catch( error => console.log(error));   
     }
   },
 }

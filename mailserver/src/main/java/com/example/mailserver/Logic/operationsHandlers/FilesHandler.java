@@ -9,7 +9,7 @@ import java.util.Scanner;
 import com.example.mailserver.Logic.Email;
 import com.example.mailserver.Logic.JsonEmailConverter;
 //change
-public class FilesHandler {
+public class FilesHandler {        
 
     public String readFile(String path){
         StringBuilder emailsInJson = new StringBuilder();
