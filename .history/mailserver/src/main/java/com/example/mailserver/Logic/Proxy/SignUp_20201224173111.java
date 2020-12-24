@@ -70,7 +70,7 @@ public class SignUp {
       UserInfo userInfo = new UserInfo(emailAddress, password);
       usersInfo = Arrays.copyOf(usersInfo, usersInfo.length + 1);
       usersInfo[usersInfo.length-1] = userInfo;
-
+      
       String jsonStr = jsonEmailConverter.arrayOfUserInfoToJson(usersInfo);
       writeUsersFile(jsonStr);
     }
