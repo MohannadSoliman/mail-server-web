@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 @CrossOrigin
 public class Api {
     @GetMapping("/signIn")
-    public Integer verifySignIn(@RequestParam String emailAddress, @RequestParam String password){
-        //null if new user, userId if current user
-        return SignIn.getInstance().signInUser(emailAddress, password);
+    public String verifySignIn(@RequestParam String emailAddress, @RequestParam String password){
+        //"false" if new user, userId if current user
+        return  SignIn.getInstance().signInUser(emailAddress, password);
     }
 
     @GetMapping("/signUp")

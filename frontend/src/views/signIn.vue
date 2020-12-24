@@ -9,7 +9,7 @@
         <div class="alert" id="signIn-password-alert"></div>
         <div class="nav">
           <div id="create-account" @click="goToSignUp()">Create account</div>
-          <div id="sign-in-btn" @click="Check()" >sign in</div>
+          <div id="sign-in-btn" @click="signIn()" >sign in</div>
         </div>
       </div>   
     </div>
@@ -18,6 +18,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
   name: 'signIn',
   data(){
@@ -33,22 +34,105 @@ export default {
       this.$router.push("/home");
     },
     Check(){
-      const email = document.getElementById("email").value;
-      const pass = document.getElementById("pass").value;
-      let email_alert = document.getElementById("signIn-email-alert")
-      let pass_alert = document.getElementById("signIn-password-alert")
-      let pattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+      const emailInput = document.getElementById("email");
+      const passInput = document.getElementById("pass");
+
+      const email = this.getEmailInputValue();
+      const pass = this.getPassInputValue();
+
+      let correctEmail = true;
+      let correctPass = true;
+
+      let pattern = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+
+      //email check
       if(email.length == 0){
-        email_alert.innerHTML = "this field is required"
-      }else if(email.match(pattern)){
-        email_alert.innerHTML = "valid";
+        this.setEmailAlert("this field is required")
+        emailInput.className = "input-alert";
+        correctEmail = false;
+      }
+      else if(email.match(pattern)){
+        this.setEmailAlert("");
+        emailInput.className = "";
       }
       else {
-        email_alert.innerHTML = "invalid";
+        this.setEmailAlert("invalid");
+        emailInput.className = "input-alert";
+        correctEmail = false;
       }
+
+      //password check
       if(pass.length == 0){
-        pass_alert.innerHTML = "this field is required" ;
+        this.setPassAlert("this field is required");
+        passInput.className = "input-alert";
+        correctPass = false;
       }
+      else if (pass.length < 8){
+        this.setPassAlert("password must be at least 8 characters");
+        passInput.className = "input-alert";
+        correctPass = false;
+      }
+      else{
+        this.setPassAlert("");
+        this.setPassAlert("");
+      }
+
+      if(correctEmail && correctPass) return true;
+      return false;
+    },
+    signIn(){
+      const email = this.getEmailInputValue();
+      const pass = this.getPassInputValue();
+
+      if(!this.Check(email, pass)) return;
+
+      axios.get(`http://localhost:8080//signIn`, {
+        params: { 
+          emailAddress: email,
+          password: pass,
+        }
+      })
+      .then( response => {
+        const isCurrentUser = response.data;
+        if(!isCurrentUser){
+          this.setEmailAlert("email may be not correct");
+          this.setPassAlert("password may be not correct");
+        }
+        else{
+          this.reset();
+        }
+      })
+      .catch( error => console.log(error)); 
+    },
+    resetEmailInput(){
+      const emailInput = document.getElementById("email");
+      emailInput.value = "";
+    },
+    getEmailInputValue(){
+      const emailInput = document.getElementById("email");
+      return emailInput.value;
+    },
+    resetPassInput(){
+      const passInput = document.getElementById("pass");
+      passInput.value = "";
+    },
+    getPassInputValue(){
+      const passInput = document.getElementById("pass");
+      return passInput.value;
+    },
+    setEmailAlert(msg){
+      const email_alert = document.getElementById("signIn-email-alert");
+      email_alert.innerHTML = msg;
+    },
+    setPassAlert(msg){
+      const pass_alert = document.getElementById("signIn-password-alert");
+      pass_alert.innerHTML = msg;
+    },
+    reset(){
+      this.resetEmailInput();
+      this.resetPassInput();
+      this.setEmailAlert("");
+      this.setPassAlert("");
     }
   }
 }

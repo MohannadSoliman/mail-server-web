@@ -3,25 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="2ee71074-998f-4ade-a5d6-0fc1a5798adf" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/11d8f0962693154d2d28a67c199292f1.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/11d8f0962693154d2d28a67c199292f1.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/2b9304e4dafb6963a242f57691dca1c2.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/2b9304e4dafb6963a242f57691dca1c2.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/node_modules/.cache/vue-loader/004b98a7d2c147465ce08cd8d6c64053.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/vue-loader/004b98a7d2c147465ce08cd8d6c64053.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/node_modules/.cache/vue-loader/38c15bdcbf434b6559e0e3abdc65b4d2.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/vue-loader/38c15bdcbf434b6559e0e3abdc65b4d2.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/node_modules/.cache/vue-loader/45530203a9a9ac1233302d22c2c7422e.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/vue-loader/45530203a9a9ac1233302d22c2c7422e.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/node_modules/.cache/vue-loader/5ee6f463352997eae169ee4afee8f759.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/vue-loader/5ee6f463352997eae169ee4afee8f759.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/node_modules/.cache/vue-loader/8957de2a0f45bc236103bfe58591c815.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/vue-loader/8957de2a0f45bc236103bfe58591c815.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/node_modules/.cache/vue-loader/8b574699e795f43715de83c3958c002d.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/vue-loader/8b574699e795f43715de83c3958c002d.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/node_modules/.cache/vue-loader/8bd3f741942a4458552f94a6e00dcaad.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/vue-loader/8bd3f741942a4458552f94a6e00dcaad.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/node_modules/.cache/vue-loader/b141c6513ab9a74e7f0b290e36a8e093.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/vue-loader/b141c6513ab9a74e7f0b290e36a8e093.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/node_modules/.cache/vue-loader/e7bc70fb662b239030997fd4acf568ce.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/vue-loader/e7bc70fb662b239030997fd4acf568ce.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/node_modules/.cache/vue-loader/f95aac2f55153fa1589ef6db5152d6d9.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/vue-loader/f95aac2f55153fa1589ef6db5152d6d9.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/compose.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/compose.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/currentEmail.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/currentEmail.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mailserver/Database/Users/naive1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mailserver/src/main/java/com/example/mailserver/Logic/operationsHandlers/FileController.java" beforeDir="false" afterPath="$PROJECT_DIR$/mailserver/src/main/java/com/example/mailserver/Logic/operationsHandlers/FileController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mailserver/src/main/java/com/example/mailserver/Logic/operationsHandlers/FilesHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/mailserver/src/main/java/com/example/mailserver/Logic/operationsHandlers/FilesHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mailserver/src/main/java/com/example/mailserver/MailserverApplication.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mailserver/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/mailserver/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,6 +41,8 @@
       <workItem from="1608769116948" duration="905000" />
       <workItem from="1608773532078" duration="783000" />
       <workItem from="1608813398076" duration="251000" />
+      <workItem from="1608821863719" duration="40000" />
+      <workItem from="1608821908167" duration="59000" />
     </task>
     <servers />
   </component>

@@ -19,15 +19,15 @@ public class SignIn {
         return instance;
     }
 
-    public Integer signInUser(String emailAddress, String password){
+    public String signInUser(String emailAddress, String password){
         emailAddress = emailAddress.toLowerCase();
         UserInfo[] usersInfo = readUsersFile();
         for(UserInfo userInfo : usersInfo){
             if(userInfo.getEmailAddress().equalsIgnoreCase(emailAddress) && userInfo.getPassword().equals(password)){
-                return Session.getInstance().addUserSession(new User(emailAddress));
+                return Session.getInstance().addUserSession(new User(emailAddress)).toString();
             }
         }
-        return null;
+        return "false";
     }
 
     private UserInfo[] readUsersFile(){
