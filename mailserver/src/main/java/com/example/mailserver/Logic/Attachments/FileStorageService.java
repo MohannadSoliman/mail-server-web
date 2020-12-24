@@ -16,43 +16,64 @@ import java.nio.file.StandardCopyOption;
 @Service
 public class FileStorageService {
 
-    private final Path fileStorageLocation;
+    private Path fileStorageLocation;
 
     @Autowired
     public FileStorageService(FileStorageProperties fileStorageProperties) {
-        this.fileStorageLocation = Paths.get(fileStorageProperties.getUploadDir())
-                .toAbsolutePath().normalize();
-
+        this.fileStorageLocation = Paths.get(fileStorageProperties.getUploadDir()).toAbsolutePath().normalize();
         try {
             Files.createDirectories(this.fileStorageLocation);
-        } catch (Exception ex) {
-            throw new FileStorageException("Could not create the directory where the uploaded files will be stored.", ex);
+        } catch (Exception e) {
+            throw new FileStorageException("Could not create the directory", e);
         }
     }
 
-    public String storeFile(MultipartFile file) {
-        // Normalize file name
+    public String storeFile(MultipartFile file, String sender, String[] receivers, String id) {
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+        
+        //create folder sender and receivers and create the files inside
+        Path pathSender = Paths.get(this.fileStorageLocation + "/" + sender + "/Attachments/" + id);
 
+        // if directory is not present then it will be created
         try {
-            // Check if the file's name contains invalid characters
-            if(fileName.contains("..")) {
-                throw new FileStorageException("Sorry! Filename contains invalid path sequence " + fileName);
-            }
-
-            // Copy file to the target location (Replacing existing file with the same name)
-            Path targetLocation = this.fileStorageLocation.resolve(fileName);
-            Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
-
-            return fileName;
+            Files.createDirectories(pathSender);
+        } catch (Exception e) {
+            throw new FileStorageException("Could not create the directory", e);
+        }
+        // add file to directory
+        try {
+            pathSender = Paths.get(pathSender + "/");
+            Path targetLocationSender = pathSender.resolve(fileName);
+            Files.copy(file.getInputStream(), targetLocationSender, StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException ex) {
             throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
         }
+
+        for(String receiver : receivers){
+            Path pathReceiver = Paths.get(this.fileStorageLocation + "/" + receiver + "/Attachments/" + id);
+            
+            // if directory is not present then it will be created
+            try {
+                Files.createDirectories(pathReceiver);
+            } catch (Exception e) {
+                throw new FileStorageException("Could not create the directory", e);
+            }
+            // add file to directory
+            try {
+                pathReceiver = Paths.get(pathReceiver + "/");
+                Path targetLocationReceiver = pathReceiver.resolve(fileName);
+                Files.copy(file.getInputStream(), targetLocationReceiver, StandardCopyOption.REPLACE_EXISTING);
+            } catch (IOException ex) {
+                throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
+            }
+        }
+        return fileName;
     }
 
-    public Resource loadFileAsResource(String fileName) {
+    public Resource loadFileAsResource(String fileName, String emailAddress, String id) {
         try {
-            Path filePath = this.fileStorageLocation.resolve(fileName).normalize();
+            Path path = Paths.get(this.fileStorageLocation + emailAddress + "/Attachments/" + id);
+            Path filePath = path.resolve(fileName).normalize();
             Resource resource = new UrlResource(filePath.toUri());
             if(resource.exists()) {
                 return resource;

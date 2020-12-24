@@ -13,7 +13,7 @@
 {
   "sender" : "test@g",
   "receivers" : [ ],
-  "priority" : null,
+  "priority" : "low",
   "title" : "titleLOLtimeTest",
   "body" : "bodyLOL",
   "id" : "713efe52-3540-434d-9d4c-57020591c53a",

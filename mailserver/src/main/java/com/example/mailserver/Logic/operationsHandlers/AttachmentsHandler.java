@@ -1,8 +1,6 @@
 package com.example.mailserver.Logic.operationsHandlers;
 
 import com.example.mailserver.Logic.Attachments.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -20,53 +18,35 @@ import java.util.stream.Collectors;
 @RestController
 public class AttachmentsHandler {
 
-    private static final Logger logger = LoggerFactory.getLogger(AttachmentsHandler.class);
-
     @Autowired
     private FileStorageService fileStorageService;
     
-    @PostMapping("/uploadFile")
-    public UploadFileResponse uploadFile(@RequestParam("file") MultipartFile file) {
-        String fileName = fileStorageService.storeFile(file);
+    public UploadFileResponse uploadFile(MultipartFile file, String sender, String[]receivers, String id) {
+        String fileName = fileStorageService.storeFile(file, sender, receivers, id);
+        String fileDownloadUrl = ServletUriComponentsBuilder.fromCurrentContextPath().path("/downloadFile/").path(fileName).toUriString();
 
-        String fileDownloadUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path("/downloadFile/")
-                .path(fileName)
-                .toUriString();
-
-        return new UploadFileResponse(fileName, fileDownloadUrl,
-                file.getContentType(), file.getSize());
+        return new UploadFileResponse(fileName, fileDownloadUrl, file.getContentType(), file.getSize());
     }
 
     @PostMapping("/uploadMultipleFiles")
-    public List<UploadFileResponse> uploadMultipleFiles(@RequestParam("files") MultipartFile[] files) {
-        return Arrays.asList(files)
-                .stream()
-                .map(file -> uploadFile(file))
-                .collect(Collectors.toList());
+    public List<UploadFileResponse> uploadMultipleFiles(@RequestParam("files") MultipartFile[] files,@RequestParam("sender") String sender,@RequestParam("receivers") String[] receivers,@RequestParam("id") String id) {
+        return Arrays.asList(files).stream().map(file -> uploadFile(file, sender, receivers, id)).collect(Collectors.toList());
     }
 
-    @GetMapping("/downloadFile/{fileName:.+}")
-    public ResponseEntity<Resource> downloadFile(@PathVariable String fileName, HttpServletRequest request) {
-        // Load file as Resource
-        Resource resource = fileStorageService.loadFileAsResource(fileName);
+    public ResponseEntity<Resource> downloadFile(@PathVariable String fileName, HttpServletRequest request, String emailAddress, String id) {
+        Resource resource = fileStorageService.loadFileAsResource(fileName, emailAddress, id);
 
-        // Try to determine file's content type
         String contentType = null;
         try {
             contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
         } catch (IOException ex) {
-            logger.info("Could not determine file type.");
+            ex.printStackTrace();
         }
 
-        // Fallback to the default content type if type could not be determined
         if(contentType == null) {
             contentType = "application/octet-stream";
         }
 
-        return ResponseEntity.ok()
-                .contentType(MediaType.parseMediaType(contentType))
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
-                .body(resource);
+        return ResponseEntity.ok().contentType(MediaType.parseMediaType(contentType)).header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"").body(resource);
     }
 }
