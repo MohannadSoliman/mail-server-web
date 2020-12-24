@@ -37,11 +37,8 @@ public class Test {
         // System.out.println(signUp.signUpUser("sign2314@g", "pass3442@g"));
         // System.out.println(signUp.signUpUser("sign2263@g", "pass3362@g"));
         SignUp signUp = SignUp.getInstance();
-        signUp.signUpUser("sign23@g", "pass32@g");
-        Session session = Session.getInstance();
-        SignIn signIn = SignIn.getInstance();
-        int userId = signIn.signInUser("sign23@g", "pass32@g");
-        session.getAllSessions().get(userId).sendEmail(email);
+        signUp.signUpUser("sign2sdf3@g", "passssgg2@g");
+
         
     }
 }

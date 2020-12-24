@@ -70,6 +70,18 @@ public class SignUp {
             System.err.println("Failed to create directory!" + e.getMessage());
         
             }
+          try {
+
+            Path pathAttachments = Paths.get("mailserver/Database/Users/"+emailAddress+"/Attachments");
+        
+            Files.createDirectories(pathAttachments);
+        
+            } catch (IOException e) {
+        
+            System.err.println("Failed to create directory!" + e.getMessage());
+        
+            }
+            
         
             File inbox = new File("mailserver/Database/Users/"+emailAddress+"/inbox.json");
             try {
