@@ -1,29 +1,18 @@
 package com.example.mailserver.Logic.Sort;
 
 import java.time.LocalDateTime;
-import java.util.LinkedList;
-import java.util.Queue;
 import com.example.mailserver.Logic.Email;
 
-public class Sort {
+public class SortHandler {
 
-    public static Email[] sortingEmails(Email[] sortedEmails,Email[] emails, int sortType /* 0:priority  1:date */, int identifier) {
-
-        switch(sortType){
-            case 0:
-                sortedEmails = sortingPriority(sortedEmails,emails,identifier);
-                break;
-            case 1:
-                sortedEmails = sortingDate(sortedEmails,emails,identifier);
-                break;
-
-        }
-        return sortedEmails;
-        
+    public Email[] sortEmails(Email[] emails, int sortType /* 0:priority  1:date */, int identifier) {
+        if(sortType == 0) return sortingPriority(emails,identifier);
+        else return  sortingDate(emails,identifier);
     }
 
 
-    public static Email[] sortingPriority(Email[] sortedEmails , Email[] emails,int identifier /* 0 : least priority  1:most priority */) {
+    public Email[] sortingPriority(Email[] emails,int identifier /* 0 : least priority  1:most priority */) {
+        Email[] sortedEmails = new Email[emails.length];
 
         int numOFEmails = emails.length ;
 
@@ -88,7 +77,8 @@ public class Sort {
     }
 
 
-    public static Email[] sortingDate(Email[] sortedEmails , Email[] emails, int identifier /* 0 : newer in date  1:older in date */) {
+    public Email[] sortingDate(Email[] emails, int identifier /* 0 : newer in date  1:older in date */) {
+        Email[] sortedEmails = new Email[emails.length];
 
         int numOFEmails = emails.length ;
 
@@ -130,32 +120,32 @@ public class Sort {
         return sortedEmails;
     }
 
-    public static void main(String[]args){
+    // public static void main(String[]args){
        
        
-            Queue<String> receivers = new LinkedList<String>();
-            Queue<String> attachments = new LinkedList<String>();
-            receivers.add("testREC@g");
-            attachments.add("attach1");
-            Email[] test = new Email[4];
-            // // public Email(String id, String sender, Queue<String> receivers, String title, String body, String time, Queue<String> attachments)
-            Email email1 = new Email("1", "test@g", receivers, "titletest", "bodytest", "2019-04-29 22:32:38.536", attachments, "urgent");
-            Email email2 = new Email("2", "test@g", receivers, "titletest", "bodytest", "2019-04-22 22:33:38.536", attachments, "low");
-            Email email3 = new Email("3", "test@g", receivers, "titletest", "bodytest", "2019-04-30 22:35:38.536", attachments, "high");
-            Email email4 = new Email("4", "test@g", receivers, "titletest", "bodytest", "2019-04-12 22:34:38.536" , attachments, "urgent");
+    //         Queue<String> receivers = new LinkedList<String>();
+    //         Queue<String> attachments = new LinkedList<String>();
+    //         receivers.add("testREC@g");
+    //         attachments.add("attach1");
+    //         Email[] test = new Email[4];
+    //         // // public Email(String id, String sender, Queue<String> receivers, String title, String body, String time, Queue<String> attachments)
+    //         Email email1 = new Email("1", "test@g", receivers, "titletest", "bodytest", "2019-04-29 22:32:38.536", attachments, "urgent");
+    //         Email email2 = new Email("2", "test@g", receivers, "titletest", "bodytest", "2019-04-22 22:33:38.536", attachments, "low");
+    //         Email email3 = new Email("3", "test@g", receivers, "titletest", "bodytest", "2019-04-30 22:35:38.536", attachments, "high");
+    //         Email email4 = new Email("4", "test@g", receivers, "titletest", "bodytest", "2019-04-12 22:34:38.536" , attachments, "urgent");
             
-            test[0] = email1;
-            test[1] = email2;
-            test[2] = email3;
-            test[3] = email4;
+    //         test[0] = email1;
+    //         test[1] = email2;
+    //         test[2] = email3;
+    //         test[3] = email4;
 
-            Email[] sorted = new Email[4];
+    //         Email[] sorted = new Email[4];
 
-            sorted = sortingEmails(sorted, test,1,0);
-            for(int i=0 ; i<4 ; i++){
-                System.out.println(sorted[i].getId());
-            }
+    //         sorted = sortEmails(sorted, test,1,0);
+    //         for(int i=0 ; i<4 ; i++){
+    //             System.out.println(sorted[i].getId());
+    //         }
         
-    }
+    // }
     
 }

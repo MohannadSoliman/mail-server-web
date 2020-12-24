@@ -18,10 +18,14 @@ public class Api {
     }
 
     @GetMapping("/signUp")
-    public Integer verifySignUp(@RequestParam String emailAddress, String password) {
-        //null if current user, id if new user
+    public String verifySignUp(@RequestParam String emailAddress, String password) {
+        //false if current user, id if new user
         return SignUp.getInstance().signUpUser(emailAddress, password);
     }
     
-
+    @GetMapping("/getEmailsList")
+    public String getEmailsList(int userId, String folderName, int sortType, int sortIdntifier, int start){
+        Email[] emailsList =  Session.getInstance().getUser(userId).getEmailsList(folderName, sortType, sortIdntifier, start);
+        return JsonEmailConverter.getInstance().arrayOfEmailsToJson(emailsList);
+    }
 }

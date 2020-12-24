@@ -75,7 +75,7 @@ export default {
     this.email.id = this.emailInfo.id;
     if(this.inbox) this.email.receivers = this.emailInfo.receivers;
     else this.email.sender = this.emailInfo.sender;
-    this.email.subject = this.emailInfo.subject;
+    this.email.subject = this.emailInfo.title;
     this.email.priority = this.emailInfo.priority.toLowerCase();
     this.email.date = this.emailInfo.date;
     this.email.attachments = this.emailInfo.attachments;

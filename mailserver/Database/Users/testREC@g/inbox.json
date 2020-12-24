@@ -6,7 +6,7 @@
   "title" : "titleLOLtimeTest",
   "body" : "bodyLOL",
   "id" : "1f57237b-326a-4ece-8cc5-9f639bb853aa",
-  "time" : "2020/12/22 11:49:34",
+  "time" : "2020-12-22 11:49:34",
   "attachments" : [ ]
 }
 ,
@@ -17,7 +17,7 @@
   "title" : "titleLOLtimeTest",
   "body" : "bodyLOL",
   "id" : "713efe52-3540-434d-9d4c-57020591c53a",
-  "time" : "2020/12/21 21:33:00",
+  "time" : "2020-12-21 21:33:00",
   "attachments" : [ ]
 }
 ,
@@ -42,5 +42,4 @@
   "time" : "2020-12-24 00:02:18",
   "attachments" : [ ]
 }
-
 ]

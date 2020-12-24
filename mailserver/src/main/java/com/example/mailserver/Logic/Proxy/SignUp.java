@@ -26,12 +26,12 @@ public class SignUp {
 
     JsonEmailConverter jsonEmailConverter = JsonEmailConverter.getInstance();
 
-    public Integer signUpUser(String emailAddress, String password){
+    public String signUpUser(String emailAddress, String password){
       emailAddress = emailAddress.toLowerCase();
       UserInfo[] usersInfo = readUsersFile();
-      if(SignIn.getInstance().signInUser(emailAddress, password) != null) return null;
+      if(SignIn.getInstance().signInUser(emailAddress, password) != null) return "false";
       createUser(emailAddress, password, usersInfo);
-      return Session.getInstance().addUserSession(new User(emailAddress));
+      return Session.getInstance().addUserSession(new User(emailAddress)).toString();
     }
 
     //get all users in database

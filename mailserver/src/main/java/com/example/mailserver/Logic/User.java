@@ -6,6 +6,7 @@ import java.io.IOException;
 import com.example.mailserver.Logic.Filter.Filter;
 import com.example.mailserver.Logic.Filter.Search;
 import com.example.mailserver.Logic.Folders.FoldersMap;
+import com.example.mailserver.Logic.Sort.SortHandler;
 import com.example.mailserver.Logic.operationsHandlers.EmailHandler;
 import com.example.mailserver.Logic.operationsHandlers.FilesHandler;
 import com.example.mailserver.Logic.operationsHandlers.FolderHandler;
@@ -15,13 +16,15 @@ public class User {
     private FilesHandler filesHandler;
     private FolderHandler folderHandler;
     private EmailHandler emailHandler;
+    private SortHandler sortHandler;
     private Search search;
     private Filter filter;
 
     public User(String emailAddress){
         this.foldersMap = new FoldersMap();
         this.filesHandler = new FilesHandler();
-        this.folderHandler = new FolderHandler(foldersMap, emailAddress, filesHandler);
+        this.sortHandler = new SortHandler();
+        this.folderHandler = new FolderHandler(foldersMap, emailAddress, filesHandler, sortHandler);
         this.emailHandler = new EmailHandler(foldersMap, filesHandler);
         this.search = new Search(foldersMap, folderHandler);
         this.filter = new Filter(foldersMap);
@@ -56,9 +59,8 @@ public class User {
     public Email[] getAllEmailsAsArrayFrom(String folderName){
         return foldersMap.getFolder(folderName).getAllEmailsArray();
     }
-    public String getAllEmailsAsJsonFrom(String folderName){
-        Email[] allEmailsArray = getAllEmailsAsArrayFrom(folderName);
-        return JsonEmailConverter.getInstance().arrayOfEmailsToJson(allEmailsArray);
+    public Email[] getEmailsList(String folderName, int sortType, int sortIdntifier, int start){
+        return folderHandler.getSubArrayOfEmails(folderName, sortType, sortIdntifier, start);
     }
     //search and filter
     public String searchFile(String required, String fileName, String criteria){

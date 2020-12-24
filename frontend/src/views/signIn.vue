@@ -19,6 +19,7 @@
 
 <script>
 import axios from 'axios';
+import {mapActions} from 'vuex'
 export default {
   name: 'signIn',
   data(){
@@ -27,8 +28,12 @@ export default {
     }
   },
   methods:{
+    ...mapActions(['setCurrentUserId']),
     goToSignUp(){
       this.$router.push('/signUp');
+    },
+    goTohome(){
+      this.$router.push('/home');
     },
     testing(){
       this.$router.push("/home");
@@ -93,12 +98,13 @@ export default {
         }
       })
       .then( response => {
-        const isCurrentUser = response.data;
-        if(!isCurrentUser){
+        if(response.data === false){
           this.setEmailAlert("email may be not correct");
           this.setPassAlert("password may be not correct");
         }
         else{
+          this.setCurrentUserId(response.data);
+          this.goTohome();
           this.reset();
         }
       })

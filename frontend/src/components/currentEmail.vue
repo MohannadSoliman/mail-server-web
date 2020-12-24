@@ -28,7 +28,7 @@ export default {
   name: 'currentEmail',
   data(){
     return{
-      active: true, //to hide or show the email view page
+      active: false, //to hide or show the email view page
       sent: false,
       emailInfo:{
         sender: "alihassan@lol.com",

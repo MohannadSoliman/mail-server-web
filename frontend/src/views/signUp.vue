@@ -11,7 +11,7 @@
         <div class="alert" id="signUp-confirm-password-alert"></div>
         <div class="nav">
           <div id="sign-in-instead" @click="goToSignIn()">sign in instead?</div>
-          <div id="sign-up-btn" @click="validate()">sign up</div>
+          <div id="sign-up-btn" @click="signUp()">sign up</div>
         </div>
       </div>   
     </div>
@@ -19,6 +19,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+import {mapActions} from 'vuex'
 export default {
   name: 'signIn',
   data(){
@@ -27,46 +29,145 @@ export default {
     }
   },
   methods:{
+    ...mapActions(['setCurrentUserId']),
     goToSignIn(){
       this.$router.push('/signIn');
     },
+    goTohome(){
+      this.$router.push('/home');
+    },
     validate(){
-      var email = document.getElementById("email").value
-      var originalPass = document.getElementById("original-password").value
-      var confirm_password = document.getElementById("check-password").value
-      var email_alert= document.getElementById("signUp-email-alert")
-      var original_passsword_alert= document.getElementById("signUp-password-alert")
-      var confirm_password_alert= document.getElementById("signUp-confirm-password-alert")
-      var pattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/
+      const emailInput = document.getElementById("email");
+      const originalPassInput = document.getElementById("original-password");
+      const confirmPassInput = document.getElementById("check-password");
+
+      let email = this.getEmailInputValue()
+      let originalPass = this.getOriginalPassword();
+      let confirm_password = this.getConfirmPassword();
+
+      let pattern = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+
+      let correctEmail = true;
+      let correctPassword = true;
 
       if(email.length == 0){
-        email_alert.innerHTML = "this field is required"
-      }else if (email.match(pattern)){
-        email_alert.innerHTML = "valid"
-      }else{
-        email_alert.innerHTML = "invalid"
+        this.setEmailAlert("this field is required");
+        emailInput.className = "input-alert";
+        correctEmail = false;
+      }
+      else if (email.match(pattern)){
+        this.setEmailAlert("");
+        emailInput.className = "";
+      }
+      else{
+        this.setEmailAlert("invalid");
+        emailInput.className = "input-alert";
+        correctEmail = false;
       }
     
       if(originalPass.length < 8){
-        original_passsword_alert.innerHTML = "password must be greater than 8 characters"
+        this.setOriginalPassAlert("password must be at least 8 characters");
+        originalPassInput.className = "input-alert";
+        correctPassword = false;
       }else{
-        original_passsword_alert.innerHTML = "valid"
-      }
-      if(originalPass.length == 0){
-        original_passsword_alert.innerHTML = "this field is required"
-      }
-      if(confirm_password == originalPass && originalPass.length != 0){
-        confirm_password_alert.innerHTML = "valid" 
-      }else{
-        confirm_password_alert.innerHTML = "invalid" 
-      }
-      if(confirm_password != originalPass){
-        confirm_password_alert.innerHTML = "invalid"
+        this.setOriginalPassAlert("");
+        originalPassInput.className = "";
       }
 
-    }
-     
-    
+      if(originalPass.length == 0){
+        this.setOriginalPassAlert("this field is required");
+        originalPassInput.className = "input-alert";
+        correctPassword = false;
+      }
+
+      if((confirm_password == originalPass) && originalPass.length != 0){
+        this.setConfirmPassAlert("");
+        this.setOriginalPassAlert("");
+        originalPassInput.className = "";
+        confirmPassInput.className = "";
+      }
+      else{
+        this.setOriginalPassAlert(""); 
+        this.setConfirmPassAlert("please re enter password")
+        originalPassInput.className = "input-alert";
+        confirmPassInput.className = "input-alert";
+        correctPassword = false;
+      }
+
+      if(correctEmail && correctPassword) return true;
+      return false;
+    },
+    resetEmailInput(){
+      const emailInput = document.getElementById("email");
+      emailInput.value = "";
+    },
+    getEmailInputValue(){
+      const emailInput = document.getElementById("email");
+      return emailInput.value;
+    },
+
+    resetOriginalPassword(){
+      const originalPassInput = document.getElementById("original-password");
+      originalPassInput.value = "";
+    },
+    getOriginalPassword(){
+      const originalPassInput = document.getElementById("original-password");
+      return originalPassInput.value;
+    },
+
+    resetConfirmPassword(){
+      const confirmPassInput = document.getElementById("check-password");
+      confirmPassInput.value = "";
+    },
+    getConfirmPassword(){
+      const confirmPassInput = document.getElementById("check-password");
+      return confirmPassInput.value;
+    },
+
+    setEmailAlert(msg){
+      const email_alert= document.getElementById("signUp-email-alert")
+      email_alert.innerHTML = msg;
+    },
+    setOriginalPassAlert(msg){
+      const original_passsword_alert= document.getElementById("signUp-password-alert")
+      original_passsword_alert.innerHTML = msg;
+    },
+    setConfirmPassAlert(msg){
+      let confirm_password_alert= document.getElementById("signUp-confirm-password-alert")
+      confirm_password_alert.innerHTML = msg;
+    },
+    reset(){
+      this.resetEmailInput();
+      this.resetPassInput();
+      this.setEmailAlert("");
+      this.setPassAlert("");
+    },
+    signUp(){
+      const email = this.getEmailInputValue();
+      const pass = this.getOriginalPassword();
+
+      if(!this.validate(email, pass)) return;
+
+      axios.get(`http://localhost:8080//signUp`, {
+        params: { 
+          emailAddress: email,
+          password: pass,
+        }
+      })
+      .then( response => {
+        if(response.data === false){
+          this.setEmailAlert("this email already exists!");
+          this.setOriginalPassAlert("");
+          this.setConfirmPassAlert("");
+        }
+        else{
+          this.setCurrentUserId(response.data);
+          this.goTohome();
+          this.reset();
+        }
+      })
+      .catch( error => console.log(error)); 
+    },
   }
 }
 </script>

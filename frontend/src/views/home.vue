@@ -23,6 +23,10 @@ import currentEmail from '../components/currentEmail.vue';
 import emailCard from '../components/compose/emailCard.vue';
 import Vue from 'vue';
 
+import {mapGetters, mapActions} from 'vuex';
+
+import axios from 'axios';
+
 export default {
   name: 'home',
   components: {
@@ -35,42 +39,41 @@ export default {
   },
   data(){
     return{
-      testingObject: [
-        { 
-          id: "1234",
-          sender: "alihassan200061@gmail.com",
-          receivers: "mido113@hotmail.com thelol@lol.com",
-          subject: "email vieweing test1",
-          priority: "urgent",
-          date: "13 Dec 2020",
-          attachments: [],
-        },
-        {
-          id: "1235",
-          sender: "alihassan200061@gmail.com",
-          receivers: "mido113@hotmail.com thelol@lol.com",
-          subject: "email vieweing test2",
-          priority: "high",
-          date: "13 Dec 2020",
-          attachments: ["hello"],
-        },
-      ]
     }
   },
+  computed: mapGetters(['getEmailsList, getUserId']),
   methods: {
-    addEmails(){
+    ...mapActions(['updateEmailsList']),
+    addEmails(emailsList){
       let EmailCard = Vue.extend(emailCard);
-      for(const email of this.testingObject){
+      for(const email of emailsList){
         const newEmailCard = new EmailCard({
           propsData: { inbox: true, emailInfo: email}
         })
         newEmailCard.$mount();
         this.$refs.emailsContainer.appendChild(newEmailCard.$el);
       }
-    }
+    },
+    updateEmailsList(){
+      axios.get(`http://localhost:8080//getEmailsList`, {
+        params: { 
+          userId: 1,
+          folderName: "inbox",
+          sortType: 1,
+          sortIdntifier: 0,
+          start: 0,
+        }
+      })
+      .then( response => {
+        console.log(response.data);
+        this.addEmails(response.data);
+      })
+      .catch( error => console.log(error)); 
+  },
   },
   mounted(){
-    this.addEmails();
+    console.log(this.getUserId);
+    this.updateEmailsList()
   }
 }
 </script>

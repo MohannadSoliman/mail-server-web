@@ -1,25 +1,29 @@
 package com.example.mailserver.Logic.operationsHandlers;
 
-// import com.example.mailserver.Email;
+import com.example.mailserver.Logic.Email;
 import com.example.mailserver.Logic.JsonEmailConverter;
 import com.example.mailserver.Logic.Folders.Folder;
 import com.example.mailserver.Logic.Folders.FolderFactory;
 import com.example.mailserver.Logic.Folders.FoldersMap;
+import com.example.mailserver.Logic.Sort.SortHandler;
 
 import javax.imageio.IIOException;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 //change
 public class FolderHandler {
     private FilesHandler fileHandler;
     private FoldersMap foldersMap;
     private String userEmail;
+    private SortHandler sortHandler;
 
-    public FolderHandler(FoldersMap foldersMap, String userEmail, FilesHandler filesHandler){
+    public FolderHandler(FoldersMap foldersMap, String userEmail, FilesHandler filesHandler, SortHandler sortHandler){
         this.fileHandler = filesHandler;
         this.foldersMap = foldersMap;
         this.userEmail = userEmail;
+        this.sortHandler = sortHandler;
     }
 
     private void createSystemFolder(String folderName){
@@ -104,6 +108,25 @@ public class FolderHandler {
         String foldersFilePath = System.getProperty("user.dir") + "/mailserver/Database/Users/" + userEmail + "/folders.json";;
         fileHandler.writeFileFromArray(foldersFilePath, existingCustomFolderNames);
         return true;
+    }
+
+    public Email[] getSubArrayOfEmails(String folderName, int sortType, int sortIdntifier, int start){
+        //0 priority //1 date
+        //0 newer first 1 older first
+        Email[] allEmails = foldersMap.getFolder(folderName).getAllEmailsArray();
+        Email[] sortedEmails = sortHandler.sortEmails(allEmails, sortType, sortIdntifier);
+        
+        if(start < 0) start = 0;
+        if(start >= sortedEmails.length) start = sortedEmails.length - 10;
+
+        int endIndex = start + 10;
+        if(endIndex > sortedEmails.length) endIndex = sortedEmails.length;
+
+        ArrayList<Email> outputEmails = new ArrayList<>();
+        for(int i = start; i < endIndex; i++){
+            outputEmails.add(sortedEmails[i]);
+        }
+        return outputEmails.toArray(new Email[outputEmails.size()]);
     }
 
     private String getFolderPath(String folderName){

@@ -25,4 +25,7 @@ public class Session {
     public HashMap<Integer, User> getAllSessions(){
         return sessions;
     }
+    public User getUser(Integer key){
+        return sessions.get(key);
+    }
 }
