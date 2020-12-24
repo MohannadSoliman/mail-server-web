@@ -1,4 +1,4 @@
-package com.example.mailserver.Logic.operationsHandlers;
+package com.example.mailserver.Logic.Attachments;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;

@@ -1,5 +1,6 @@
 package com.example.mailserver.Logic.operationsHandlers;
 
+import com.example.mailserver.Logic.Attachments.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +18,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@CrossOrigin
-public class FileController {
+public class AttachmentsHandler {
 
-    private static final Logger logger = LoggerFactory.getLogger(FileController.class);
+    private static final Logger logger = LoggerFactory.getLogger(AttachmentsHandler.class);
 
     @Autowired
     private FileStorageService fileStorageService;
