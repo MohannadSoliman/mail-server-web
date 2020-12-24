@@ -21,6 +21,11 @@ public class AttachmentsHandler {
     @Autowired
     private FileStorageService fileStorageService;
     
+    @PostMapping("/uploadMultipleFiles")
+    public List<UploadFileResponse> uploadMultipleFiles(@RequestParam("files") MultipartFile[] files,@RequestParam("sender") String sender,@RequestParam("receivers") String[] receivers,@RequestParam("id") String id) {
+        return Arrays.asList(files).stream().map(file -> uploadFile(file, sender, receivers, id)).collect(Collectors.toList());
+    }
+
     public UploadFileResponse uploadFile(MultipartFile file, String sender, String[]receivers, String id) {
         String fileName = fileStorageService.storeFile(file, sender, receivers, id);
         String fileDownloadUrl = ServletUriComponentsBuilder.fromCurrentContextPath().path("/downloadFile/").path(fileName).toUriString();
@@ -28,12 +33,8 @@ public class AttachmentsHandler {
         return new UploadFileResponse(fileName, fileDownloadUrl, file.getContentType(), file.getSize());
     }
 
-    @PostMapping("/uploadMultipleFiles")
-    public List<UploadFileResponse> uploadMultipleFiles(@RequestParam("files") MultipartFile[] files,@RequestParam("sender") String sender,@RequestParam("receivers") String[] receivers,@RequestParam("id") String id) {
-        return Arrays.asList(files).stream().map(file -> uploadFile(file, sender, receivers, id)).collect(Collectors.toList());
-    }
-
-    public ResponseEntity<Resource> downloadFile(@PathVariable String fileName, HttpServletRequest request, String emailAddress, String id) {
+    @GetMapping("/downloadFile/{fileName:.+}")
+    public ResponseEntity<Resource> downloadFile(@PathVariable String fileName, HttpServletRequest request, @RequestParam String emailAddress, @RequestParam String id) {
         Resource resource = fileStorageService.loadFileAsResource(fileName, emailAddress, id);
 
         String contentType = null;
@@ -43,9 +44,7 @@ public class AttachmentsHandler {
             ex.printStackTrace();
         }
 
-        if(contentType == null) {
-            contentType = "application/octet-stream";
-        }
+        if(contentType == null) contentType = "application/octet-stream";
 
         return ResponseEntity.ok().contentType(MediaType.parseMediaType(contentType)).header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"").body(resource);
     }
