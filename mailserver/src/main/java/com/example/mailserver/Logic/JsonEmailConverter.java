@@ -1,5 +1,6 @@
 package com.example.mailserver.Logic;
 
+import com.example.mailserver.Logic.Contacts.Contact;
 import com.example.mailserver.Logic.Proxy.UserInfo;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -16,7 +17,7 @@ public class JsonEmailConverter {
         if(instance == null) instance = new JsonEmailConverter();
         return instance;
     }
-
+    //user info
     public String userInfoToJson(UserInfo userInfo){
         ObjectMapper mapper = new ObjectMapper();
 
@@ -29,6 +30,7 @@ public class JsonEmailConverter {
         jsonStr += "\n";
         return jsonStr;
     }
+
     public String arrayOfUserInfoToJson(UserInfo[] usersInfo){
         String jsonStr = "[\n";
         int len = usersInfo.length;
@@ -39,10 +41,41 @@ public class JsonEmailConverter {
         jsonStr += "\n]";
         return jsonStr;
     }
+
     public UserInfo[] jsonToUserInfo(String jsonStr){
         Gson gson = new Gson();
         return gson.fromJson(jsonStr, UserInfo[].class);
     }
+    //
+    
+    //contacts
+    public String contactToJson(Contact contact){
+        ObjectMapper mapper = new ObjectMapper();
+
+        String jsonStr = "";
+        try {
+            jsonStr += mapper.writerWithDefaultPrettyPrinter().writeValueAsString(contact);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        jsonStr += "\n";
+        return jsonStr;
+    }
+    public String arrayOfContactsToJson(Contact[] contacts){
+        String jsonStr = "[\n";
+        int len = contacts.length;
+        for(int i = 0; i < len - 1; i++){
+            jsonStr += contactToJson(contacts[i]) + ",\n";
+        }
+        jsonStr += contactToJson(contacts[len -1]);
+        jsonStr += "\n]";
+        return jsonStr;
+    }
+    public Contact[] jsonToContact(String jsonStr){
+        Gson gson = new Gson();
+        return gson.fromJson(jsonStr, Contact[].class);
+    }
+    //
 
     public String emailToJsonString(Email email){
         ObjectMapper mapper = new ObjectMapper();

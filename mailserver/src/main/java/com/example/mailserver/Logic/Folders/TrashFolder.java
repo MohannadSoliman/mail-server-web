@@ -1,5 +1,7 @@
 package com.example.mailserver.Logic.Folders;
 
+import java.io.File;
+
 import com.example.mailserver.Logic.Email;
 
 //change
@@ -15,12 +17,18 @@ public class TrashFolder extends Folder {
     }
 
     public void deleteForever(String emailId){
-        Email deletedEmial = deleteEmail(emailId);
+        Email deletedEmail = deleteEmail(emailId);
         String userEmail = getUserEmail();
-        deleteRelatedAttachments(deletedEmial.getId(), userEmail);
+        deleteRelatedAttachments(deletedEmail.getId(), userEmail);
     }
 
     private void deleteRelatedAttachments(String emailId, String emailAddress){
-        //some logic to delete it
+        File folder = new File("mailserver/Database/Users/" + emailAddress + "/Attachments/" + emailId);
+        String files[] = folder.list();
+        for(String file : files){
+            File currentFile = new File(folder.getPath(), file);
+            currentFile.delete();
+        }
+        folder.delete();
     }
 }
