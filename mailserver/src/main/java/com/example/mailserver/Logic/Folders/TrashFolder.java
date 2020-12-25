@@ -1,4 +1,7 @@
 package com.example.mailserver.Logic.Folders;
+
+import com.example.mailserver.Logic.Email;
+
 //change
 public class TrashFolder extends Folder {
 
@@ -9,5 +12,15 @@ public class TrashFolder extends Folder {
 
     private void checkForOutDatedEmail(){
         //some work :(
+    }
+
+    public void deleteForever(String emailId){
+        Email deletedEmial = deleteEmail(emailId);
+        String userEmail = getUserEmail();
+        deleteRelatedAttachments(deletedEmial.getId(), userEmail);
+    }
+
+    private void deleteRelatedAttachments(String emailId, String emailAddress){
+        //some logic to delete it
     }
 }

@@ -24,6 +24,7 @@
 </template>
 
 <script>
+// import store from '../../store'
 export default {
   name: 'emailCard',
   props: {
@@ -69,15 +70,24 @@ export default {
     hideQuickMenu(){
       this.activeQuickMenu = false;
     },
-    iamhere(){console.log("i am alive")}
+    removeSelf(){
+      document.getElementById(this.email.id).remove();
+    },
   },
   mounted(){
     this.email.id = this.emailInfo.id;
-    if(this.inbox) this.email.receivers = this.emailInfo.receivers;
+    if(this.inbox) {
+       const receiversList = this.emailInfo.receivers;
+       let recieversStr = "";
+       for(const reciever of receiversList){
+         recieversStr += reciever;
+       }
+       this.email.receivers = recieversStr;
+    }
     else this.email.sender = this.emailInfo.sender;
     this.email.subject = this.emailInfo.title;
     this.email.priority = this.emailInfo.priority.toLowerCase();
-    this.email.date = this.emailInfo.date;
+    this.email.date = this.emailInfo.time.split(' ')[0];
     this.email.attachments = this.emailInfo.attachments;
   },
 }

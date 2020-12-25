@@ -57,14 +57,16 @@
 <script>
 import customFolder from '../components/sideMenu/folder.vue';
 import Vue from 'vue';
-
+import axios from 'axios';
+import {mapGetters ,mapActions} from 'vuex';
+import store from '../store'
 export default {
 	name: 'sideMenu',
 	data(){
 		return{
 			closedMenu: true,
       mainFolders: ['inbox', 'sent', 'draft', 'contacts', 'trash', 'folders'],
-      customFolders: ['work', 'family'],
+      customFolders: [],
 			buttons: {
 				inbox: {
 					id: 0,
@@ -100,8 +102,10 @@ export default {
 				},
 			}
 		}
-	},
+  },
+  computed: mapGetters(['getUserId']),
 	methods: {
+    ...mapActions(['setActiveFolder', 'updateEmails']),
 		//menu-open/close-btn actions
 		toggleMenu(){
 			if(this.closedMenu) this.openMenu();
@@ -180,8 +184,32 @@ export default {
 		menuBtnClickEvent(btn){
 			if(btn.active) return;
 			this.enableButton(btn);
-			document.getElementById("current-folder-name").innerHTML = btn.name;
-		},
+      document.getElementById("current-folder-name").innerHTML = btn.name;
+      
+      this.showFolderEmails(btn)    
+    },
+    showFolderEmails(btn){
+      this.setActiveFolder(btn.name.toLowerCase());
+      const homePage = store.getters.getHomePage;
+      axios.get(`http://localhost:8080//getEmailsList`, {
+        params: { 
+          userId: this.getUserId,
+          folderName: btn.name.toLowerCase(),
+          sortType: 1,
+          sortIdntifier: 0,
+          start: 0,
+        }
+      })
+      .then( response => {
+        homePage.reset();
+        // for(let elem of store.getters.getEmailsListPageInfo.emailsList){
+        //   console.log(elem);
+        // }
+        homePage.addEmails(response.data);
+        this.updateEmails(response.data);
+      })
+      .catch( error => console.log(error)); 
+    },
 		//folders button
 		folderBtnClickEvent(){
 			const folderBtn = this.buttons.folders;
@@ -232,9 +260,22 @@ export default {
       newCustomFolder.$mount();
       const addFolderBtn = document.getElementById("add-folder-btn");
       this.$refs.customFoldersContainer.insertBefore(newCustomFolder.$el, addFolderBtn);
+      store.commit('addCustomFolder', newCustomFolder);
     },
     addNewCustomFolder(){
       this.addCustomFolder(null)
+    },
+    fitchAllCustomFolders(){
+      axios.get(`http://localhost:8080//getAllCustomFolders`, {
+        params: { userId: this.getUserId }
+      })
+      .then( response => {
+        this.customFolders = response.data;
+        for(let folder of this.customFolders){
+          this.addCustomFolder(folder);
+        }
+      })
+      .catch( error => console.log(error)); 
     }
 	},
 	mounted(){
@@ -246,10 +287,8 @@ export default {
 			folderBtn.image.nonActive = document.getElementById(`${folder}-img-nonActive`);
 			folderBtn.label = document.getElementById(`${folder}-label`);
     }
-    for(let folder of this.customFolders){
-      this.addCustomFolder(folder);
-    }
-	}
+      this.fitchAllCustomFolders();
+  }
 }
 </script>
 

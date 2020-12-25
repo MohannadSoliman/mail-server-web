@@ -58,6 +58,7 @@ public class JsonEmailConverter {
     }
 
     public String arrayOfEmailsToJson(Email[] emails){
+        if(emails.length == 0) return "[]";
         String jsonStr = "[\n";
         int len = emails.length;
         for(int i = 0; i < len - 1; i++){

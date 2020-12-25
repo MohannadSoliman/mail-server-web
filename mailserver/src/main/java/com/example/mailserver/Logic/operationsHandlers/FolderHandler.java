@@ -48,7 +48,7 @@ public class FolderHandler {
         String[] existingFolderNames = getExistingCustomFolderNames();
         if(existingFolderNames != null){
             for(String folderName: existingFolderNames){
-                createExistingCustomFolder(folderName);
+                createExistingCustomFolder(folderName.toLowerCase());
             }
         }
     }
@@ -79,7 +79,20 @@ public class FolderHandler {
     public boolean deleteFolder(String folderName){
         if(foldersMap.getFolder(folderName).isImmutable()) return false;
         File myFile = new File(getFolderPath(folderName));
-        return myFile.delete();
+        boolean success = myFile.delete();
+        if(!success) return false;
+
+        String[] existingCustomFolderNames = getExistingCustomFolderNames();
+        String[] modifiedCustomFoldersNames = new String[existingCustomFolderNames.length -1];
+        int index = 0;
+
+        for(int i = 0; i < existingCustomFolderNames.length; i++){
+            if(existingCustomFolderNames[i].equals(folderName)) continue;
+            modifiedCustomFoldersNames[index++] = existingCustomFolderNames[i];
+        }
+        String foldersFilePath = System.getProperty("user.dir") + "/mailserver/Database/Users/" + userEmail + "/folders.json";;
+        fileHandler.writeFileFromArray(foldersFilePath, modifiedCustomFoldersNames);
+        return true;
     }
 
     public boolean renameFolder(String oldFolderName, String newFolderName) throws IOException {
@@ -117,7 +130,7 @@ public class FolderHandler {
         Email[] sortedEmails = sortHandler.sortEmails(allEmails, sortType, sortIdntifier);
         
         if(start < 0) start = 0;
-        if(start >= sortedEmails.length) start = sortedEmails.length - 10;
+        if(start > sortedEmails.length) start = sortedEmails.length - 10;
 
         int endIndex = start + 10;
         if(endIndex > sortedEmails.length) endIndex = sortedEmails.length;

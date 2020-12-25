@@ -12,12 +12,15 @@
             :disabled="!isBeingEdited" maxlength="13" v-model="folderName">
     <div :class="['actions-menu', actionsMenuVisible ? 'visible': 'hidden']" >
       <div class="menu-item" @click="changeFolderName()">rename</div>
-      <div class="menu-item" @click="removeFolder()">delete</div>
+      <div class="menu-item" @click="deleteFolder()">delete</div>
     </div>
   </div>
 </template>
 
 <script>
+import axios from 'axios';
+import store from "../../store";
+
 export default {
   name: "customFolder",
   props: {
@@ -29,31 +32,95 @@ export default {
       folderId: "new-custom-folder",
       set: false,
       folderName: "New folder",
-      ForbiddenFolderNames: ["sent", "inbox", "draft", "trash", "contacts"],
       mouseOn: false,
       enabledActionsMenu: false,
       isBeingEdited: false,
       actionsMenuVisible: false,
       focused: false,
+
+      rename: false,
+      oldFolderName: "",
     }
   },
   methods:{
     setFolderName(){
-      if(this.ForbiddenFolderNames.includes(this.folderName.toLowerCase())){
-        this.folderName = "";
-        //show error msg
+      if(this.rename){
+        this.setFolderNameAfterRenaming();
+        this.rename = false;
       }
-      this.folderId = this.folderName;
-      this.isBeingEdited = false;
-      this.set = true;
+      else{
+        this.setNewFolderName();
+      }
+      this.enabledActionsMenu = true;
+      const folderNameInput = document.getElementById(`folder-name-${this.folderId}`);
+      folderNameInput.className = "folder-name";
+    },
+    setNewFolderName(){
+      axios.get(`http://localhost:8080//createNewCustomFolder`,
+      {
+        params: { 
+          userId: store.getters.getUserId,
+          folderName: this.folderName.toLowerCase(),
+        }
+      })
+      .then( response => {
+        const canBeCreated = response.data;
+        if(canBeCreated){
+          this.folderId = this.folderName.toLowerCase();
+          this.isBeingEdited = false;
+          this.set = true;
+        }
+        else{
+          //show error msg
+          this.removeFolder();
+        }
+      })
+      .catch( error => console.log(error)); 
+    },
+    setFolderNameAfterRenaming(){
+      axios.get(`http://localhost:8080//renameCustomFolder`,
+      {
+        params: { 
+          userId: store.getters.getUserId,
+          oldFolderName: this.oldFolderName.toLowerCase(),
+          newFolderName: this.folderName.toLowerCase(),
+        }
+      })
+      .then( response => {
+        const canBeRenamed = response.data;
+        if(!canBeRenamed){
+          this.folderName = this.oldFolderName;
+          //show error msg
+        }
+        this.folderId = this.folderName.toLowerCase();
+        this.isBeingEdited = false;
+        this.set = true;
+      })
+      .catch( error => console.log(error)); 
+    },
+    deleteFolder(){
+      axios.delete(`http://localhost:8080//deleteCustomFolder`,
+      {
+        params: { 
+          userId: store.getters.getUserId,
+          folderName: this.folderName.toLowerCase(),
+        }
+      })
+      .then( () => this.removeFolder())
+      .catch( error => console.log(error)); 
     },
     changeFolderName(){
+      this.oldFolderName = this.folderName;
       this.actionsMenuVisible = false;
       const folderNameInput = document.getElementById(`folder-name-${this.folderId}`);
       this.isBeingEdited = true;
+      this.rename = true;
       folderNameInput.focus();
+      folderNameInput.className = "folder-name-edited";
+      store.commit('setCustomFolderEdited', this);
     },
     removeFolder(){
+      store.commit('removeCustomFolder', this);
       document.getElementById(this.folderId).remove();
     },
     toggleActionsMenu(){
@@ -64,6 +131,9 @@ export default {
     showEmails(){
       let itemClicked = event.target;
       if(itemClicked.id !== this.folderId && itemClicked.id !== `folder-name-${this.folderId}`) return;
+      for(const folderBtn of store.getters.getCustomFoldersInfo.allcustomFolders){
+        folderBtn.focused = false;
+      }
       this.focused = !this.focused;
     }
   },
@@ -81,10 +151,14 @@ export default {
       this.mouseOn = true;
     }
     document.onclick = () => {
-      if(this.mouseOn || !this.isBeingEdited || this.set) {
+      const currentCustomFolder = store.getters.getCustomFoldersInfo.beingEdited;
+      if(currentCustomFolder === null) return;
+      console.log(currentCustomFolder.mouseOn, currentCustomFolder.isBeingEdited, currentCustomFolder.folderId)
+      if(currentCustomFolder.mouseOn || !currentCustomFolder.isBeingEdited) {
         return;
       }
-      this.setFolderName();
+      console.log("set");
+      currentCustomFolder.setFolderName();
     }
   }
 }
@@ -135,9 +209,20 @@ export default {
   background-color: transparent;
 }
 
+.folder-name-edited{
+  box-sizing: border-box;
+  border: 1px solid #767676;
+  height: 1.5rem;
+  margin-left: 1rem;
+  width: 50%;
+  font-size: medium;
+  color: #767676;
+  background-color: transparent;
+}
+
 input[type=text]:focus{
   outline-style: none;
-  border: none;
+  border: 1px solid #767676;
 }
 
 .actions-menu{

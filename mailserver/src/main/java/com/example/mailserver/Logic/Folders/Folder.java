@@ -34,6 +34,7 @@ public class Folder {
     }
 
     public String getFileName() {return id;}
+    public String getUserEmail() {return userEmail;}
 
     public Email[] getAllEmailsArray(){
         HashMap<String, Email> tempEmailsMap = getAllEmailsMap();

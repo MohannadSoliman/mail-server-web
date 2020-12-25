@@ -1,10 +1,7 @@
-import axios from 'axios';
-import store from '..';
-
 const state = {
   activeFolder: "inbox",
   currentStartIndex: 0,
-  currentEmailsList: null, //json
+  currentEmailsList: "", //json
   sortingParam: {
     sortType: 1,
     sortIdntifier: 0,
@@ -13,10 +10,17 @@ const state = {
     
 const getters = {
   getEmailsList: state => state.currentEmailsList,
+  getSortingParam: state => state.sortingParam,
+  getStartIndex: state => state.currentStartIndex,
+  getActiveFolder: state => state.activeFolder,
 };
     
 const actions = {
-  setActiveFolder: ({commit}, activeFolderName) => commit('changeActiveFolder', activeFolderName),
+  setActiveFolder: ({commit}, activeFolderName) => {
+    commit('changeActiveFolder', activeFolderName)
+    commit('setStartIndex', 0);
+  },
+  //increase / decrease starting index
   incrementStartIndex: ({commit}) => {
     let newStartIndex = state.currentStartIndex + 10;
     commit('setStartIndex', newStartIndex);
@@ -25,28 +29,14 @@ const actions = {
     let newStartIndex = state.currentStartIndex - 10;
     commit('setStartIndex', newStartIndex);
   },
-  updateEmailsList: ({commit}) => {
-    axios.get(`http://localhost:8080//getEmailsList`, {
-        params: { 
-          userId: store.getters.getUserId,
-          folderName: state.activeFolder,
-          sortType: state.sortingParam.sortType,
-          sortIdntifier: state.sortingParam.sortIdntifier,
-          start: state.currentStartIndex,
-        }
-      })
-      .then( response => {
-        console.log(response.data);
-        commit('setEmailsList', response.data);
-        return response.data;
-      })
-      .catch( error => console.log(error)); 
-  },
+  //sorting
   sortNewer: ({commit}) => commit('setSortingIdentifier', 0),
   sortOlder: ({commit}) => commit('setSortingIdentifier', 1),
 
   sortByPriority: ({commit}) => commit('setSortType', 0),
   sortByDate: ({commit}) => commit('setSortType', 1),
+  //set emailsList
+  updateEmails: ({commit}, list) => commit('setEmailsList', list),
 }
     
 const mutations = {

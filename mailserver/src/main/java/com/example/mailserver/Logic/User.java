@@ -55,6 +55,10 @@ public class User {
     public boolean renameCustomFolder(String oldFolderName, String newFolderName) throws IOException {
         return folderHandler.renameFolder(oldFolderName, newFolderName);
     }
+    
+    public String[] getAllCustomFolders(){
+        return folderHandler.getExistingCustomFolderNames();
+    }
     //view emails
     public Email[] getAllEmailsAsArrayFrom(String folderName){
         return foldersMap.getFolder(folderName).getAllEmailsArray();

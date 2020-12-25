@@ -24,6 +24,7 @@ import emailCard from '../components/compose/emailCard.vue';
 import Vue from 'vue';
 
 import {mapGetters, mapActions} from 'vuex';
+import store from '../store';
 
 import axios from 'axios';
 
@@ -41,9 +42,9 @@ export default {
     return{
     }
   },
-  computed: mapGetters(['getEmailsList, getUserId']),
+  computed: mapGetters(['getEmailsList', 'getUserId', 'getSortingParam', 'getStartIndex', 'getActiveFolder']),
   methods: {
-    ...mapActions(['updateEmailsList']),
+    ...mapActions(['updateEmailsList', 'updateEmails']),
     addEmails(emailsList){
       let EmailCard = Vue.extend(emailCard);
       for(const email of emailsList){
@@ -52,12 +53,13 @@ export default {
         })
         newEmailCard.$mount();
         this.$refs.emailsContainer.appendChild(newEmailCard.$el);
+        store.commit('addEmail', newEmailCard);
       }
     },
     updateEmailsList(){
       axios.get(`http://localhost:8080//getEmailsList`, {
         params: { 
-          userId: 1,
+          userId: this.getUserId,
           folderName: "inbox",
           sortType: 1,
           sortIdntifier: 0,
@@ -65,15 +67,21 @@ export default {
         }
       })
       .then( response => {
-        console.log(response.data);
         this.addEmails(response.data);
+        this.updateEmails(response.data);
       })
       .catch( error => console.log(error)); 
-  },
+    },
+    reset(){
+      for(const email of [...store.getters.getEmailsListPageInfo.emailsList]){
+        store.commit('removeEmail', email);
+        email.removeSelf();
+      }
+    }
   },
   mounted(){
-    console.log(this.getUserId);
-    this.updateEmailsList()
+    this.updateEmailsList();
+    store.commit('setHomePage', this);
   }
 }
 </script>
