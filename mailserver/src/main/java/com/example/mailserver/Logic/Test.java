@@ -1,6 +1,9 @@
 package com.example.mailserver.Logic;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -36,8 +39,16 @@ public class Test {
         //System.out.println(user.searchAllFiles("test", "sender"));
         // System.out.println(signUp.signUpUser("sign2314@g", "pass3442@g"));
         // System.out.println(signUp.signUpUser("sign2263@g", "pass3362@g"));
-        SignUp signUp = SignUp.getInstance();
-        signUp.signUpUser("sign2sdf3@g", "passssgg2@g");
+        // SignUp signUp = SignUp.getInstance();
+        // signUp.signUpUser("sign2sdf3@g", "passssgg2@g");
+        // try {
+        //     Path path = Paths.get("mailserver/Database/DirectoriesTest");
+        //     Files.createDirectories(path);
+        // } 
+        //   catch (IOException e) {
+        //     System.err.println("Failed to create directory!" + e.getMessage());
+        // }
+
 
         
     }
