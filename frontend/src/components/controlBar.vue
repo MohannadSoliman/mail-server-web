@@ -1,17 +1,19 @@
 <template>
   <div id="control-bar">
-		<div id="refresh-btn" class="control-btn">
+		<div id="refresh-btn" class="control-btn" @click="refresh()">
 			<img src="../assets/controlBar/refresh-gray.png" width="20px">
 		</div>
 		<form id="select-all-container">
-			<input type="checkbox" id="select-all" value="selectAll">
+			<input type="checkbox" id="select-all" 
+            :value="[selectAllActive ? 'Un-select all' : 'Select all']" 
+            @change="toggleSelectAll()">
 			<label for="select-all">Select all</label>
 		</form>
 		<div id="emails-nav">
-			<div id="backward-btn" class="control-btn">
+			<div id="backward-btn" class="control-btn" @click="goToPrevPage()">
 				<img src="../assets/controlBar/backward.png" width="17px">
 			</div>
-			<div id="forward-btn" class="control-btn">
+			<div id="forward-btn" class="control-btn" @click="goToNextPage()">
 				<img src="../assets/controlBar/forward.png" width="17px">
 			</div>
 		</div>
@@ -19,10 +21,86 @@
 </template>
 
 <script>
-export default {
-	name: 'controlBar',
-	methods:{
+import {mapGetters, mapActions} from 'vuex';
+import store from '../store';
+import axios from 'axios';
 
+export default {
+  name: 'controlBar',
+  data(){
+    return{
+      selectAllActive: false,
+    }
+  },
+  computed: mapGetters(['getUserId', 'getActiveFolder', 'getEmailsListPageInfo', 'getStartIndex']),
+	methods:{
+    ...mapActions(['updateEmails', 'incrementStartIndex', 'decrementStartIndex']),
+		refresh(){
+      const homePage = store.getters.getHomePage;
+      axios.get(`http://localhost:8080//getEmailsList`, {
+        params: { 
+          userId: this.getUserId,
+          folderName: this.getActiveFolder,
+          sortType: 1,
+          sortIdntifier: 0,
+          start: 0,
+        }
+      })
+      .then( response => {
+        homePage.reset();
+        homePage.addEmails(response.data);
+        this.updateEmails(response.data);
+      })
+      .catch( error => console.log(error)); 
+    },
+    toggleSelectAll(){
+      this.selectAllActive = !this.selectAllActive;
+      if(this.selectAllActive){
+        this.selectAllEmails();
+      }
+      else{
+        this.unSelectAllEmails();
+      }
+    },
+    selectAllEmails(){
+      store.commit('clearSelecteEmails');
+      for(const email of [...this.getEmailsListPageInfo.emailsList]){
+        email.selectSelf();
+        store.commit('addSelectedEmail', email);
+      }
+    },
+    unSelectAllEmails(){
+      for(const email of [...this.getEmailsListPageInfo.emailsList]){
+        email.unSelectSelf();
+      }
+      store.commit('clearSelecteEmails');
+    },
+    goToNextPage(){
+      this.incrementStartIndex();
+      this.updateEmailsList();
+    },
+    goToPrevPage(){
+      this.decrementStartIndex();
+      this.updateEmailsList();
+    },
+    updateEmailsList(){
+      const homePage = store.getters.getHomePage;
+      axios.get(`http://localhost:8080//getEmailsList`, {
+        params: { 
+          userId: this.getUserId,
+          folderName: this.getActiveFolder,
+          sortType: 1,
+          sortIdntifier: 0,
+          start: this.getStartIndex,
+        }
+      })
+      .then( response => {
+        homePage.reset();
+        homePage.addEmails(response.data);
+        this.updateEmails(response.data);
+      })
+      .catch( error => console.log(error)); 
+    }
 	}
 }
 </script>

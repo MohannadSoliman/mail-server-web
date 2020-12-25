@@ -41,7 +41,7 @@ const actions = {
     
 const mutations = {
   changeActiveFolder: (state, activeFolderName) => state.activeFolder = activeFolderName,
-  setStartIndex: (state, startIndex) => state.startIndex = startIndex,
+  setStartIndex: (state, startIndex) => state.currentStartIndex = startIndex,
   setSortingIdentifier: (state, identifier) => state.sortingParam.sortIdntifier = identifier,
   setSortType: (state, type) => state.sortingParam.sortType = type,
   setEmailsList: (state, list) => state.currentEmailsList = list,

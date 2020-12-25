@@ -38,5 +38,10 @@
   "emailAddress" : "shosh@gmail.com",
   "password" : "iwillsurvive"
 }
+,
+{
+  "emailAddress" : "newtest@lol.com",
+  "password" : "1111alitest"
+}
 
 ]

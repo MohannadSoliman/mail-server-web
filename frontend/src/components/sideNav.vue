@@ -202,9 +202,6 @@ export default {
       })
       .then( response => {
         homePage.reset();
-        // for(let elem of store.getters.getEmailsListPageInfo.emailsList){
-        //   console.log(elem);
-        // }
         homePage.addEmails(response.data);
         this.updateEmails(response.data);
       })

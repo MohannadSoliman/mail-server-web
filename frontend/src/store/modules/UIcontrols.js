@@ -7,13 +7,15 @@ const state = {
   homePage: null,
   emailsListPage: {
     emailsList: [],
-  }
+  },
+  selectedEmails: [],
 };
     
   const getters = {
     getCustomFoldersInfo: state => state.customFolders,
     getEmailsListPageInfo: state => state.emailsListPage,
     getHomePage: state => state.homePage,
+    getSelectedEmails: state => state.selectedEmails,
   };
     
   const actions = {
@@ -37,6 +39,13 @@ const state = {
       state.emailsListPage.emailsList.splice(emailIndex, 1);
     },
     clearEmailList: state => state.emailsListPage.emailsList.length = 0,
+
+    addSelectedEmail: (state, email) => state.selectedEmails.push(email),
+    removeSelectEmail: (state, email) => {
+      const emailIndex = state.selectedEmails.indexOf(email);
+      state.selectedEmails.splice(emailIndex, 1);
+    },
+    clearSelecteEmails: state => state.selectedEmails.length = 0,
   };
     
   export default{

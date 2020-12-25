@@ -29,7 +29,7 @@ public class SignUp {
     public String signUpUser(String emailAddress, String password){
       emailAddress = emailAddress.toLowerCase();
       UserInfo[] usersInfo = readUsersFile();
-      if(SignIn.getInstance().signInUser(emailAddress, password) != null) return "false";
+      if(!SignIn.getInstance().signInUser(emailAddress, password).equals("false")) return "false";
       createUser(emailAddress, password, usersInfo);
       return Session.getInstance().addUserSession(new User(emailAddress)).toString();
     }

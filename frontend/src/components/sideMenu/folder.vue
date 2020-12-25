@@ -135,6 +135,27 @@ export default {
         folderBtn.focused = false;
       }
       this.focused = !this.focused;
+      this.getEmails();
+    },
+    getEmails(){
+      store.commit('changeActiveFolder', this.folderName.toLowerCase());
+      store.commit('setStartIndex', 0);
+      const homePage = store.getters.getHomePage;
+      axios.get(`http://localhost:8080//getEmailsList`, {
+        params: { 
+          userId: store.getters.getUserId,
+          folderName: this.folderName.toLowerCase(),
+          sortType: 1,
+          sortIdntifier: 0,
+          start: 0,
+        }
+      })
+      .then( response => {
+        homePage.reset();
+        homePage.addEmails(response.data);
+        store.commit('setEmailsList', response.data);
+      })
+      .catch( error => console.log(error)); 
     }
   },
   mounted(){

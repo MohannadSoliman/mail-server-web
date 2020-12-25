@@ -128,13 +128,13 @@ public class FolderHandler {
         //0 newer first 1 older first
         Email[] allEmails = foldersMap.getFolder(folderName).getAllEmailsArray();
         Email[] sortedEmails = sortHandler.sortEmails(allEmails, sortType, sortIdntifier);
-        
+
         if(start < 0) start = 0;
         if(start > sortedEmails.length) start = sortedEmails.length - 10;
 
         int endIndex = start + 10;
         if(endIndex > sortedEmails.length) endIndex = sortedEmails.length;
-
+        System.out.println(start + " : " + endIndex);;
         ArrayList<Email> outputEmails = new ArrayList<>();
         for(int i = start; i < endIndex; i++){
             outputEmails.add(sortedEmails[i]);

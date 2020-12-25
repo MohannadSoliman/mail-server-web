@@ -24,7 +24,7 @@
 </template>
 
 <script>
-// import store from '../../store'
+import store from '../../store'
 export default {
   name: 'emailCard',
   props: {
@@ -48,17 +48,27 @@ export default {
   },
   methods: {
     toggleCheckBox(){
-      const checkBox = document.getElementById(`select-email-${this.emailInfo.id}`);
-      const emailCard = document.getElementById(`${this.emailInfo.id}`);
-      if(this.chechBoxChecked){
-        checkBox.className = "unChecked";
-        emailCard.style.backgroundColor = "white";
+      if(this.chechBoxChecked){ //un select Email
+        this.unSelectSelf();
+        store.commit('removeSelectEmail', this);
       }
-      else {
-        checkBox.className = "checked";
-        emailCard.style.backgroundColor = "rgb(224,224,224)"
+      else {//select Email
+        this.selectSelf();
+        store.commit('addSelectedEmail', this);
       }
       this.chechBoxChecked = !this.chechBoxChecked;
+    },
+    selectSelf(){
+      const checkBox = document.getElementById(`select-email-${this.emailInfo.id}`);
+      const emailCard = document.getElementById(`${this.emailInfo.id}`);
+      checkBox.className = "checked";
+      emailCard.style.backgroundColor = "rgb(224,224,224)"
+    },
+    unSelectSelf(){
+      const checkBox = document.getElementById(`select-email-${this.emailInfo.id}`);
+      const emailCard = document.getElementById(`${this.emailInfo.id}`);
+      checkBox.className = "unChecked";
+      emailCard.style.backgroundColor = "white";
     },
     showHideAttachemntIndicator(){
       if(this.email.attachments.length > 0) return "has-attachments";
