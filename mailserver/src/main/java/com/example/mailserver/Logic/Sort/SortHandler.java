@@ -33,7 +33,7 @@ public class SortHandler {
                 else if(sortedEmails[j].getPriority().toLowerCase().equals("high")){
                      priorityOne = 2;
                 }
-                else if(sortedEmails[j].getPriority().toLowerCase().equals("medium")){
+                else if(sortedEmails[j].getPriority().toLowerCase().equals("normal")){
                      priorityOne = 1;
                 }
                 else if(sortedEmails[j].getPriority().toLowerCase().equals("low")){
@@ -47,7 +47,7 @@ public class SortHandler {
                 else if(sortedEmails[j+1].getPriority().toLowerCase().equals("high")){
                      priorityTwo = 2;
                 }
-                else if(sortedEmails[j+1].getPriority().toLowerCase().equals("medium")){
+                else if(sortedEmails[j+1].getPriority().toLowerCase().equals("normal")){
                      priorityTwo = 1;
                 }
                 else if(sortedEmails[j+1].getPriority().toLowerCase().equals("low")){

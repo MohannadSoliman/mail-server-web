@@ -19,6 +19,19 @@ const state = {
     date: "String",
     attachments: [],
   },
+  subOperation:{
+    active: false,
+    start: 0,
+    required: "",
+    type: "",
+    sortType: 1,
+    sortIdntifier: 0,
+    ops:{
+      search: false,
+      sort: false,
+      filter: false,
+    }
+  },
   activeEmail: false,
 };
     
@@ -31,6 +44,8 @@ const getters = {
   getEmailsNum: state => state.activeFolderEmailsNum,
   getCurrentEmailInfo: state => state.currentEmailInfo,
   getActiveStatus: state => state.activeEmail,
+  getSubOperation: state => state.subOperation,
+  getOpsConds: state => state.subOperation.ops,
 };
     
 const actions = {
@@ -90,6 +105,16 @@ const mutations = {
   },
   setCurrentEmail: (state, email) => state.currentEmailInfo = email,
   setActiveEmail: (state, active) => state.activeEmail = active,
+  setSubOpActive: (state, active) => state.subOperation.active = active,
+  setSubOpStart: (state, start) => state.subOperation.start = start,
+  setSubOpRequired: (state, required) => state.subOperation.required = required,
+  setSubOpType: (state, type) => state.subOperation.type = type,
+  setSubOpSortType: (state, type) => state.subOperation.sortType = type,
+  setSubOpSortIdentifier: (state, idn) => state.subOperation.sortIdntifier = idn,
+
+  setSearchCond: (state, status) => state.subOperation.ops.search = status,
+  setFilterCond: (state, status) => state.subOperation.ops.filter = status,
+  setSortCond: (state, status) => state.subOperation.ops.sort = status,
 };
     
 export default{

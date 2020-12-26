@@ -116,6 +116,29 @@ public class Api {
         Session.getInstance().getUser(userId).deleteEmailForEver(emailId);
     }
 
+    @DeleteMapping("/deleteMultipleEmails")
+    public void deleteMultipleEmails(@RequestParam int userId, @RequestParam String emailsIds, @RequestParam String folderName){
+        User user = Session.getInstance().getUser(userId);
+        String[] emailsToBeDeleted = emailsIds.split(",");
+        for (String email: emailsToBeDeleted){
+            user.deleteEmail(email, folderName);
+        }
+    }
+
+    //search 
+
+    //filter
+    @GetMapping("/filter")
+    public String filter(@RequestParam int userId, @RequestParam String required, @RequestParam String fileName, @RequestParam String criteria){
+        return Session.getInstance().getUser(userId).filterFile(required, fileName, criteria);
+    }
+
+    //sort
+    @GetMapping("/sort")
+    public String sort(@RequestParam int userId, @RequestParam String folderName, @RequestParam int sortType, @RequestParam int sortIdntifier){
+        Email[] sortedEmails = Session.getInstance().getUser(userId).sortEmails(folderName, sortType, sortIdntifier);
+        return JsonEmailConverter.getInstance().arrayOfEmailsToJson(sortedEmails);
+    }
 
     @Autowired
     private FileStorageService fileStorageService;

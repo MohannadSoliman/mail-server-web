@@ -29,4 +29,5 @@ public class FoldersMap {
     public boolean hasFolder(String folderKey) {
         return this.folderMap.containsKey(folderKey);
     }
+
 }

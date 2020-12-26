@@ -12,11 +12,11 @@
       <img src="../../assets/compose/attach.png" width="20px" :class="showHideAttachemntIndicator()">
     </div>
     <div :class="['quick-menu', activeQuickMenu ? 'visible': 'hidden', chechBoxChecked ? 'mouse-on': 'mouse-leave']">
-      <div class="menu-btn">
-        <img src="../../assets/general/moveFolder.png" width="18px">
+      <div class="menu-btn" :id="`delete-btn-${emailInfo.id}`">
+        <img src="../../assets/general/moveFolder.png" width="18px" :id="`delete-img-${emailInfo.id}`">
       </div>
-      <div class="menu-btn" @click="deleteEmail()">
-        <img src="../../assets/sideMenu/trash-gray.png" width="18px">
+      <div class="menu-btn" @click="deleteEmail()" :id="`move-btn-${emailInfo.id}`">
+        <img src="../../assets/sideMenu/trash-gray.png" width="18px" :id="`move-img-${emailInfo.id}`">
       </div>
     </div>
   </div>
@@ -66,6 +66,7 @@ export default {
       const emailCard = document.getElementById(`${this.emailInfo.id}`);
       checkBox.className = "checked";
       emailCard.style.backgroundColor = "rgb(224,224,224)"
+      // store.commit('addSelectedEmail', this);
     },
     unSelectSelf(){
       const checkBox = document.getElementById(`select-email-${this.emailInfo.id}`);
@@ -88,7 +89,12 @@ export default {
     },
     showSelf(){
       let itemClicked = event.target;
-      if(itemClicked.id !== this.email.id) return;
+      if(itemClicked.id == `select-email-${this.email.id}` ||
+        itemClicked.id == `quick-menu-${this.email.id}` || 
+        itemClicked.id == `delete-btn-${this.email.id}` ||
+        itemClicked.id == `move-btn-${this.email.id}` ||
+        itemClicked.id == `delete-img-${this.email.id}` ||
+        itemClicked.id == `move-img-${this.email.id}`) return;
 
       store.commit('setCurrentEmail', this.email);
       store.commit('setActiveEmail', true);
@@ -103,7 +109,7 @@ export default {
       popUpBackground.appendChild(popUp);
 
       const msg = document.createElement('h2');
-      if(store.getters.getActiveFolder === "trash") msg.innerText = "this email will be deleted forever";
+      if(store.getters.getActiveFolder === "trash") msg.innerText = "this email will be deleted permanently";
       else msg.innerText = "Sure to move this email to Trash?";
       popUp.appendChild(msg);
 
@@ -172,6 +178,9 @@ export default {
           this.refreshHome();
         })
         .catch( error => console.log(error)); 
+    },
+    getId(){
+      return this.email.id;
     }
   },
   mounted(){

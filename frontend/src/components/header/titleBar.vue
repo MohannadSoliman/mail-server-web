@@ -9,19 +9,19 @@
       </div>
       <div  id="prioirity-menu" 
             :class="priorityMenuVisible ? 'visible-menu': 'hidden-menu'">
-          <div class="menu-item" id="urgent" @click=" setPriorityFilter()">
+          <div class="menu-item" id="urgent" @click=" showAll()">
             <label for="urgent" class="menu-label">show all</label> &#9679;
           </div>
-          <div class="menu-item urgent" id="urgent" @click=" setPriorityFilter()">
+          <div class="menu-item urgent" id="urgent" @click=" setPriorityFilter('Urgent', 'priority')">
             <label for="urgent" class="menu-label">Urgent</label> &#9679;
           </div>
-          <div class="menu-item high" id="high" @click="setPriorityFilter()">
+          <div class="menu-item high" id="high" @click="setPriorityFilter('High', 'priority')">
             <label for="high" class="menu-label">High</label> &#9679;
           </div>
-          <div class="menu-item normal" id="normal" @click="setPriorityFilter()">
+          <div class="menu-item normal" id="normal" @click="setPriorityFilter('Normal', 'priority')">
             <label for="normal" class="menu-label">Normal</label> &#9679;
           </div>
-          <div class="menu-item low" id="low" @click="setPriorityFilter()">
+          <div class="menu-item low" id="low" @click="setPriorityFilter('Low', 'priority')">
             <label for="low" class="menu-label">Low</label> &#9679;
           </div>
       </div>
@@ -34,13 +34,13 @@
       </div>
       <div  id="attach-menu" 
             :class="attachMenuVisible ? 'visible-menu': 'hidden-menu'">
-          <div class="menu-item" @click=" setAttachFilter()">
+          <div class="menu-item" @click=" showAll()">
             show all
           </div>
-          <div class="menu-item" @click=" setAttachFilter()">
+          <div class="menu-item" @click=" setAttachFilter('', 'attachment')">
             with attachments
           </div>
-          <div class="menu-item" @click="setAttachFilter()">
+          <div class="menu-item" @click="setAttachFilter('', 'no attachment')">
             with no attachments
           </div>
       </div>
@@ -49,15 +49,23 @@
 </template>
 
 <script>
+import axios from 'axios';
+import store from '../../store';
+import {mapGetters, mapActions} from 'vuex';
+
 export default {
   name: 'titleBar',
   data(){
     return{
       priorityMenuVisible: false,
       attachMenuVisible: false,
+
+      startIndex: 0,
     }
   },
+  computed: mapGetters(['getUserId', 'getActiveFolder']),
   methods:{
+    ...mapActions(['updateEmails']),
     togglePriorityFilterMenu(){
       this.priorityMenuVisible = !this.priorityMenuVisible;
       this.attachMenuVisible = false;
@@ -66,11 +74,47 @@ export default {
       this.attachMenuVisible = !this.attachMenuVisible;
       this.priorityMenuVisible = false;
     },
-    setPriorityFilter(){
+    setPriorityFilter(required, type){
+      store.commit('setSubOpActive', true);
+      store.commit('setSubOpStart', 0);
       this.priorityMenuVisible = true;
+      this.fetchFilteredEmails(required, type);
     },
-    setAttachFilter(){
+    setAttachFilter(required, type){
+      store.commit('setSubOpActive', true);
+      store.commit('setSubOpStart', 0);
       this.attachMenuVisible = true;
+      this.fetchFilteredEmails(required, type);      
+    },
+    fetchFilteredEmails(required, type){
+      store.commit('setSubOpRequired', required);
+      store.commit('setSubOpType', type);
+
+      store.commit('setSearchCond', false);
+      store.commit('setFilterCond', true);
+      store.commit('setSortCond', false);
+
+      const homePage = store.getters.getHomePage;
+      axios.get(`http://localhost:8080//filter`, {
+        params: { 
+          userId: this.getUserId,
+          required: required,
+          fileName: this.getActiveFolder,
+          criteria: type,
+        }
+      })
+      .then( response => {
+        homePage.reset();
+        const filteredEmails = response.data.slice(0, 15);
+        homePage.addEmails(filteredEmails);
+        this.updateEmails(filteredEmails);
+      })
+      .catch( error => console.log(error)); 
+    },
+    showAll(){
+      store.commit('setSubOpActive', false);
+      const homePage = store.getters.getHomePage;
+      homePage.updateEmailsList();
     }
   }
 }

@@ -67,6 +67,7 @@ export default {
         }
       })
       .then( response => {
+        this.reset();
         this.addEmails(response.data);
         this.updateEmails(response.data);
       })

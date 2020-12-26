@@ -31,7 +31,7 @@ public class FolderHandler {
         newSystemFolder.setFilesHandler(fileHandler);
         foldersMap.addFolder(folderName, newSystemFolder);
     }
-
+    
     private void createExistingCustomFolder(String folderName){
         Folder newCustomFolder = FolderFactory.getInstance().createFolder("custom", folderName, userEmail);
         newCustomFolder.setFilesHandler(fileHandler);

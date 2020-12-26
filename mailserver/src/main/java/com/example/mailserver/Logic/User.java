@@ -6,12 +6,10 @@ import com.example.mailserver.Logic.Filter.Filter;
 import com.example.mailserver.Logic.Filter.Search;
 import com.example.mailserver.Logic.Folders.FoldersMap;
 import com.example.mailserver.Logic.Sort.SortHandler;
-import com.example.mailserver.Logic.operationsHandlers.AttachmentsHandler;
 import com.example.mailserver.Logic.operationsHandlers.EmailHandler;
 import com.example.mailserver.Logic.operationsHandlers.FilesHandler;
 import com.example.mailserver.Logic.operationsHandlers.FolderHandler;
 
-import org.springframework.web.multipart.MultipartFile;
 //change
 public class User {
     private FoldersMap foldersMap;
@@ -90,5 +88,11 @@ public class User {
     }
     public String filterFile(String required, String fileName, String criteria){
         return filter.filterFile(required, fileName, criteria);
+    }
+
+    //sorting
+    public Email[] sortEmails(String folderName, int sortType, int sortIdntifier){
+        Email[] allEmails = getAllEmailsAsArrayFrom(folderName);
+        return sortHandler.sortEmails(allEmails, sortType, sortIdntifier);
     }
 }

@@ -7,21 +7,21 @@
 
     <div  id="sort-menu" 
           :class="sortMenuVisible ? 'visible-menu': 'hidden-menu'">
-      <div class="menu-item" @click="sortBy('all')">
+      <div class="menu-item" @click="showAll()">
         show all
       </div>
       <div class="sub-title">sort by priority</div>
-      <div class="menu-item" @click="sortBy('high to low')">
+      <div class="menu-item" @click="sortBy('priority Z-A', 0, 1)">
         high to low
       </div>
-      <div class="menu-item" @click="sortBy('low to high')">
+      <div class="menu-item" @click="sortBy('priority A-Z', 0, 0)">
         low to high
       </div>
       <div class="sub-title">sort by date</div>
-      <div class="menu-item" @click="sortBy('newest to oldest')">
+      <div class="menu-item" @click="sortBy('Date A-Z', 1, 0)">
         newest to oldest
       </div>
-      <div class="menu-item" @click="sortBy('oldest to newest')">
+      <div class="menu-item" @click="sortBy('Date Z-A', 1, 1)">
         oldest to newest
       </div>
     </div>
@@ -29,6 +29,10 @@
 </template>
 
 <script>
+import store from '../../store';
+import axios from 'axios';
+import {mapActions} from 'vuex';
+
 export default {
   name: 'searchBar',
   data(){
@@ -38,11 +42,46 @@ export default {
     }
   },
   methods:{
-    sortBy(sortBy){
+    ...mapActions(['updateEmails']),
+    sortBy(sortBy, sortType, sortIdntifier){
+      store.commit('setSubOpActive', true);
+      this.sortEmails(sortType, sortIdntifier);
       this.sortParameter = sortBy;
     },
     toggleSortMenu(){
       this.sortMenuVisible = !this.sortMenuVisible;
+    },
+    sortEmails(sortType, sortIdntifier){
+      store.commit('setSubOpSortIdentifier', sortIdntifier);
+      store.commit('setSubOpSortType', sortType);
+      store.commit('setSubOpStart', 0);
+
+      store.commit('setSearchCond', false);
+      store.commit('setFilterCond', false);
+      store.commit('setSortCond', true);
+
+      const homePage = store.getters.getHomePage;
+      axios.get(`http://localhost:8080//sort`, {
+        params: { 
+          userId: store.getters.getUserId,
+          folderName: store.getters.getActiveFolder,
+          sortType: sortType,
+          sortIdntifier: sortIdntifier,
+        }
+      })
+      .then( response => {
+        homePage.reset();
+        const sortedEmails = response.data.slice(0, 15);
+        homePage.addEmails(sortedEmails);
+        this.updateEmails(sortedEmails);
+      })
+      .catch( error => console.log(error)); 
+    },
+    showAll(){
+      this.sortParameter = "all";
+      store.commit('setSubOpActive', false);
+      const homePage = store.getters.getHomePage;
+      homePage.updateEmailsList();
     }
   }
 }

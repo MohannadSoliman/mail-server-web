@@ -11,6 +11,9 @@
               @change="toggleSelectAll()">
         <label for="select-all">Select all</label>
       </form>
+      <div id="delete-selected-emails" class="control-btn" @click="deleteCurrentEmails()">
+        <img src="../assets/sideMenu/trash-gray.png" width="20px">
+      </div>
       <div id="emails-nav">
         <div id="backward-btn" class="control-btn" @click="goToPrevPage()">
           <img src="../assets/controlBar/backward.png" width="17px">
@@ -37,7 +40,7 @@
 import {mapGetters, mapActions} from 'vuex';
 import store from '../store';
 import axios from 'axios';
-
+import {fireInfoPopUp} from '../alerts.js';
 export default {
   name: 'controlBar',
   data(){
@@ -45,7 +48,7 @@ export default {
       selectAllActive: false,
     }
   },
-  computed: mapGetters(['getUserId', 'getActiveFolder', 'getEmailsListPageInfo', 'getStartIndex', 'getEmailsNum', 'getActiveStatus', 'getSortingParam']),
+  computed: mapGetters(['getUserId', 'getActiveFolder', 'getEmailsListPageInfo', 'getStartIndex', 'getEmailsNum', 'getActiveStatus', 'getSortingParam', 'getSelectedEmails']),
 	methods:{
     ...mapActions(['updateEmails', 'incrementStartIndex', 'decrementStartIndex']),
 		refresh(){
@@ -79,7 +82,7 @@ export default {
       store.commit('clearSelecteEmails');
       for(const email of [...this.getEmailsListPageInfo.emailsList]){
         email.selectSelf();
-        store.commit('addSelectedEmail', email);
+        // store.commit('addSelectedEmail', email);
       }
     },
     unSelectAllEmails(){
@@ -89,14 +92,80 @@ export default {
       store.commit('clearSelecteEmails');
     },
     goToNextPage(){
+      if(store.getters.getSubOperation.active) {
+        if(store.getters.getOpsConds.filter) this.getNextFiltered();
+        else if(store.getters.getOpsConds.sort) this.getNextSorted();
+        return;
+      }
       if(this.getStartIndex + 15 >= this.getEmailsNum) return;
       this.incrementStartIndex();
       this.updateEmailsList();
     },
     goToPrevPage(){
+      if(store.getters.getSubOperation.active) {
+        if(store.getters.getOpsConds.filter) this.getPrevFiltered();
+        else if(store.getters.getOpsConds.sort) this.getPrevSorted();
+        return;
+      }
       if(this.getStartIndex - 15 < 0) return; 
       this.decrementStartIndex();
       this.updateEmailsList();
+    },
+    getNextFiltered(){
+      if(store.getters.getSubOperation.start + 15 >= this.getEmailsNum) return;
+      store.commit('setSubOpStart', store.getters.getSubOperation.start + 15);
+      this.fetchFilteredEmails()
+    },
+    getPrevFiltered(){
+      if(store.getters.getSubOperation.start - 15 < 0) return;
+      store.commit('setSubOpStart', store.getters.getSubOperation.start - 15);
+      this.fetchFilteredEmails()
+    },
+    getNextSorted(){
+      if(store.getters.getSubOperation.start + 15 >= this.getEmailsNum) return;
+      store.commit('setSubOpStart', store.getters.getSubOperation.start + 15);
+      this.fetchSortedEmails();
+    },
+    getPrevSorted(){
+      if(store.getters.getSubOperation.start - 15 < 0) return;
+      store.commit('setSubOpStart', store.getters.getSubOperation.start - 15);   
+      this.fetchSortedEmails(); 
+    },
+    fetchFilteredEmails(){
+      const homePage = store.getters.getHomePage;
+      axios.get(`http://localhost:8080//filter`, {
+        params: { 
+          userId: this.getUserId,
+          required: store.getters.getSubOperation.required,
+          fileName: this.getActiveFolder,
+          criteria: store.getters.getSubOperation.type,
+        }
+      })
+      .then( response => {
+        homePage.reset();
+        const filteredEmails = response.data.slice(store.getters.getSubOperation.start, store.getters.getSubOperation.start +15);
+        homePage.addEmails(filteredEmails);
+        this.updateEmails(filteredEmails);
+      })
+      .catch( error => console.log(error)); 
+    },
+    fetchSortedEmails(){
+      const homePage = store.getters.getHomePage;
+      axios.get(`http://localhost:8080//sort`, {
+        params: { 
+          userId: store.getters.getUserId,
+          folderName: store.getters.getActiveFolder,
+          sortType: store.getters.getSubOperation.sortType,
+          sortIdntifier: store.getters.getSubOperation.sortIdntifier,
+        }
+      })
+      .then( response => {
+        homePage.reset();
+        const sortedEmails = response.data.slice(store.getters.getSubOperation.start, store.getters.getSubOperation.start +15);
+        homePage.addEmails(sortedEmails);
+        this.updateEmails(sortedEmails);
+      })
+      .catch( error => console.log(error)); 
     },
     updateEmailsList(){
       const homePage = store.getters.getHomePage;
@@ -119,23 +188,101 @@ export default {
     goBackHome(){
       store.commit('setActiveEmail', false)
     },
-    deleteCurrentEmail(){
+    deleteCurrentEmails(){
+      const selectedEmailsNumber = this.getSelectedEmails.length;
+      console.log(selectedEmailsNumber);
+      if(selectedEmailsNumber === 0) return;
+      console.log("enter")
 
-    }
+      const popUpBackground = document.createElement('div');
+      popUpBackground.className = 'pop-up-background';
+      document.body.appendChild(popUpBackground);
+
+      const popUp = document.createElement('div');
+      popUp.className = 'pop-up';
+      popUpBackground.appendChild(popUp);
+
+      const msg = document.createElement('h2');
+      if(store.getters.getActiveFolder == "trash") msg.innerText = `${selectedEmailsNumber} will be deleted permanently`;
+      else msg.innerText = `Sure to move ${selectedEmailsNumber} email(s) to Trash?`;
+      popUp.appendChild(msg);
+
+      const cancelBtn = document.createElement('span');
+      cancelBtn.innerText = 'Cancel';
+      cancelBtn.className = 'pop-up-close-button cancel-btn';
+
+      const confrimBtn = document.createElement('span');
+      confrimBtn.innerText = 'Confirm';
+      confrimBtn.className = 'pop-up-close-button confrim-btn';   
+
+      cancelBtn.onclick = () => {    
+        document.body.removeChild(popUpBackground); 
+      }
+
+      confrimBtn.onclick = () => {
+        if(store.getters.getActiveFolder != "trash") {
+          this.deleteAllSelectedEmails();
+          fireInfoPopUp(`${selectedEmailsNumber} email(s) has been moved to trash`);
+        }
+        else {
+          this.deleteAllSelectedEmailsForever();
+          fireInfoPopUp(`${selectedEmailsNumber} email(s) has been deleted permanently`);
+        }
+        document.body.removeChild(popUpBackground); 
+      }
+
+      popUp.appendChild(cancelBtn);
+      popUp.appendChild(confrimBtn);
+    },
+
+    deleteAllSelectedEmailsForever(){
+      for(const email of this.getSelectedEmails){
+        console.log(email);
+        this.deleteSingleEmailForEver(email);
+      }
+      store.commit('clearSelecteEmails');
+    },
+    deleteAllSelectedEmails(){
+      let allEmailsIds = "";
+      let first = true;
+      for(const email of this.getSelectedEmails){
+        if(first){
+          allEmailsIds += `${email.getId()}`;
+          first = false;
+        }
+        else allEmailsIds += `,${email.getId()}`;
+      }
+
+      axios.delete(`http://localhost:8080//deleteMultipleEmails`,{
+          params: { 
+            userId: store.getters.getUserId,
+            emailsIds: allEmailsIds,
+            folderName: store.getters.getActiveFolder,
+          }
+        })
+        .then( () => {
+          store.commit('clearSelecteEmails');
+          this.refresh();
+        })
+        .catch( error => console.log(error)); 
+    },
+    deleteSingleEmailForEver(email){
+      axios.delete(`http://localhost:8080//deleteForever`,{
+          params: { 
+            userId: store.getters.getUserId,
+            emailId: email.getId(),
+          }
+        })
+        .then( () => {
+          this.refresh();
+        })
+        .catch( error => console.log(error)); 
+    },
 	}
 }
 </script>
 
 <style scoped>
-#control-bar{
-	/* display: flex;
-	flex-direction: row;
-	justify-content: flex-start;
-	align-items: center;
-	height: 3rem;
-	border-bottom: 1px solid rgb(224, 224, 224, 0.6);
-	padding-left: 1rem; */
-}
 .control-wrapper{
   display: flex;
 	flex-direction: row;
@@ -154,6 +301,7 @@ export default {
 	height: 2rem;
 	width: 2rem;
 	border-radius: 50%;
+  user-select: none;
 }
 .control-btn:hover{
 	background-color: rgb(224, 224, 224, 0.6);
@@ -235,5 +383,9 @@ input[type=checkbox]:checked:disabled + label:before {
 #delete-current-email{
   margin-left: auto;
   margin-right: 3rem;
+}
+
+#delete-selected-emails{
+  margin-left: 2rem;
 }
 </style>
