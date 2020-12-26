@@ -28,7 +28,7 @@ public class Filter implements Criteria {
         String[] attachments = null;
         String requiredEmails = "[";
         for(Email email : emails){
-            if(criteria.equalsIgnoreCase("attachment")) attachments = email.getAttachments().toArray(new String[email.getAttachments().size()]);
+            if(criteria.equalsIgnoreCase("attachment") || criteria.equalsIgnoreCase("no attachment")) attachments = email.getAttachments().toArray(new String[email.getAttachments().size()]);
             if(criteria.equalsIgnoreCase("priority")) priority = email.getPriority();
 
             if((criteria.equalsIgnoreCase("priority")) && priority.contains(required)){
@@ -42,6 +42,11 @@ public class Filter implements Criteria {
                     requiredEmails += jsonEmailConverter.emailToJsonString(email) + ",";
                     continue;
                 }
+            }
+            if(criteria.equalsIgnoreCase("no attachment")){
+                if(attachments.length == 1 && attachments[0].equals("")) continue;
+                requiredEmails += jsonEmailConverter.emailToJsonString(email) + ",";
+                continue;
             }
         }
         requiredEmails = requiredEmails.substring(0, requiredEmails.length()-1) + "]";

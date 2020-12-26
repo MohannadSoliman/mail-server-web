@@ -5,6 +5,7 @@ import java.util.Queue;
 
 import com.example.mailserver.Logic.Email;
 import com.example.mailserver.Logic.JsonEmailConverter;
+import com.example.mailserver.Logic.Folders.Folder;
 import com.example.mailserver.Logic.Folders.FoldersMap;
 import com.example.mailserver.Logic.Folders.TrashFolder;
 //change
