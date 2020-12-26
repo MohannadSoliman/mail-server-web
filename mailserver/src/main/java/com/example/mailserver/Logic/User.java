@@ -88,7 +88,7 @@ public class User {
     public String searchAllFiles(String required, String criteria){
         return search.searchAllFiles(required, criteria);
     }
-    public String filterFile(String priority, String fileName, String criteria){
-        return filter.filterFile(priority, fileName, criteria);
+    public String filterFile(String required, String fileName, String criteria){
+        return filter.filterFile(required, fileName, criteria);
     }
 }

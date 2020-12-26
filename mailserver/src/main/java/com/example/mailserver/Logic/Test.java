@@ -17,8 +17,8 @@ public class Test {
         // Queue<String> attachments = new LinkedList<String>();
         // receivers.add("testREC@g");
 
-        String result = SignUp.getInstance().signUpUser("asasdAAasda@lol.com", "111AA1alitest");
-        System.out.println(result);
+        User user = new User("shosh@gmail.com");
+        System.out.println(user.filterFile("", "sent", "attachment"));
 
     }
 }

@@ -1,6 +1,9 @@
 package com.example.mailserver.Logic.Folders;
 
 import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -71,6 +74,8 @@ public class TrashFolder extends Folder {
     }
 
     private void deleteRelatedAttachments(String emailId, String emailAddress){
+        Path path = Paths.get("mailserver/Database/Users/" + emailAddress + "/Attachments/" + emailId);
+        if(!path.toFile().exists()) return;
         File folder = new File("mailserver/Database/Users/" + emailAddress + "/Attachments/" + emailId);
         String files[] = folder.list();
         for(String file : files){
