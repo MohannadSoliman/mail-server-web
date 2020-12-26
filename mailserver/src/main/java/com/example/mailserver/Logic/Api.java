@@ -99,7 +99,9 @@ public class Api {
 
 
         Email newEmail = new Email(null, sender, receivers, title, body, null, attachments, priority);
-        processedEmail = newEmail;
+        Queue<String> temp = new LinkedList<>(Arrays.asList(allReceivers));
+        processedEmail = new Email(newEmail.getId(), newEmail.getSender(), temp, newEmail.getTitle(),
+                                    newEmail.getBody(), newEmail.getTime(), newEmail.getAttachments(), newEmail.getPriority());
         Session.getInstance().getUser(userId).sendEmail(newEmail);
     }
 

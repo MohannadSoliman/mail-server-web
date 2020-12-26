@@ -312,6 +312,7 @@ export default {
       this.priorityMenuVisisble = false;
     },
     send(){
+      if(this.emailData.recievers.size == 0) return; 
       const formData = new FormData();
       for (let file of this.emailData.attachments.values()){
         formData.append("files", file);
@@ -366,8 +367,8 @@ export default {
       }
       this.composedEmailData.recieversCards.clear();
       this.emailData.recievers.clear();
-      document.getElementById("to-input").value = ""; 
-      document.getElementById("to-section").innerHTML = "";
+      const recieverEmailInput = document.getElementById("to-input"); 
+      recieverEmailInput.value = "";
       document.getElementById("subject-input").value = "";
       //reset attachments
       this.emailData.attachments.clear();
