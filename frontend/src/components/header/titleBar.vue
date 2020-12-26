@@ -1,6 +1,6 @@
 <template>
   <div id="title-bar">
-    <div id="sender-reciever-title" class="title-label">From</div>
+    <div id="sender-reciever-title" class="title-label">{{isSent() ? 'To': 'From'}}</div>
     <div id="subject-title" class="title-label">Subject</div>
     <div id="priority-title" :class="['title-label', priorityMenuVisible ? 'focused' : '']" @click="togglePriorityFilterMenu()">
       <div class="filter-label">
@@ -115,7 +115,11 @@ export default {
       store.commit('setSubOpActive', false);
       const homePage = store.getters.getHomePage;
       homePage.updateEmailsList();
-    }
+    },
+    isSent(){
+      if(this.getActiveFolder !== "sent") return false; 
+      return true;
+    },
   }
 }
 </script>

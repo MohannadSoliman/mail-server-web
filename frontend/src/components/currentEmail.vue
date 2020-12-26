@@ -6,6 +6,7 @@
         <label for="sender-reciever" id="sr-label">{{`${isSent()? 'To:': 'From:'}`}}</label>
         {{`${isSent() ? getCurrentEmailInfo.receivers: getCurrentEmailInfo.sender}`}}
       </div>
+      <div id="priority">{{`priority: ${getCurrentEmailInfo.priority}`}}</div>
       <div id="date">
         {{getCurrentEmailInfo.date}}
       </div>
@@ -52,7 +53,7 @@ export default {
       .catch(error => console.log(error));
     },
     isSent(){
-      if(this.getActiveFolder != "sent") return false; 
+      if(this.getActiveFolder !== "sent") return false; 
       return true;
     },
     isActive(){
@@ -129,6 +130,7 @@ export default {
 
 #date{
   height: 2rem;
+  width: 10rem;
   vertical-align: middle;
   text-align: center;
   line-height: 2rem;
@@ -175,5 +177,10 @@ export default {
   user-select: none;
   text-decoration: underline;
   cursor: pointer;
+}
+
+#priority{
+  width: 10rem;
+  margin-right: 10rem;
 }
 </style>

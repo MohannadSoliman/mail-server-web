@@ -184,6 +184,7 @@ export default {
 		menuBtnClickEvent(btn){
 			store.commit('setSubOpActive', false);
 			store.commit('setActiveEmail', false);
+			this.setActiveFolder(btn.name.toLowerCase())
 			this.enableButton(btn);
 			document.getElementById("current-folder-name").innerHTML = btn.name;
 			
@@ -207,11 +208,11 @@ export default {
       })
       .catch( error => console.log(error)); 
     },
-		//folders button
-		folderBtnClickEvent(){
-			const folderBtn = this.buttons.folders;
-			this.enableButton(folderBtn);
-			if(this.closedMenu) {
+	//folders button
+	folderBtnClickEvent(){
+		const folderBtn = this.buttons.folders;
+		this.enableButton(folderBtn);
+		if(this.closedMenu) {
         this.openMenu();
         this.closedMenu = false;
       }
