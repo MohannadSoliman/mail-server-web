@@ -44,7 +44,7 @@ public class Filter implements Criteria {
                 }
             }
             if(criteria.equalsIgnoreCase("no attachment")){
-                if(attachments.length == 1 && attachments[0].equals("")){
+                if(attachments.length == 0){
                 requiredEmails += jsonEmailConverter.emailToJsonString(email) + ",";
                 }
                 continue;

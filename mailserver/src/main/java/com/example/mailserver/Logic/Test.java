@@ -18,7 +18,7 @@ public class Test {
         // receivers.add("testREC@g");
 
         User user = new User("shosh@gmail.com");
-        System.out.println(user.filterFile("urg", "sent", "priority"));
+        System.out.println(user.filterFile("", "sent", "no attachment"));
         
 
     }
