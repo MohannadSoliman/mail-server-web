@@ -7,7 +7,7 @@
       <img src="../../assets/header/arrowDown.png" width="13px" :class="['arrow', !searchMenuVisisble ? 'close-menu': 'open-menu']">
     </div>
     <div class="seperator"></div>
-    <div id="search-btn"><img src="../../assets/header/search-gray.png" width="20px"></div>
+    <div id="search-btn" @click="activateSearch()"><img src="../../assets/header/search-gray.png" width="20px"></div>
 
     <div  id="search-menu" 
           :class="searchMenuVisisble ? 'visible-menu': 'hidden-menu'">
@@ -17,7 +17,7 @@
       <div class="menu-item" @click="setSearchBy('sender')">
         sender
       </div>
-      <div class="menu-item" @click="setSearchBy('receivers')">
+      <div class="menu-item" @click="setSearchBy('receiver')">
         receivers
       </div>
       <div class="menu-item" @click="setSearchBy('subject')">
@@ -26,7 +26,7 @@
       <div class="menu-item" @click="setSearchBy('textBody')">
         textBody
       </div>
-      <div class="menu-item" @click="setSearchBy('attachments')">
+      <div class="menu-item" @click="setSearchBy('attachment')">
         attachments
       </div>
     </div>
@@ -34,6 +34,10 @@
 </template>
 
 <script>
+import store from '../../store';
+import axios from 'axios';
+import  { mapActions } from 'vuex';
+
 export default {
   name: 'searchBar',
   data(){
@@ -43,6 +47,7 @@ export default {
     }
   },
   methods:{
+    ...mapActions(['updateEmails']),
     searchBarFocus(){
       document.getElementById("search-bar").style.border = "1px solid red";
     },
@@ -54,6 +59,39 @@ export default {
     },
     toggleSearchMenu(){
       this.searchMenuVisisble = !this.searchMenuVisisble;
+    },
+    searchEmails(required, type){
+      store.commit('setSubOpStart', 0);
+      store.commit('setSearchBy', type);
+      store.commit('setSearchWord', required);
+      store.commit('setSearchCond', true);
+      store.commit('setFilterCond', false);
+      store.commit('setSortCond', false);
+
+      const homePage = store.getters.getHomePage;
+      axios.get(`http://localhost:8080//searchFile`, {
+        params: { 
+          userId: store.getters.getUserId,
+          required: required,
+          folderName: store.getters.getActiveFolder,
+          criteria: type,
+        }
+      })
+      .then( response => {
+        homePage.reset();
+        const result = response.data.slice(0, 15);
+        homePage.addEmails(result);
+        this.updateEmails(result);
+      })
+      .catch( error => console.log(error)); 
+    },
+
+    activateSearch(){
+      const required = document.getElementById("search-input").value;
+      if(required == "") return;
+
+      store.commit('setSubOpActive', true);
+      this.searchEmails(required, this.searchParameter);
     }
   }
 }

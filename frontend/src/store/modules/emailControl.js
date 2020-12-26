@@ -30,7 +30,9 @@ const state = {
       search: false,
       sort: false,
       filter: false,
-    }
+    },
+    searchBy: "all",
+    word: "inbox",
   },
   activeEmail: false,
 };
@@ -115,6 +117,9 @@ const mutations = {
   setSearchCond: (state, status) => state.subOperation.ops.search = status,
   setFilterCond: (state, status) => state.subOperation.ops.filter = status,
   setSortCond: (state, status) => state.subOperation.ops.sort = status,
+  
+  setSearchBy: (state, searchBy) => state.subOperation.searchBy = searchBy,
+  setSearchWord: (state, word) => state.subOperation.word = word,
 };
     
 export default{

@@ -183,14 +183,13 @@ export default {
 		//button
 		menuBtnClickEvent(btn){
 			store.commit('setSubOpActive', false);
-			if(btn.active) return;
+			store.commit('setActiveEmail', false);
 			this.enableButton(btn);
 			document.getElementById("current-folder-name").innerHTML = btn.name;
 			
 			this.showFolderEmails(btn)    
     },
     showFolderEmails(btn){
-      this.setActiveFolder(btn.name.toLowerCase());
       const homePage = store.getters.getHomePage;
       axios.get(`http://localhost:8080//getEmailsList`, {
         params: { 

@@ -13,7 +13,6 @@
         </div>
       </div>   
     </div>
-    <div class="testing"  @click="testing()">go to home (Testing purposes)</div>
   </div> 
 </template>
 
@@ -34,9 +33,6 @@ export default {
     },
     goTohome(){
       this.$router.push('/home');
-    },
-    testing(){
-      this.$router.push("/home");
     },
     Check(){
       const emailInput = document.getElementById("email");

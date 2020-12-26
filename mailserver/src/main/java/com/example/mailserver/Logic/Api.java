@@ -126,6 +126,15 @@ public class Api {
     }
 
     //search 
+    @GetMapping("/searchFile")
+    public String searchFile(@RequestParam int userId, @RequestParam String required, @RequestParam String folderName, @RequestParam String criteria){
+        return Session.getInstance().getUser(userId).searchFile(required, folderName, criteria);
+    }
+
+    @GetMapping("/searchAll")
+    public String searchAll(@RequestParam int userId, @RequestParam String required, @RequestParam String criteria){
+        return Session.getInstance().getUser(userId).searchAllFiles(required, criteria);
+    }
 
     //filter
     @GetMapping("/filter")

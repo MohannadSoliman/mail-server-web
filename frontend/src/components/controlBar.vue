@@ -95,6 +95,7 @@ export default {
       if(store.getters.getSubOperation.active) {
         if(store.getters.getOpsConds.filter) this.getNextFiltered();
         else if(store.getters.getOpsConds.sort) this.getNextSorted();
+        else if(store.getters.getOpsConds.search) this.getNextSearch();
         return;
       }
       if(this.getStartIndex + 15 >= this.getEmailsNum) return;
@@ -105,6 +106,7 @@ export default {
       if(store.getters.getSubOperation.active) {
         if(store.getters.getOpsConds.filter) this.getPrevFiltered();
         else if(store.getters.getOpsConds.sort) this.getPrevSorted();
+        else if(store.getters.getOpsConds.search) this.getPrevSearch();
         return;
       }
       if(this.getStartIndex - 15 < 0) return; 
@@ -130,6 +132,16 @@ export default {
       if(store.getters.getSubOperation.start - 15 < 0) return;
       store.commit('setSubOpStart', store.getters.getSubOperation.start - 15);   
       this.fetchSortedEmails(); 
+    },
+    getNextSearch(){
+      if(store.getters.getSubOperation.start + 15 >= this.getEmailsNum) return;
+      store.commit('setSubOpStart', store.getters.getSubOperation.start + 15);
+      this.fetchSearchedEmail();
+    },
+    getPrevSearch(){
+      if(store.getters.getSubOperation.start - 15 < 0) return;
+      store.commit('setSubOpStart', store.getters.getSubOperation.start - 15);   
+      this.fetchSearchedEmail(); 
     },
     fetchFilteredEmails(){
       const homePage = store.getters.getHomePage;
@@ -164,6 +176,24 @@ export default {
         const sortedEmails = response.data.slice(store.getters.getSubOperation.start, store.getters.getSubOperation.start +15);
         homePage.addEmails(sortedEmails);
         this.updateEmails(sortedEmails);
+      })
+      .catch( error => console.log(error)); 
+    },
+    fetchSearchedEmail(){
+      const homePage = store.getters.getHomePage;
+      axios.get(`http://localhost:8080//searchFile`, {
+        params: { 
+          userId: store.getters.getUserId,
+          required: store.getters.getSubOperation.word,
+          folderName: store.getters.getActiveFolder,
+          criteria: store.getters.getSubOperation.searchBy,
+        }
+      })
+      .then( response => {
+        homePage.reset();
+        const result = response.data.slice(store.getters.getSubOperation.start, store.getters.getSubOperation.start +15);
+        homePage.addEmails(result);
+        this.updateEmails(result);
       })
       .catch( error => console.log(error)); 
     },
