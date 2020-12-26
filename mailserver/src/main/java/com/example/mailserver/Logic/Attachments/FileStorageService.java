@@ -72,7 +72,7 @@ public class FileStorageService {
 
     public Resource loadFileAsResource(String fileName, String emailAddress, String id) {
         try {
-            Path path = Paths.get(this.fileStorageLocation + "/" + emailAddress + "/Attachments/" + id);
+            Path path = Paths.get(this.fileStorageLocation + "/" +emailAddress + "/Attachments/" + id);
             Path filePath = path.resolve(fileName).normalize();
             Resource resource = new UrlResource(filePath.toUri());
             if(resource.exists()) {

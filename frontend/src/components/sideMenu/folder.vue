@@ -129,6 +129,7 @@ export default {
       this.actionsMenuVisible = !this.actionsMenuVisible;
     },
     showEmails(){
+      if(!this.set || this.isBeingEdited) return;
       let itemClicked = event.target;
       if(itemClicked.id !== this.folderId && itemClicked.id !== `folder-name-${this.folderId}`) return;
       for(const folderBtn of store.getters.getCustomFoldersInfo.allcustomFolders){
@@ -138,7 +139,7 @@ export default {
       this.getEmails();
     },
     getEmails(){
-      store.commit('changeActiveFolder', this.folderName.toLowerCase());
+      store.dispatch('setActiveFolder', this.folderName.toLowerCase())
       store.commit('setStartIndex', 0);
       const homePage = store.getters.getHomePage;
       axios.get(`http://localhost:8080//getEmailsList`, {
@@ -170,11 +171,11 @@ export default {
       this.isBeingEdited = true; 
       this.enabledActionsMenu = false;
       this.mouseOn = true;
+      store.commit('setCustomFolderEdited', this);
     }
     document.onclick = () => {
       const currentCustomFolder = store.getters.getCustomFoldersInfo.beingEdited;
       if(currentCustomFolder === null) return;
-      console.log(currentCustomFolder.mouseOn, currentCustomFolder.isBeingEdited, currentCustomFolder.folderId)
       if(currentCustomFolder.mouseOn || !currentCustomFolder.isBeingEdited) {
         return;
       }

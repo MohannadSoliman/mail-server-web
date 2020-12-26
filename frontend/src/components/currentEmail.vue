@@ -1,20 +1,20 @@
 <template>
-  <div id="current-email-view" :class="[active ? 'to-front' : 'to-back']">
-    <div id="title">{{emailInfo.subject}}</div>
+  <div id="current-email-view" :class="[isActive() ? 'to-front' : 'to-back']">
+    <div id="title">{{getCurrentEmailInfo.subject}}</div>
     <div id="meta-data">
       <div id="sender-reciever">
-        <label for="sender-reciever" id="sr-label">{{`${sent? 'To:': 'From:'}`}}</label>
-        {{`${sent ? emailInfo.receivers: emailInfo.sender}`}}
+        <label for="sender-reciever" id="sr-label">{{`${isSent()? 'To:': 'From:'}`}}</label>
+        {{`${isSent() ? getCurrentEmailInfo.receivers: getCurrentEmailInfo.sender}`}}
       </div>
       <div id="date">
-        {{emailInfo.date}}
+        {{getCurrentEmailInfo.date}}
       </div>
     </div>
     <div id="body">
-      {{emailInfo.body}}
+      {{getCurrentEmailInfo.body}}
     </div>
-    <div id="attachments-area">
-      <div class="attachment-card" v-for="attachment of emailInfo.attachments" :key="attachment"
+    <div id="attachments-area" @click="printInfo()">
+      <div class="attachment-card" v-for="attachment of getCurrentEmailInfo.attachments" :key="attachment"
            @click="downloadAttachment(attachment)">
         {{attachment}}
       </div>
@@ -24,28 +24,42 @@
 
 <script>
 import axios from 'axios';
+import { mapGetters } from 'vuex';
 export default {
   name: 'currentEmail',
   data(){
     return{
-      active: false, //to hide or show the email view page
-      sent: false,
-      emailInfo:{
-        sender: "alihassan@lol.com",
-        receivers: "loloooo@lol.com, moAli@mo.com, rrrrrr@rrr.com",
-        subject: "A test to view an email title",
-        title: "",
-        body: "",
-        date: "12 Dec 2021",
-        attachments: ["naive1.png", "assignment2.png", "report.pdf"],
-      },
     }
   },
+  computed: mapGetters(['getCurrentEmailInfo', 'getActiveFolder', 'getActiveStatus', 'getUserId']),
   methods:{
     downloadAttachment(attachmentName){
-      console.log(attachmentName);
-       axios.get(`http://localhost:8080//downloadFile/${attachmentName}`, { params: { fileName: attachmentName }})
-      .catch( error => console.log(error));   
+      const FileDownload = require('js-file-download');
+      
+      axios({
+        url: `http://localhost:8080//downloadFile/${attachmentName}`, 
+        method: 'GET',
+        params: {
+          fileName: attachmentName,
+          userId: this.getUserId,
+          emailId: this.getCurrentEmailInfo.id,
+        },
+        responseType: 'blob',
+      })
+      .then((response) => {
+        FileDownload(response.data, `${attachmentName}`);
+      })
+      .catch(error => console.log(error));
+    },
+    isSent(){
+      if(this.getActiveFolder != "sent") return false; 
+      return true;
+    },
+    isActive(){
+      return this.getActiveStatus;
+    },
+    printInfo(){
+      console.log(this.getCurrentEmailInfo);
     }
   },
 }
@@ -128,7 +142,7 @@ export default {
   width: 95%;
   height: 70%;
   margin-top: 0.5rem;
-  background-color: rgb(224, 224, 224);
+  text-align: left;
 }
 
 #attachments-area{
@@ -159,5 +173,7 @@ export default {
   justify-content: center;
   align-items: center;
   user-select: none;
+  text-decoration: underline;
+  cursor: pointer;
 }
 </style>

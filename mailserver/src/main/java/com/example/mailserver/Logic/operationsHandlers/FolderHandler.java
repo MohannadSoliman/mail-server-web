@@ -73,6 +73,8 @@ public class FolderHandler {
         }
         newCustomFoldersNames[newCustomFoldersNames.length - 1] = folderName;
         fileHandler.writeFileFromArray(foldersFilePath, newCustomFoldersNames);
+
+        createExistingCustomFolder(folderName);
         return true;
     }
 
@@ -126,13 +128,14 @@ public class FolderHandler {
     public Email[] getSubArrayOfEmails(String folderName, int sortType, int sortIdntifier, int start){
         //0 priority //1 date
         //0 newer first 1 older first
+        System.out.println(foldersMap.getFolder(folderName));
         Email[] allEmails = foldersMap.getFolder(folderName).getAllEmailsArray();
         Email[] sortedEmails = sortHandler.sortEmails(allEmails, sortType, sortIdntifier);
 
         if(start < 0) start = 0;
-        if(start > sortedEmails.length) start = sortedEmails.length - 10;
+        // if(start > sortedEmails.length) start = sortedEmails.length - 10;
 
-        int endIndex = start + 10;
+        int endIndex = start + 15;
         if(endIndex > sortedEmails.length) endIndex = sortedEmails.length;
         System.out.println(start + " : " + endIndex);;
         ArrayList<Email> outputEmails = new ArrayList<>();

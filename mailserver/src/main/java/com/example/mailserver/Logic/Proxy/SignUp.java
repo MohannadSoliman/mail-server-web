@@ -53,7 +53,7 @@ public class SignUp {
 
     //creation
     private void createUser(String emailAddress, String password,UserInfo[] usersInfo){
-      String[] fileNames = {"Attachments", "inbox", "sent", "draft", "contacts", "trash", "folders"};
+      String[] fileNames = {"inbox", "sent", "draft", "contacts", "trash", "folders"};
       //create user folder
       try {
         Path path = Paths.get("mailserver/Database/Users/"+emailAddress);

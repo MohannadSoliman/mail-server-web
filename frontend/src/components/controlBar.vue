@@ -1,22 +1,35 @@
 <template>
   <div id="control-bar">
-		<div id="refresh-btn" class="control-btn" @click="refresh()">
-			<img src="../assets/controlBar/refresh-gray.png" width="20px">
-		</div>
-		<form id="select-all-container">
-			<input type="checkbox" id="select-all" 
-            :value="[selectAllActive ? 'Un-select all' : 'Select all']" 
-            @change="toggleSelectAll()">
-			<label for="select-all">Select all</label>
-		</form>
-		<div id="emails-nav">
-			<div id="backward-btn" class="control-btn" @click="goToPrevPage()">
-				<img src="../assets/controlBar/backward.png" width="17px">
-			</div>
-			<div id="forward-btn" class="control-btn" @click="goToNextPage()">
-				<img src="../assets/controlBar/forward.png" width="17px">
-			</div>
-		</div>
+
+    <div id="control-wrapper" :class="['control-wrapper', getActiveStatus ? 'hidden': 'visible']">
+      <div id="refresh-btn" class="control-btn" @click="refresh()">
+        <img src="../assets/controlBar/refresh-gray.png" width="20px">
+      </div>
+      <form id="select-all-container">
+        <input type="checkbox" id="select-all" 
+              :value="[selectAllActive ? 'Un-select all' : 'Select all']" 
+              @change="toggleSelectAll()">
+        <label for="select-all">Select all</label>
+      </form>
+      <div id="emails-nav">
+        <div id="backward-btn" class="control-btn" @click="goToPrevPage()">
+          <img src="../assets/controlBar/backward.png" width="17px">
+        </div>
+        <div id="forward-btn" class="control-btn" @click="goToNextPage()">
+          <img src="../assets/controlBar/forward.png" width="17px">
+        </div>
+      </div>
+    </div>
+    
+    <div id="current-email-control" :class="['control-wrapper', getActiveStatus? 'visible': 'hidden']">
+      <div id="go-back" class="control-btn" @click="goBackHome()">
+        <img src="../assets/header/back.png" width="20px">
+      </div>
+      <div id="delete-current-email" class="control-btn">
+        <img src="../assets/sideMenu/trash-gray.png" width="20px">
+      </div>
+    </div>
+
   </div>
 </template>
 
@@ -32,7 +45,7 @@ export default {
       selectAllActive: false,
     }
   },
-  computed: mapGetters(['getUserId', 'getActiveFolder', 'getEmailsListPageInfo', 'getStartIndex']),
+  computed: mapGetters(['getUserId', 'getActiveFolder', 'getEmailsListPageInfo', 'getStartIndex', 'getEmailsNum', 'getActiveStatus']),
 	methods:{
     ...mapActions(['updateEmails', 'incrementStartIndex', 'decrementStartIndex']),
 		refresh(){
@@ -76,10 +89,12 @@ export default {
       store.commit('clearSelecteEmails');
     },
     goToNextPage(){
+      if(this.getStartIndex + 15 >= this.getEmailsNum) return;
       this.incrementStartIndex();
       this.updateEmailsList();
     },
     goToPrevPage(){
+      if(this.getStartIndex - 15 < 0) return; 
       this.decrementStartIndex();
       this.updateEmailsList();
     },
@@ -100,6 +115,12 @@ export default {
         this.updateEmails(response.data);
       })
       .catch( error => console.log(error)); 
+    },
+    goBackHome(){
+      store.commit('setActiveEmail', false)
+    },
+    deleteCurrentEmail(){
+
     }
 	}
 }
@@ -107,14 +128,25 @@ export default {
 
 <style scoped>
 #control-bar{
-	display: flex;
+	/* display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: center;
+	height: 3rem;
+	border-bottom: 1px solid rgb(224, 224, 224, 0.6);
+	padding-left: 1rem; */
+}
+.control-wrapper{
+  display: flex;
 	flex-direction: row;
 	justify-content: flex-start;
 	align-items: center;
 	height: 3rem;
 	border-bottom: 1px solid rgb(224, 224, 224, 0.6);
 	padding-left: 1rem;
+  width: 100%;
 }
+
 .control-btn{
 	display: flex;
 	justify-content: center;
@@ -189,5 +221,19 @@ input[type=checkbox]:checked:disabled + label:before {
 	justify-content: center;
 	align-items: center;
 	margin-left: 1.5rem;
+}
+
+.hidden{
+  visibility: hidden;
+  display: none;
+}
+.visible{
+  visibility: visible;
+  display: flex;
+}
+
+#delete-current-email{
+  margin-left: auto;
+  margin-right: 3rem;
 }
 </style>

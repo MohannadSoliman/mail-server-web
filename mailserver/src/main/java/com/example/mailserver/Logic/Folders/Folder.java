@@ -41,13 +41,15 @@ public class Folder {
         return tempEmailsMap.values().toArray(new Email[tempEmailsMap.size()]);
     }
 
-    
-
     private HashMap<String, Email> getAllEmailsMap(){
         if(allEmails != null) return allEmails;
         String emailsJsonStr = filesHandler.readFile(folderPath);
         allEmails = JsonEmailConverter.getInstance().jsonToEmailMap(emailsJsonStr);
         return allEmails;
+    }
+
+    public int getEmailsNumber(){
+        return getAllEmailsMap().size();
     }
 
     public void appendEmail(Email email){

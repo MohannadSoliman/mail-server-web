@@ -1,6 +1,6 @@
 <template>
   <div  :id="`${emailInfo.id}`" class="email-card" 
-        @mouseover="showQuickMenu()" @mouseleave="hideQuickMenu()">
+        @mouseover="showQuickMenu()" @mouseleave="hideQuickMenu()" @click="showSelf()">
 		<div :id="`select-email-${emailInfo.id}`" class="unChecked" @click="toggleCheckBox()"></div>
     <div id="sender-recivers" class="content">{{inbox ? email.receivers: email.sender}}</div>
     <div id="subject" class="content">{{email.subject}}</div>
@@ -34,13 +34,14 @@ export default {
   data(){
     return{
       email: {
-        id: String,
-        sender: String,
+        id: "",
+        sender: "",
         receivers: "",
-        subject: String,
-        priority: String,
-        date: String,
-        attachments: Array,
+        subject: "",
+        priority: "",
+        date: "",
+        attachments: [],
+        body: ","
       },
       activeQuickMenu: false,
       chechBoxChecked: false,
@@ -83,22 +84,26 @@ export default {
     removeSelf(){
       document.getElementById(this.email.id).remove();
     },
+    showSelf(){
+      store.commit('setCurrentEmail', this.email);
+      store.commit('setActiveEmail', true);
+      console.log(store.getters.getActiveStatus, store.getters.getCurrentEmailInfo, store.getters.getActiveFolder);
+    }
   },
   mounted(){
     this.email.id = this.emailInfo.id;
-    if(this.inbox) {
-       const receiversList = this.emailInfo.receivers;
-       let recieversStr = "";
-       for(const reciever of receiversList){
-         recieversStr += reciever;
-       }
-       this.email.receivers = recieversStr;
+    const receiversList = this.emailInfo.receivers;
+    let recieversStr = "";
+    for(const reciever of receiversList){
+      recieversStr += reciever;
     }
-    else this.email.sender = this.emailInfo.sender;
+    this.email.receivers = recieversStr;
+    this.email.sender = this.emailInfo.sender;
     this.email.subject = this.emailInfo.title;
     this.email.priority = this.emailInfo.priority.toLowerCase();
     this.email.date = this.emailInfo.time.split(' ')[0];
     this.email.attachments = this.emailInfo.attachments;
+    this.email.body = this.emailInfo.body;
   },
 }
 </script>

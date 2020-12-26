@@ -44,7 +44,7 @@ export default {
   },
   computed: mapGetters(['getEmailsList', 'getUserId', 'getSortingParam', 'getStartIndex', 'getActiveFolder']),
   methods: {
-    ...mapActions(['updateEmailsList', 'updateEmails']),
+    ...mapActions(['updateEmailsList', 'updateEmails', 'setActiveFolder']),
     addEmails(emailsList){
       let EmailCard = Vue.extend(emailCard);
       for(const email of emailsList){

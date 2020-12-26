@@ -1,15 +1,17 @@
 package com.example.mailserver.Logic;
 
-
 import java.io.IOException;
 
 import com.example.mailserver.Logic.Filter.Filter;
 import com.example.mailserver.Logic.Filter.Search;
 import com.example.mailserver.Logic.Folders.FoldersMap;
 import com.example.mailserver.Logic.Sort.SortHandler;
+import com.example.mailserver.Logic.operationsHandlers.AttachmentsHandler;
 import com.example.mailserver.Logic.operationsHandlers.EmailHandler;
 import com.example.mailserver.Logic.operationsHandlers.FilesHandler;
 import com.example.mailserver.Logic.operationsHandlers.FolderHandler;
+
+import org.springframework.web.multipart.MultipartFile;
 //change
 public class User {
     private FoldersMap foldersMap;
@@ -19,6 +21,8 @@ public class User {
     private SortHandler sortHandler;
     private Search search;
     private Filter filter;
+    private String emailAddress;
+    private AttachmentsHandler attachmenetHandler;
 
     public User(String emailAddress){
         this.foldersMap = new FoldersMap();
@@ -28,8 +32,13 @@ public class User {
         this.emailHandler = new EmailHandler(foldersMap, filesHandler);
         this.search = new Search(foldersMap, folderHandler);
         this.filter = new Filter(foldersMap);
+        this.emailAddress = emailAddress;
+        this.attachmenetHandler = new AttachmentsHandler();
         
         folderHandler.createExistingFolders();
+    }
+    public String getUserEmailAddress(){
+        return emailAddress;
     }
     //email
     public void sendEmail(Email email){
@@ -58,6 +67,10 @@ public class User {
     
     public String[] getAllCustomFolders(){
         return folderHandler.getExistingCustomFolderNames();
+    }
+
+    public int getFolderEmailNumber(String folderName){
+        return foldersMap.getFolder(folderName).getEmailsNumber();
     }
     //view emails
     public Email[] getAllEmailsAsArrayFrom(String folderName){

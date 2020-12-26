@@ -64,6 +64,7 @@
 
 <script>
 import axios from 'axios';
+import {mapGetters} from 'vuex';
 export default {
   name: 'compose',
   data(){
@@ -84,6 +85,7 @@ export default {
       }
     }
   },
+  computed: mapGetters(['getUserId']),
   methods: {
     closeComposePage(){
       const composeContainer = document.getElementById("compose-container");
@@ -97,6 +99,7 @@ export default {
       expandIcon.className = "visible-img";
       shrinkIcon.className = "hidden-img";
       this.expanded = false;
+      this.reset();
     },
     expand_shrinkCompose(){
       if(this.expanded) this.shrinkComposePage();
@@ -237,6 +240,7 @@ export default {
       }
     },
     addNewAttachment(fileName, file){
+      if(this.emailData.attachments.has(fileName)) return;
       const attachmentCard = this.appendAttachemnt(fileName);
       const fileId = attachmentCard.id;
       this.storeFileChoosed(fileId, file);
@@ -248,7 +252,8 @@ export default {
       //creating the email card
       const attachmentCard = document.createElement("div");
       attachmentCard.innerHTML = fileName;
-      attachmentCard.id = `attachment-${this.attachmentCardIdCount++}`;
+      // attachmentCard.id = `attachment-${this.attachmentCardIdCount++}`;
+      attachmentCard.id = fileName;
       //style
       attachmentCard.style.borderRadius = "1rem";
       attachmentCard.style.padding = "0rem 0.5rem";
@@ -310,9 +315,71 @@ export default {
       const formData = new FormData();
       for (let file of this.emailData.attachments.values()){
         formData.append("files", file);
-      }
-      axios.post('http://localhost:8080/uploadMultipleFiles', formData)
+      } 
+
+      const email = this.collectEmailData();
+      console.log(email);
+      axios.post('http://localhost:8080//sendEmail', null,
+      {params: {
+        emailData: email,
+      }})
+      .then(() => {
+        axios.post('http://localhost:8080//uploadMultipleFiles', formData)
+        .catch( error => console.log(error));
+      })
       .catch( error => console.log(error));   
+      this.closeComposePage();
+    },
+    collectEmailData(){
+      this.emailData.subject = document.getElementById("subject-input").value;
+      this.emailData.body = document.getElementById("text-body").value;
+
+      let allReceivers = "";
+      let first = true;
+      for(const recieverEmail of this.emailData.recievers.values()){
+        if(first) {
+          allReceivers += `${recieverEmail}`;
+          first = false;
+        }
+        else allReceivers += `,${recieverEmail}`;
+      }
+
+      let allAttachmentsNames = "";
+      first = true;
+      for(const attachment of this.emailData.attachments.values()){
+        console.log(attachment.name);
+        if(first){
+          allAttachmentsNames += `${attachment.name}`;
+          first = false;
+        }
+        else allAttachmentsNames += `,${attachment.name}`;
+      }
+
+      const email = `{"userId":${this.getUserId},"receivers":"${allReceivers}","title":"${this.emailData.subject}","body":"${this.emailData.body}","priority":"${this.emailData.priority}","attachments":"${allAttachmentsNames}"}`;
+
+      return email;
+    },
+    reset(){
+      //reset receivers
+      for(const receiverCard of this.composedEmailData.recieversCards.values()){
+        receiverCard.remove();
+      }
+      this.composedEmailData.recieversCards.clear();
+      this.emailData.recievers.clear();
+      document.getElementById("to-input").value = ""; 
+      document.getElementById("to-section").innerHTML = "";
+      document.getElementById("subject-input").value = "";
+      //reset attachments
+      this.emailData.attachments.clear();
+      document.getElementById("attachments-area").innerHTML = "";
+      //textbody
+      document.getElementById("text-body").value = "";
+      //priority
+      this.emailData.priority = "Normal";
+      //data
+      this.attachmentCardIdCount = 0;
+      this.emailData.subject = "";
+      this.emailData.body = "";
     }
   },
   mounted(){
