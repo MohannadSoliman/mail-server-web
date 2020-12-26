@@ -45,7 +45,7 @@ export default {
       selectAllActive: false,
     }
   },
-  computed: mapGetters(['getUserId', 'getActiveFolder', 'getEmailsListPageInfo', 'getStartIndex', 'getEmailsNum', 'getActiveStatus']),
+  computed: mapGetters(['getUserId', 'getActiveFolder', 'getEmailsListPageInfo', 'getStartIndex', 'getEmailsNum', 'getActiveStatus', 'getSortingParam']),
 	methods:{
     ...mapActions(['updateEmails', 'incrementStartIndex', 'decrementStartIndex']),
 		refresh(){
@@ -54,8 +54,8 @@ export default {
         params: { 
           userId: this.getUserId,
           folderName: this.getActiveFolder,
-          sortType: 1,
-          sortIdntifier: 0,
+          sortType: this.getSortingParam.sortType,
+          sortIdntifier: this.getSortingParam.sortIdntifier,
           start: 0,
         }
       })

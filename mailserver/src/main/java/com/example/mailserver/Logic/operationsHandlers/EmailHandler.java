@@ -6,6 +6,7 @@ import java.util.Queue;
 import com.example.mailserver.Logic.Email;
 import com.example.mailserver.Logic.JsonEmailConverter;
 import com.example.mailserver.Logic.Folders.FoldersMap;
+import com.example.mailserver.Logic.Folders.TrashFolder;
 //change
 public class EmailHandler {
     private FoldersMap foldersMap;
@@ -46,5 +47,10 @@ public class EmailHandler {
 
     public void deleteEmail(String emailId, String folderName){
         moveEmail(emailId, folderName, "trash");
+    }
+
+    public void deleteEmailForever(String emailId){
+        TrashFolder trash = (TrashFolder) foldersMap.getFolder("trash");
+        trash.deleteForever(emailId);
     }
 }

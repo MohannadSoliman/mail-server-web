@@ -15,7 +15,7 @@
       <div class="menu-btn">
         <img src="../../assets/general/moveFolder.png" width="18px">
       </div>
-      <div class="menu-btn">
+      <div class="menu-btn" @click="deleteEmail()">
         <img src="../../assets/sideMenu/trash-gray.png" width="18px">
       </div>
     </div>
@@ -25,6 +25,8 @@
 
 <script>
 import store from '../../store'
+import axios from 'axios';
+import {fireInfoPopUp} from '../../alerts.js'
 export default {
   name: 'emailCard',
   props: {
@@ -85,9 +87,91 @@ export default {
       document.getElementById(this.email.id).remove();
     },
     showSelf(){
+      let itemClicked = event.target;
+      if(itemClicked.id !== this.email.id) return;
+
       store.commit('setCurrentEmail', this.email);
       store.commit('setActiveEmail', true);
-      console.log(store.getters.getActiveStatus, store.getters.getCurrentEmailInfo, store.getters.getActiveFolder);
+    },
+    deleteEmail(){
+      const popUpBackground = document.createElement('div');
+      popUpBackground.className = 'pop-up-background';
+      document.body.appendChild(popUpBackground);
+
+      const popUp = document.createElement('div');
+      popUp.className = 'pop-up';
+      popUpBackground.appendChild(popUp);
+
+      const msg = document.createElement('h2');
+      if(store.getters.getActiveFolder === "trash") msg.innerText = "this email will be deleted forever";
+      else msg.innerText = "Sure to move this email to Trash?";
+      popUp.appendChild(msg);
+
+      const cancelBtn = document.createElement('span');
+      cancelBtn.innerText = 'Cancel';
+      cancelBtn.className = 'pop-up-close-button cancel-btn';
+
+      const confrimBtn = document.createElement('span');
+      confrimBtn.innerText = 'Confirm';
+      confrimBtn.className = 'pop-up-close-button confrim-btn';   
+
+      cancelBtn.onclick = () => {    
+        document.body.removeChild(popUpBackground); 
+      }
+
+      confrimBtn.onclick = () => {
+        if(store.getters.getActiveFolder === "trash") this.deleteSelfForever();
+        else this.deleteSelf();
+        document.body.removeChild(popUpBackground); 
+      }
+
+      popUp.appendChild(cancelBtn);
+      popUp.appendChild(confrimBtn);
+    },
+    refreshHome(){
+      const homePage = store.getters.getHomePage;
+      axios.get(`http://localhost:8080//getEmailsList`, {
+            params: { 
+              userId: store.getters.getUserId,
+              folderName: store.getters.getActiveFolder,
+              sortType: store.getters.getSortingParam.sortType,
+              sortIdntifier: store.getters.getSortingParam.sortIdntifier,
+              start: 0,
+            }
+          })
+          .then( response => {
+            homePage.reset();
+            homePage.addEmails(response.data);
+            store.dispatch('updateEmails', response.data);
+          })
+          .catch( error => console.log(error));    
+    },
+    deleteSelf(){
+      axios.delete(`http://localhost:8080//deleteEmail`,{
+          params: { 
+            userId: store.getters.getUserId,
+            emailId: this.email.id,
+            folderName: store.getters.getActiveFolder,
+          }
+        })
+        .then( () => {
+          fireInfoPopUp("email has been moved to trash");
+          this.refreshHome();
+        })
+        .catch( error => console.log(error)); 
+    },
+    deleteSelfForever(){
+      axios.delete(`http://localhost:8080//deleteForever`,{
+          params: { 
+            userId: store.getters.getUserId,
+            emailId: this.email.id,
+          }
+        })
+        .then( () => {
+          fireInfoPopUp("email has been moved to trash");
+          this.refreshHome();
+        })
+        .catch( error => console.log(error)); 
     }
   },
   mounted(){
@@ -210,7 +294,7 @@ export default {
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  z-index: 2;
+  z-index: 3;
 }
 .mouse-on{
   background-color: rgb(224, 224, 224);
@@ -225,6 +309,7 @@ export default {
   height: 2rem;
   width: 2rem;
   border-radius: 50%;
+  z-index: 5;
 }
 .menu-btn:hover{
   background-color: rgb(224, 224, 224, 0.6);

@@ -22,7 +22,6 @@ public class User {
     private Search search;
     private Filter filter;
     private String emailAddress;
-    private AttachmentsHandler attachmenetHandler;
 
     public User(String emailAddress){
         this.foldersMap = new FoldersMap();
@@ -33,7 +32,6 @@ public class User {
         this.search = new Search(foldersMap, folderHandler);
         this.filter = new Filter(foldersMap);
         this.emailAddress = emailAddress;
-        this.attachmenetHandler = new AttachmentsHandler();
         
         folderHandler.createExistingFolders();
     }
@@ -47,6 +45,10 @@ public class User {
 
     public void deleteEmail(String emailId, String folderName){
         emailHandler.deleteEmail(emailId, folderName);
+    }
+
+    public void deleteEmailForEver(String emailId){
+        emailHandler.deleteEmailForever(emailId);
     }
 
     public boolean moveEmail(String emailId, String sourceFolderName, String distFolderName){

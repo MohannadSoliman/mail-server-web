@@ -99,15 +99,47 @@ export default {
       .catch( error => console.log(error)); 
     },
     deleteFolder(){
-      axios.delete(`http://localhost:8080//deleteCustomFolder`,
-      {
-        params: { 
-          userId: store.getters.getUserId,
-          folderName: this.folderName.toLowerCase(),
-        }
-      })
-      .then( () => this.removeFolder())
-      .catch( error => console.log(error)); 
+      this.actionsMenuVisible = false;
+
+      const popUpBackground = document.createElement('div');
+      popUpBackground.className = 'pop-up-background';
+      document.body.appendChild(popUpBackground);
+
+      const popUp = document.createElement('div');
+      popUp.className = 'pop-up';
+      popUpBackground.appendChild(popUp);
+
+      const msg = document.createElement('h2');
+      msg.innerText = "sure to delete this folder?";
+      popUp.appendChild(msg);
+
+      const cancelBtn = document.createElement('span');
+      cancelBtn.innerText = 'Cancel';
+      cancelBtn.className = 'pop-up-close-button cancel-btn';
+
+      const confrimBtn = document.createElement('span');
+      confrimBtn.innerText = 'Confirm';
+      confrimBtn.className = 'pop-up-close-button confrim-btn';   
+
+      cancelBtn.onclick = () => {    
+        document.body.removeChild(popUpBackground); 
+      }
+
+      confrimBtn.onclick = () => {
+        axios.delete(`http://localhost:8080//deleteCustomFolder`,
+        {
+          params: { 
+            userId: store.getters.getUserId,
+            folderName: this.folderName.toLowerCase(),
+          }
+        })
+        .then( () => this.removeFolder())
+        .catch( error => console.log(error)); 
+        document.body.removeChild(popUpBackground); 
+      }
+
+      popUp.appendChild(cancelBtn);
+      popUp.appendChild(confrimBtn);
     },
     changeFolderName(){
       this.oldFolderName = this.folderName;
@@ -134,6 +166,7 @@ export default {
       if(itemClicked.id !== this.folderId && itemClicked.id !== `folder-name-${this.folderId}`) return;
       for(const folderBtn of store.getters.getCustomFoldersInfo.allcustomFolders){
         folderBtn.focused = false;
+        folderBtn.actionsMenuVisible = false;
       }
       this.focused = !this.focused;
       this.getEmails();

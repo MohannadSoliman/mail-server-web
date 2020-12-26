@@ -105,6 +105,17 @@ public class Api {
         Session.getInstance().getUser(userId).sendEmail(newEmail);
     }
 
+    //deleting email
+    @DeleteMapping("/deleteEmail")
+    public void deleteEmail(@RequestParam int userId, @RequestParam String emailId, @RequestParam String folderName){
+        Session.getInstance().getUser(userId).deleteEmail(emailId, folderName);
+    }
+
+    @DeleteMapping("/deleteForever")
+    public void deleteEmailForever(@RequestParam int userId, @RequestParam String emailId){
+        Session.getInstance().getUser(userId).deleteEmailForEver(emailId);
+    }
+
 
     @Autowired
     private FileStorageService fileStorageService;
