@@ -1,7 +1,6 @@
 package com.example.mailserver.Logic.Filter;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import com.example.mailserver.Logic.Email;
 import com.example.mailserver.Logic.JsonEmailConverter;
@@ -69,37 +68,40 @@ public class Search implements Criteria{
         String emailBody = "";
         String emailSender = "";
         String[] emailReceivers = null;
+        String[] emailAttachments = null;
         for(Email email : emails){
 
-            if(criteria.equalsIgnoreCase("all") || criteria.equalsIgnoreCase("body")) emailBody = email.getBody();
-            if(criteria.equalsIgnoreCase("all") || criteria.equalsIgnoreCase("subject")) emailTitle = email.getTitle();
-            if(criteria.equalsIgnoreCase("all") || criteria.equalsIgnoreCase("sender")) emailSender = email.getSender();
+            if(criteria.equalsIgnoreCase("all") || criteria.equalsIgnoreCase("body")) emailBody = email.getBody().toLowerCase();
+            if(criteria.equalsIgnoreCase("all") || criteria.equalsIgnoreCase("subject")) emailTitle = email.getTitle().toLowerCase();
+            if(criteria.equalsIgnoreCase("all") || criteria.equalsIgnoreCase("sender")) emailSender = email.getSender().toLowerCase();
             if(criteria.equalsIgnoreCase("all") || criteria.equalsIgnoreCase("receiver")) emailReceivers = email.getReceivers().toArray(new String[email.getReceivers().size()]);
+            if(criteria.equalsIgnoreCase("all") || criteria.equalsIgnoreCase("attachment")) emailAttachments = email.getAttachments().toArray(new String[email.getAttachments().size()]);
             
             if((criteria.equalsIgnoreCase("subject") || criteria.equalsIgnoreCase("all")) && emailTitle.contains(required)){
                 requiredEmails += jsonEmailConverter.emailToJsonString(email) + ",";
-                // //
-                // System.out.println("sub");
-                // //
                 continue;
             }
             if((criteria.equalsIgnoreCase("body") || criteria.equalsIgnoreCase("all")) && emailBody.contains(required)){
                 requiredEmails += jsonEmailConverter.emailToJsonString(email) + ",";
-                // //
-                // System.out.println("bod");
-                // //
+
                 continue;
             }
             if((criteria.equalsIgnoreCase("sender") || criteria.equalsIgnoreCase("all")) && emailSender.contains(required)){
                 requiredEmails += jsonEmailConverter.emailToJsonString(email) + ",";
-                // //
-                // System.out.println("sen");
-                // //
+
                 continue;
             }
             if(criteria.equalsIgnoreCase("receiver") || criteria.equalsIgnoreCase("all")){
                 for(String receiver : emailReceivers){
-                    if(required.equalsIgnoreCase(receiver)){
+                    if(receiver.toLowerCase().contains(required.toLowerCase())){
+                        requiredEmails += jsonEmailConverter.emailToJsonString(email) + ",";
+                        continue;
+                    }
+                }
+            }
+            if(criteria.equalsIgnoreCase("attachment") || criteria.equalsIgnoreCase("all")){
+                for(String attachment : emailAttachments){
+                    if(attachment.toLowerCase().contains(required)){
                         requiredEmails += jsonEmailConverter.emailToJsonString(email) + ",";
                         continue;
                     }

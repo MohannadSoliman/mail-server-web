@@ -13,20 +13,35 @@ public class Filter implements Criteria {
         this.foldersMap = foldersMap;
     }
 
-    public String filterFile(String priority, String fileName, String criteria){
+    public String filterFile(String required, String fileName, String criteria){
         Email[] allEmails =  foldersMap.getFolder(fileName).getAllEmailsArray();
         if(allEmails.length == 0) return "[]";
-        String requiredEmails = meetCriteria(priority, allEmails, criteria);
+        String requiredEmails = meetCriteria(required, allEmails, criteria);
         if(requiredEmails.equals("]")) return "[]";
         return requiredEmails;
     }
 
     @Override
     public String meetCriteria(String required, Email[] emails, String criteria) {
+        required = required.toLowerCase();
+        String priority = null;
+        String[] attachments = null;
         String requiredEmails = "[";
         for(Email email : emails){
-            if(required.equalsIgnoreCase(email.getPriority())){
+            if(criteria.equalsIgnoreCase("attachment")) attachments = email.getAttachments().toArray(new String[email.getAttachments().size()]);
+            if(criteria.equalsIgnoreCase("priority")) priority = email.getPriority();
+
+            if((criteria.equalsIgnoreCase("priority")) && priority.contains(required)){
                 requiredEmails += jsonEmailConverter.emailToJsonString(email) + ",";
+                continue;
+            }
+            
+            if(criteria.equalsIgnoreCase("attachment")){
+                if(attachments.length !=0){
+                    if(attachments.length == 1 && attachments[0].equals("")) continue;
+                    requiredEmails += jsonEmailConverter.emailToJsonString(email) + ",";
+                    continue;
+                }
             }
         }
         requiredEmails = requiredEmails.substring(0, requiredEmails.length()-1) + "]";

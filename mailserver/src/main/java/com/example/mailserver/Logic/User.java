@@ -22,7 +22,7 @@ public class User {
     private Search search;
     private Filter filter;
     private String emailAddress;
-    private AttachmentsHandler attachmenetHandler;
+    private AttachmentsHandler attachmentHandler;
 
     public User(String emailAddress){
         this.foldersMap = new FoldersMap();
@@ -33,7 +33,7 @@ public class User {
         this.search = new Search(foldersMap, folderHandler);
         this.filter = new Filter(foldersMap);
         this.emailAddress = emailAddress;
-        this.attachmenetHandler = new AttachmentsHandler();
+        this.attachmentHandler = new AttachmentsHandler();
         
         folderHandler.createExistingFolders();
     }
@@ -86,7 +86,7 @@ public class User {
     public String searchAllFiles(String required, String criteria){
         return search.searchAllFiles(required, criteria);
     }
-    public String filterFile(String priority, String fileName, String criteria){
-        return filter.filterFile(priority, fileName, criteria);
+    public String filterFile(String required, String fileName, String criteria){
+        return filter.filterFile(required, fileName, criteria);
     }
 }
