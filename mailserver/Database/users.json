@@ -43,5 +43,15 @@
   "emailAddress" : "newtest@lol.com",
   "password" : "1111alitest"
 }
+,
+{
+  "emailAddress" : "asasdasda@lol.com",
+  "password" : "1111alitest"
+}
+,
+{
+  "emailAddress" : "asasdaaasda@lol.com",
+  "password" : "111AA1alitest"
+}
 
 ]

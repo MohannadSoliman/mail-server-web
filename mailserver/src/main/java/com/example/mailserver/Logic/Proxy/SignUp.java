@@ -58,6 +58,8 @@ public class SignUp {
       try {
         Path path = Paths.get("mailserver/Database/Users/"+emailAddress);
         Files.createDirectories(path);
+        Path path2 = Paths.get("mailserver/Database/Users/"+emailAddress+"/Attachments");
+        Files.createDirectories(path2);
       } 
       catch (IOException e) {
         System.err.println("Failed to create directory!" + e.getMessage());
@@ -90,6 +92,11 @@ public class SignUp {
       File subFile= new File("mailserver/Database/Users/"+emailAddress+"/"+fileName+".json");
       try {
         subFile.createNewFile();
+        if(fileName.equals("contacts")){
+          FileWriter fileWriter = new FileWriter(subFile);
+          fileWriter.write("[]");
+          fileWriter.close();
+        }
       } 
       catch (IOException e) {
         e.printStackTrace();

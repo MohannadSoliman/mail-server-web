@@ -55,10 +55,6 @@ public class Search implements Criteria{
             resultingEmails = searchFile(sentence, file, criteria);
             if(resultingEmails.equals("[]") || resultingEmails.equals("")) continue;
             resultingEmails = resultingEmails.substring(1, resultingEmails.length()-1);
-            // //
-            // System.out.println("resulting email: " + resultingEmails);
-            // //
-            // if(resultingEmails.equals("")) continue;
             requiredEmails += resultingEmails + ",";
         }
         requiredEmails = requiredEmails.substring(0, requiredEmails.length()-1) + "]";
@@ -79,11 +75,6 @@ public class Search implements Criteria{
             if(criteria.equalsIgnoreCase("all") || criteria.equalsIgnoreCase("subject")) emailTitle = email.getTitle();
             if(criteria.equalsIgnoreCase("all") || criteria.equalsIgnoreCase("sender")) emailSender = email.getSender();
             if(criteria.equalsIgnoreCase("all") || criteria.equalsIgnoreCase("receiver")) emailReceivers = email.getReceivers().toArray(new String[email.getReceivers().size()]);
-            
-            // //
-            // System.out.println("meetCriteria");
-            // System.out.println(emailTitle + ", " + emailBody);
-            // //
             
             if((criteria.equalsIgnoreCase("subject") || criteria.equalsIgnoreCase("all")) && emailTitle.contains(required)){
                 requiredEmails += jsonEmailConverter.emailToJsonString(email) + ",";
