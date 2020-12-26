@@ -18,8 +18,7 @@ public class Test {
         // receivers.add("testREC@g");
 
         User user = new User("shosh@gmail.com");
-        TrashFolder trashFolder = new TrashFolder("trash", true, "shosh@gmail.com");
-        trashFolder.deleteForever("713efe52-3540-434d-9d4c-57020591c505");
+        System.out.println(user.filterFile("urg", "sent", "priority"));
         
 
     }

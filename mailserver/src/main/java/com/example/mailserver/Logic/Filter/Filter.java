@@ -31,7 +31,7 @@ public class Filter implements Criteria {
             if(criteria.equalsIgnoreCase("attachment") || criteria.equalsIgnoreCase("no attachment")) attachments = email.getAttachments().toArray(new String[email.getAttachments().size()]);
             if(criteria.equalsIgnoreCase("priority")) priority = email.getPriority();
 
-            if((criteria.equalsIgnoreCase("priority")) && priority.contains(required)){
+            if((criteria.equalsIgnoreCase("priority")) && priority.toLowerCase().contains(required)){
                 requiredEmails += jsonEmailConverter.emailToJsonString(email) + ",";
                 continue;
             }
