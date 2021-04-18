@@ -93,6 +93,7 @@ public class Api {
         String title = data.getTitle();
 
         String[] allReceivers = data.getReceivers().split(",");
+        for(String receiver: allReceivers) System.out.println(receiver);
         Queue<String> receivers = new LinkedList<>(Arrays.asList(allReceivers));
         String[] allAttachments = data.getAttachments().split(",");
         Queue<String> attachments = new LinkedList<>(Arrays.asList(allAttachments));

@@ -1,0 +1,145 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2577
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fnil\fcharset0 Menlo-Regular;}
+{\colortbl;\red255\green255\blue255;\red8\green0\blue255;\red0\green0\blue0;\red16\green112\blue10;
+\red151\green0\blue247;}
+{\*\expandedcolortbl;;\cssrgb\c5490\c0\c100000;\cssrgb\c0\c0\c0;\cssrgb\c784\c50196\c3529;
+\cssrgb\c66667\c1569\c97647;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\deftab720
+\pard\pardeftab720\sl328\partightenfactor0
+
+\f0\fs26\fsmilli13333 \cf2 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 function \cf3 \strokec3 test\
+clc\
+\cf4 \strokec4 % [xl, xu] = findInitialBounds(@question3);\cf3 \strokec3 \
+xl = -1;\
+xu = 0;\
+accuracy = 10^-2;\
+bisection(@question5, xl, xu, accuracy);\
+\
+\
+regulaFalsi(@question5, xl, xu, accuracy)\
+\cf2 \strokec2 end\cf3 \strokec3 \
+\
+\
+\
+\
+\cf4 \strokec4 % functions\cf3 \strokec3 \
+\cf2 \strokec2 function \cf3 \strokec3 result = question2(x)\
+    result = x^3 - 25;\
+\cf2 \strokec2 end\cf3 \strokec3 \
+\
+\
+\
+\
+\cf2 \strokec2 function \cf3 \strokec3 result = question4(x)\
+    result = x^3 - x - 1;\
+\cf2 \strokec2 end\cf3 \strokec3 \
+\
+\
+\
+\
+\cf2 \strokec2 function \cf3 \strokec3 result = question5(x)\
+    result = (3*x^4) + (6.1*x^3) -(2*x^2) +(3*x) +2;\
+\cf2 \strokec2 end\cf3 \strokec3 \
+\
+\
+\
+\
+\cf2 \strokec2 function \cf3 \strokec3 result = question3(x)\
+    result = (1.5*x) -6 -(0.5*sin(2*x));\
+\cf2 \strokec2 end\cf3 \strokec3 \
+\
+\
+\
+\
+\cf2 \strokec2 function \cf3 \strokec3 [xl, xu] = findInitialBounds(fx)\
+    xl = 0;\
+xu = 1;\
+\cf2 \strokec2 while \cf3 \strokec3 fx(xl)*fx(xu) > 0\
+xl = xu;\
+xu = xu + 1;\
+\cf2 \strokec2 end\cf3 \strokec3 \
+\cf2 \strokec2 end\cf3 \strokec3 \
+\
+\
+\
+\
+\cf2 \strokec2 function \cf3 \strokec3 xr = bisection(fx, xl, xu, accuracy)\
+\cf2 \strokec2 if \cf3 \strokec3 fx(xl)*fx(xu) > 0\
+disp(\cf5 \strokec5 "no bracket"\cf3 \strokec3 );\
+\cf2 \strokec2 return\cf3 \strokec3 \
+\cf2 \strokec2 end\cf3 \strokec3 \
+\
+\
+numberOfIterations = ceil(log2(abs((xl - xu) / accuracy)));\
+xr_old = 0;\
+\
+\
+\cf2 \strokec2 for \cf3 \strokec3 iteration = 1:numberOfIterations\
+xr = (xl + xu) /2;\
+approxError = abs(xr - xr_old);\
+relativApproxError = (approxError / abs(xr)) * 100;\
+fprintf(\cf5 \strokec5 "\\niteration(%d):\\nxl= %.4f, xu= %.4f, xr = %.4f\\n"\cf3 \strokec3 ,iteration, xl, xu, xr);\
+\cf2 \strokec2 if \cf3 \strokec3 iteration > 1\
+fprintf(\cf5 \strokec5 "approx.E= %.4f, relative approx.E= %.4f%%\\n"\cf3 \strokec3 ,approxError, relativApproxError);\
+\cf2 \strokec2 end\cf3 \strokec3 \
+\cf2 \strokec2 if \cf3 \strokec3 fx(xl)*fx(xr) > 0\
+xl = xr;\
+\cf2 \strokec2 elseif \cf3 \strokec3 fx(xl)*fx(xr) < 0\
+xu = xr;\
+\cf2 \strokec2 else \cf3 \strokec3 \
+\cf2 \strokec2 break\cf3 \strokec3 ;\
+\cf2 \strokec2 end\cf3 \strokec3 \
+xr_old = xr;\
+\cf2 \strokec2 end\cf3 \strokec3 \
+\
+\
+fprintf(\cf5 \strokec5 "root = %.4f"\cf3 \strokec3 , xr);\
+\cf2 \strokec2 end\cf3 \strokec3 \
+\
+\
+\
+\
+\
+\
+\
+\
+\cf2 \strokec2 function \cf3 \strokec3 xr = regulaFalsi(fx, xl, xu, accuracy)\
+\cf2 \strokec2 if \cf3 \strokec3 fx(xl)*fx(xu) > 0\
+disp(\cf5 \strokec5 "not bracket"\cf3 \strokec3 );\
+\cf2 \strokec2 return\cf3 \strokec3 \
+\cf2 \strokec2 end\cf3 \strokec3 \
+\
+xr_old = 0;\
+iteration = 1;\
+\cf2 \strokec2 while \cf3 \strokec3 true\
+xr = (xl*fx(xu) - xu*fx(xl)) / (fx(xu) - fx(xl));\
+approxError = abs(xr - xr_old);\
+\cf2 \strokec2 if \cf3 \strokec3 approxError < accuracy\
+\cf2 \strokec2 break\cf3 \strokec3 ;\
+\cf2 \strokec2 end\cf3 \strokec3 \
+\
+relativApproxError = (approxError / abs(xr)) * 100;\
+fprintf(\cf5 \strokec5 "\\niteration(%d):\\nxl= %.4f, xu= %.4f, xr = %.4f\\n"\cf3 \strokec3 ,iteration, xl, xu, xr);\
+\cf2 \strokec2 if \cf3 \strokec3 iteration > 1\
+fprintf(\cf5 \strokec5 "approx.E= %.4f, relative approx.E= %.4f%%\\n"\cf3 \strokec3 ,approxError, relativApproxError);\
+\cf2 \strokec2 end\cf3 \strokec3 \
+\
+\cf2 \strokec2 if \cf3 \strokec3 fx(xr) < 0\
+xl = xr;\
+\cf2 \strokec2 elseif \cf3 \strokec3 fx(xr) > 0\
+xu = xr;\
+\cf2 \strokec2 else\cf3 \strokec3 \
+\cf2 \strokec2 break\cf3 \strokec3 ;\
+\cf2 \strokec2 end\cf3 \strokec3 \
+\
+xr_old = xr;\
+iteration = iteration + 1;\
+\cf2 \strokec2 end\cf3 \strokec3 \
+\
+fprintf(\cf5 \strokec5 "root = %.4f"\cf3 \strokec3 , xr);\
+\cf2 \strokec2 end\cf3 \strokec3 \
+\
+\
+}

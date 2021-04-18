@@ -58,11 +58,33 @@
   "sender" : "shosh@gmail.com",
   "receivers" : [ ],
   "priority" : "Normal",
+  "title" : "test test test",
+  "body" : "helllo",
+  "id" : "36af2002-c949-4b4e-9b77-a52ea3d96cfd",
+  "time" : "2020-12-29 10:54:16",
+  "attachments" : [ "" ]
+}
+,
+{
+  "sender" : "shosh@gmail.com",
+  "receivers" : [ ],
+  "priority" : "Normal",
   "title" : "dsgdfgdfg",
   "body" : "dfshgftgf",
   "id" : "46c25398-0c32-48af-8327-bec5d0f4d022",
   "time" : "2020-12-26 10:52:12",
   "attachments" : [ "Resume.pdf" ]
+}
+,
+{
+  "sender" : "shosh@gmail.com",
+  "receivers" : [ ],
+  "priority" : "Normal",
+  "title" : "newtest@lol.com",
+  "body" : "newtest@lol.com",
+  "id" : "9490680e-6b38-4f82-89b0-63afe134e80c",
+  "time" : "2020-12-29 10:45:18",
+  "attachments" : [ "MATLAB.rtf" ]
 }
 ,
 {
