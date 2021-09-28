@@ -7,7 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 
 import java.util.HashMap;
-//change
+
 public class JsonEmailConverter {
     private static JsonEmailConverter instance;
 
@@ -17,7 +17,7 @@ public class JsonEmailConverter {
         if(instance == null) instance = new JsonEmailConverter();
         return instance;
     }
-    //user info
+
     public String userInfoToJson(UserInfo userInfo){
         ObjectMapper mapper = new ObjectMapper();
 
@@ -47,7 +47,7 @@ public class JsonEmailConverter {
         return gson.fromJson(jsonStr, UserInfo[].class);
     }
     
-    //contacts
+
     public String contactToJson(Contact contact){
         ObjectMapper mapper = new ObjectMapper();
 
