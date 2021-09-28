@@ -46,7 +46,6 @@ public class JsonEmailConverter {
         Gson gson = new Gson();
         return gson.fromJson(jsonStr, UserInfo[].class);
     }
-    //
     
     //contacts
     public String contactToJson(Contact contact){
@@ -75,7 +74,6 @@ public class JsonEmailConverter {
         Gson gson = new Gson();
         return gson.fromJson(jsonStr, Contact[].class);
     }
-    //
 
     public String emailToJsonString(Email email){
         ObjectMapper mapper = new ObjectMapper();
