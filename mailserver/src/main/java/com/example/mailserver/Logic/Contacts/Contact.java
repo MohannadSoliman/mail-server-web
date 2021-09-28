@@ -1,5 +1,5 @@
 package com.example.mailserver.Logic.Contacts;
-
+// setting up a contact
 public class Contact {
     private String contactName;
     private String[] emailAddresses;
