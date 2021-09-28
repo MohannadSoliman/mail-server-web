@@ -16,14 +16,14 @@ import com.example.mailserver.Logic.User;
 
 public class SignUp {
   private static SignUp instance;
-
+  // singleton signup
   private SignUp(){}
 
   public static SignUp getInstance(){
       if(instance == null) instance = new SignUp();
       return instance;
   }
-
+//
     JsonEmailConverter jsonEmailConverter = JsonEmailConverter.getInstance();
 
     public String signUpUser(String emailAddress, String password){
